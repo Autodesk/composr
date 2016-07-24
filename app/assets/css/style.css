@@ -1,0 +1,442 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* GENERAL STYLES */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* NAVIGATION */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.logo {
+    width: 250px;
+    height: 40px;
+    position: absolute;
+    background: url('/assets/images/composr_logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.top_navigation {
+    z-index: 999;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: #fff;
+    border-bottom: 1px solid #dadada;
+    height: 60px;
+    line-height: 60px;
+    vertical-align: middle;
+}
+
+.top_navigation .logo {
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.profile_nav {
+    float: right;
+    cursor: pointer;
+}
+
+.profile_nav .user_img {
+    width: 40px;
+    height: 40px;
+    background: #CACACA;
+    border-radius: 50%;
+    float: right;
+    margin-top: 10px;
+    position: relative;
+    margin-left:10px;
+}
+
+.profile_nav .user_name {
+    font-size:12px;
+    text-transform: capitalize;
+    font-weight: 300;
+    color: #A5A5A5;
+}
+
+.profile_nav .notif {
+    position: absolute;
+    top:0px;
+    right:0px;
+    width:10px;
+    height: 10px;
+    background: #D61400;
+    border-radius: 50%;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* SIGN IN / UP */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.sign_modal {
+    background: rgba(0,0,0,0.3);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width:100%;
+    height: 100%;
+    z-index: 999;
+}
+
+.sign_holder {
+    width:460px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -250px;
+    margin-top: -300px;
+    height: 600px;
+    background: #fff;
+    padding: 20px;
+
+    -webkit-box-shadow: 0px 0px 12px -2px rgba(0,0,0,0.39);
+    -moz-box-shadow: 0px 0px 12px -2px rgba(0,0,0,0.39);
+    box-shadow: 0px 0px 12px -2px rgba(0,0,0,0.39);
+}
+
+.sign_input {
+    width: calc(100% - 22px);
+    height: 40px;
+    margin: 10px 0px;
+    font-size: 16px;
+    line-height: 40px;
+    font-weight: 300;
+    padding-left: 20px;
+    border: 1px solid #000;
+}
+
+.facebook_btn {
+    width: 100%;
+    height: 40px;
+    background: #46629E;
+    line-height: 40px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.facebook_btn a {
+    color: #fff;
+}
+
+.facebook_btn:hover {
+    opacity: 0.7;
+}
+
+.sign_btn {
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    height: 40px;
+    background: #000;
+    line-height: 40px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.sign_btn:hover {
+    opacity: 0.7;
+}
+
+.form_category {
+    width: 100%;
+    float: left;
+    margin-bottom: 6px;
+    height: 30px;
+    border-radius: 10px;
+    background: #F9F9F9;
+    border: 1px solid #dadada;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.form_category:hover {
+    opacity: 0.7;
+}
+
+.form_category_selected {
+    background: yellow;
+    color: #000;
+}
+
+.continue_btn {
+    float: left;
+    text-align: center;
+    background: #000;
+    color: #fff;
+    height: 30px;
+    width: 100%;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.continue_btn:hover {
+    opacity: 0.7;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* POSTS */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.box {
+    border: 1px solid #dadada;
+    width: calc(100% - 40px);
+    min-height: 40px;
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 15px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.05);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.05);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.05);
+
+    -webkit-transition: all 300ms;
+    -moz-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
+}
+
+.box:hover {
+    /*transform: scale(1.02);*/
+
+    /*-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.06);*/
+    /*-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.06);*/
+    /*box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.06);*/
+}
+
+.new_post_widget {
+    height: 20px;
+    line-height: 20px;
+}
+
+.new_post_widget_box {
+    cursor: pointer;
+    -webkit-transition: all 200ms;
+    -moz-transition: all 200ms;
+    -o-transition: all 200ms;
+    transition: all 200ms;
+}
+
+.new_post_widget_box:hover {
+    /*margin-top: -10px;*/
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.15);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.15);
+}
+
+.new_post_widget .desc {
+    font-weight: 300;
+    color: #9E9E9E;
+    float: left;
+    margin-top: 10px;
+    text-transform: capitalize;
+    font-size: 15px;
+}
+
+.new_post_widget .user_img {
+    width: 40px;
+    height: 40px;
+    background: #CACACA;
+    border-radius: 50%;
+    float: left;
+    /*margin-top: -10px;*/
+    position: relative;
+    margin-right: 10px;
+}
+
+.post .media {
+    width: 100%;
+    min-height: 300px;
+    text-align: center;
+    line-height: 300px;
+    font-size: 60px;
+    color: #dadada;
+    background: #e0e0e0;
+}
+
+.post .content {
+    margin: 0px;
+}
+
+.post .user_img, .new_post_form .user_img {
+    width: 40px;
+    height: 40px;
+    background: #CACACA;
+    border-radius: 50%;
+    float: left;
+    position: relative;
+    margin-right: 10px;
+}
+
+.post .user_name, .new_post_form .user_name {
+    font-size: 13px;
+    margin-top: 3px;
+    text-transform: capitalize;
+    color: #434343;
+    height: 20px;
+    line-height: 20px;
+}
+
+.post .date, .new_post_form .date {
+    color: #dadada;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.post .top, .post .media {
+    margin-bottom: 20px;
+}
+
+.post .title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.post .bottom {
+    margin-top:20px;
+}
+
+.post .bottom i:hover {
+    color: #000;
+}
+
+.post .desc {
+    color: #9E9E9E;
+    font-size: 13px;
+    line-height: 19px;
+    font-weight: 300;
+    text-align: justify;
+}
+
+.post .bottom i {
+    color: #e0e0e0;
+    margin-right: 10px;
+    font-size: 20px;
+    float: left;
+    cursor: pointer;
+}
+
+.post .bottom i:last-child {
+    margin-right: 0px;
+    float: right;
+}
+
+.post .bottom {
+    margin-bottom: 10px;
+    height:20px;
+    line-height: 20px;
+}
+
+.new_post_open {
+    min-height: 400px;
+    -webkit-transition: all 200ms;
+    -moz-transition: all 200ms;
+    -o-transition: all 200ms;
+    transition: all 200ms;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* SIDEBAR */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.sidebar .title {
+    font-size: 14px;
+    text-transform: capitalize;
+    color: #434343;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dadada;
+    width:100%;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.sidebar .content {
+    margin-bottom: 50px;
+    float: left;
+    margin-top: 0px;
+}
+
+.category {
+    padding: 8px;
+    background: #FBFBFB;
+    border: 1px solid #dadada;
+    font-size: 12px;
+    color: #434343;
+    cursor: pointer;
+    float: left;
+    margin-right: 5px;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+    border-radius: 12px;
+}
+
+.category:hover {
+    background: #fff;
+}
+
+.sidebar {
+    /*height: calc(100vh - 140px);*/
+}
+
+.sidebar .footer {
+    width: 100%;
+    float: left;
+    font-size: 12px;
+    color: #929292;
+    font-weight: 300;
+    text-transform: capitalize;
+}
+
+.sidebar .add_task {
+    float: right;
+    cursor: pointer;
+}
+
+.sidebar .add_task:hover {
+    opacity: 0.7;
+}
+
+.sidebar .task {
+    padding: 8px;
+    background: #FBFBFB;
+    border: 1px solid #dadada;
+    font-size: 12px;
+    color: #434343;
+    cursor: pointer;
+    float: left;
+    width: calc(100% - 16px);
+    text-transform: capitalize;
+    margin-bottom: 5px;
+}
+
+.sidebar .footer span {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.sidebar .footer span:hover {
+    color: #000;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* FORM */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.form_label {
+    float: left;
+    width: 100%;
+    margin: 10px 0;
+    fomt-size: 14px;
+    text-transform: capitalize;
+    font-weight: 400;
+}
+
+.form_content {
+    float: left;
+}
