@@ -4,20 +4,37 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* GENERAL STYLES */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 64px;
+    background: red;
+}
 
+.three {
+    background: blue;
+    /*width: 100%;*/
+    height: 100%;
+}
+
+.container{
+    margin: 0;
+}
+
+.visualizer-container {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.controlsDrawer {
+    background: yellow;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* NAVIGATION */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-.logo {
-    width: 250px;
-    height: 40px;
-    position: absolute;
-    background: url('/assets/images/composr_logo.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
 .top_navigation {
     z-index: 999;
     width: 100%;
@@ -31,14 +48,13 @@
     vertical-align: middle;
 }
 
-.top_navigation .logo {
-    margin-top: 5px;
-    cursor: pointer;
-}
-
-.profile_nav {
-    float: right;
-    cursor: pointer;
+.logo {
+    width: 250px;
+    height: 40px;
+    position: absolute;
+    background: url('/assets/images/composr_logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .profile_nav .user_img {

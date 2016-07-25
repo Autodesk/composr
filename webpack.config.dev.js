@@ -51,6 +51,10 @@ const config = {
                 loader: 'expose?React'
             },
             {
+                test: require.resolve('three'),
+                loader: 'expose?THREE'
+            },
+            {
                 test: /.jsx?$/,
                 exclude: exclude,
                 loader: 'babel'

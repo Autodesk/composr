@@ -30,13 +30,7 @@ class Navigation extends React.Component {
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                 />
 
-                <div className="container">
-                    <div className="row">
-                        <div className="col-xs">
-                            <div className="logo"></div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         );
     }
