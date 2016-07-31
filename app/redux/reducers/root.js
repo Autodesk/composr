@@ -1,11 +1,15 @@
-import { combineReducers } from 'redux-immutablejs';
+import { combineReducers } from 'redux'
 import { routeReducer } from 'react-router-redux';
 
-import main from 'reducers/main';
+import dataSource from 'reducers/dataSource';
+import scene from 'reducers/scene';
+import metadata from 'reducers/metadata';
 
 const rootReducer = combineReducers({
     routing: routeReducer,
-    main
+    dataSource,
+    scene,
+    metadata
 });
 
 export default rootReducer;

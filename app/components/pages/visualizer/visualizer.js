@@ -15,19 +15,26 @@ class Visualizer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            renderElement: null
+            renderElement: null,
+            controller: null
         };
 
     }
 
+    componentWillMount() {
+        const controller = new VisController();
+
+        this.setState({
+            controller
+        });
+    }
+
     componentDidMount() {
         const element = document.getElementById(CANVAS_ID)
-        const renderElement = new VisController(element);
-        element.appendChild(renderElement.renderer.domElement);
 
-        this.setState({ renderElement });
-
-        renderElement.render();
+        this.state.controller.init(element);
+        element.appendChild(this.state.controller.renderer.domElement);
+        this.state.controller.render();
     }
 
     render() {
@@ -35,7 +42,7 @@ class Visualizer extends React.Component {
             <div className="container-fluid visualizer-container">
                 <div className="row" style={{height: '100%'}}>
                     <div className="col-sm-9 three" id={CANVAS_ID}></div>
-                    <ControlsDrawer open={true}></ControlsDrawer>
+                    <ControlsDrawer open={true} controller={this.state.controller}></ControlsDrawer>
                 </div>
             </div>
         );

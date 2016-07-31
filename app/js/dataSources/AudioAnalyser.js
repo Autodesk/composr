@@ -17,6 +17,7 @@ class AudioAnalyser {
     constructor() {
         this.analyserNode = null;
         this.scriptNode = null;
+        this.onFrameCallback = null;
 
         this.outputBinCount = 0;
 
@@ -25,7 +26,6 @@ class AudioAnalyser {
             timeSmoothingConstant: 0.5,
             kernelSize: 16,
             fftSize: 2048,
-            bufferSampleSize: 50,
             signalPadding: 10,
             binsIndices: {
                 first: 0,
@@ -35,7 +35,6 @@ class AudioAnalyser {
             }
         }
 
-        this.outputBuffers = [];
         this.workBuffer = null;
     }
 
@@ -65,10 +64,7 @@ class AudioAnalyser {
 
     initBinBuffers() {
         this.workBuffer = new Uint8Array(this.outputBinCount);
-
-        for (let i = 0; i < this.settings.bufferSampleSize; i++) {
-            this.outputBuffers.push( new Float32Array( this.outputBinCount));
-        }
+        this.outputBuffer = new Float32Array( this.outputBinCount);
     }
 
     getNode(context) {
@@ -90,7 +86,7 @@ class AudioAnalyser {
     }
 
     audioProcessCallback(e) {
-        const curBuffer = this.outputBuffers[this.outputBuffers.length - 1];
+        const curBuffer = this.outputBuffer;
         const binIndices = this.settings.binsIndices;
 
         this.analyserNode.getByteFrequencyData(this.workBuffer);
@@ -105,6 +101,10 @@ class AudioAnalyser {
 
         for (var i = binIndices.mid; i < binIndices.last; i += HIGH_BIN_SKIP) {
             curBuffer[i] = this.workBuffer[i] / 256;
+        }
+
+        if (this.onFrameCallback) {
+            this.onFrameCallback(curBuffer);
         }
     }
 

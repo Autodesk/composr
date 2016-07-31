@@ -1,19 +1,31 @@
 import 'js/3rdParty/OrbitControls';
 import MicrophoneSource from './dataSources/MicrophoneSource';
 
-class VisController {
-    constructor(parentElement) {
-        this.renderer = this.initThreeRenderer(parentElement);
-        this.initThreeScene();
+import connector from 'js/connector';
 
+class VisController {
+    constructor() {
         this.dataSource = new MicrophoneSource();
-        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.minDistance = 1;
-        this.controls.maxDistance = 15000;
+
+        this.connector = new connector((state)=>state.dataSource, ()=>console.log('cb'));
 
         this.state = {
             pause: false
         }
+    }
+
+    get data() {
+        return this.dataSource.data;
+    }
+
+    init(parentElement) {
+        this.renderer = this.initThreeRenderer(parentElement);
+        this.initThreeScene();
+
+        // TODO: move controls to different init with options to set the controller
+        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        this.controls.minDistance = 1;
+        this.controls.maxDistance = 15000;
     }
 
     initThreeRenderer(parentElement) {
@@ -65,7 +77,6 @@ class VisController {
 
         this.renderer.clear()
         this.renderer.render(this.scene, this.camera);
-        window.cam = this.camera;
     }
 }
 

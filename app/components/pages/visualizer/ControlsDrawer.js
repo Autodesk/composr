@@ -1,15 +1,15 @@
 import cx from 'classnames';
 import { connect } from 'react-redux';
-
 import VisController from 'js/VisController';
 import Drawer from 'material-ui/Drawer';
 
-const CANVAS_ID = "three-canvas";
+import DataDisplay from 'common/DataDisplay'
 
 class ControlsDrawer extends React.Component {
     static get propTypes() {
         return {
-            open: React.PropTypes.bool
+            open: React.PropTypes.bool,
+            controller: React.PropTypes.object
         };
     }
 
@@ -25,6 +25,7 @@ class ControlsDrawer extends React.Component {
         return (
             <div className="controlsDrawer col-sm-3" >
                 <div  open={this.props.open}>
+                    <DataDisplay data={this.props.controller.data}></DataDisplay>
                 </div>
             </div>
         );

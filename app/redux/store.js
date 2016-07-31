@@ -4,11 +4,10 @@ import persistState from 'redux-localstorage';
 import Immutable from 'immutable';
 import { syncHistory } from 'react-router-redux';
 
+import {updateFrame} from 'actions/mainActions'
+
 // reducers
 import rootReducer from 'reducers/root';
-
-// middlewares
-import API from 'middlewares/api';
 
 const persistStateConfig = {
     key: 'COMPOSR',
@@ -16,15 +15,12 @@ const persistStateConfig = {
     deserialize: (state) => Immutable.fromJS(JSON.parse(state)),
     merge: (initialState, persistedState) => initialState.mergeDeep(persistedState)
 };
+//
+//const storeEnhancers = compose(
+//
+//    persistState(null, persistStateConfig)
+//);
 
-const storeEnhancers = compose(
-    applyMiddleware(
-        syncHistory(browserHistory),
-        API
-    ),
-    persistState(null, persistStateConfig)
-);
-
-const store = createStore(rootReducer, Immutable.fromJS({}), storeEnhancers);
+const store = createStore(rootReducer, {});
 window.store = store;
 export default store;

@@ -49,5 +49,5 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
 
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
