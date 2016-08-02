@@ -7,7 +7,11 @@ class ComposeLayer extends ComposeObject {
     constructor(options) {
         super(options);
 
-        this.type = 'layer';
+        this.object = new THREE.Object3D();
+    }
+
+    get type() {
+        return 'layer';
     }
 
     selector(state) {

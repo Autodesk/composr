@@ -27,7 +27,8 @@ class Layers extends React.Component {
 
         if (this.props.layers) {
             for (let layer of this.props.layers.values()) {
-                listItems.push(<Layer key={layer.uuid} {...layer} />);
+
+                listItems.push(<Layer key={layer.get('uuid')} {...layer.toJS()} />);
             }
         }
 
