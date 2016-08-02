@@ -1,8 +1,8 @@
-import {UPDATE_FRAME} from 'constants/action-types';
+import {UPDATE_DATA} from 'constants/action-types';
 
-export function updateFrame(buffer) {
+export function updateData(buffer) {
     return {
-        type: UPDATE_FRAME,
+        type: UPDATE_DATA,
         payload: buffer
     }
 }

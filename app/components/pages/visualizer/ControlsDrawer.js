@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import VisController from 'js/VisController';
 import Drawer from 'material-ui/Drawer';
 
-import DataDisplay from 'common/DataDisplay'
+import DataDisplay from 'common/dataDisplay'
+import Layers from 'common/layers'
 
 class ControlsDrawer extends React.Component {
     static get propTypes() {
@@ -26,6 +27,7 @@ class ControlsDrawer extends React.Component {
             <div className="controlsDrawer col-sm-3" >
                 <div  open={this.props.open}>
                     <DataDisplay data={this.props.controller.data}></DataDisplay>
+                    <Layers></Layers>
                 </div>
             </div>
         );

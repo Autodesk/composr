@@ -6,7 +6,7 @@ import DataSource from './DataSource';
 import AudioAnalyser from './AudioAnalyser';
 import 'js/3rdParty/modernizr';
 
-import {updateFrame} from 'actions/mainActions'
+import {updateData} from 'actions/mainActions'
 import store from 'store';
 
 class MicrophoneSource extends DataSource{
@@ -16,7 +16,7 @@ class MicrophoneSource extends DataSource{
         this.analyser = new AudioAnalyser();
         this.analyserNode = this.analyser.getNode(this.context);
 
-        this.analyser.onFrameCallback = (buffer) => store.dispatch(updateFrame(buffer));
+        this.analyser.onFrameCallback = (buffer) => store.dispatch(updateData(buffer));
 
         this.gainNode = this.createGainNode();
         this.sourceNode = null;

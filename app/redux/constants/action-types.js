@@ -1,6 +1,7 @@
 // main actions
-export const UPDATE_FRAME = 'UPDATE_FRAME';
+export const UPDATE_DATA = 'UPDATE_DATA';
 
 // scene actions
-export const ADD_LAYER = 'ADD_LAYER';
-export const REMOVE_LAYER = 'ADD_LAYER';
+export const ADD_SCENE_COMPONENT = 'ADD_SCENE_COMPONENT';
+export const REMOVE_SCENE_COMPONENT = 'REMOVE_SCENE_COMPONENT';
+export const UPDATE_SCENE_COMPONENT = 'UPDATE_SCENE_COMPONENT';

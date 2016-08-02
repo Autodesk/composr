@@ -7,7 +7,7 @@ class VisController {
     constructor() {
         this.dataSource = new MicrophoneSource();
 
-        this.connector = new connector((state)=>state.dataSource, ()=>console.log('cb'));
+        //this.connector = new connector((state)=>state.dataSource, ()=>console.log('cb'));
 
         this.state = {
             pause: false
