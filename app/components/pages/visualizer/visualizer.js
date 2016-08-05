@@ -1,6 +1,9 @@
 import cx from 'classnames';
 import { connect } from 'react-redux';
 
+import store from 'store';
+import {addSceneComponent} from 'actions/sceneActions';
+
 import VisController from 'js/VisController';
 import ControlsDrawer from './ControlsDrawer';
 const CANVAS_ID = "three-canvas";
@@ -33,6 +36,7 @@ class Visualizer extends React.Component {
         const element = document.getElementById(CANVAS_ID)
 
         this.state.controller.init(element);
+        store.dispatch(addSceneComponent(this.state.controller));
         element.appendChild(this.state.controller.renderer.domElement);
         this.state.controller.render();
     }

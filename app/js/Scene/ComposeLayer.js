@@ -2,20 +2,44 @@
  * @author Matan Zohar / matan.zohar@autodesk.com
  */
 import ComposeObject from 'js/ComposeObject';
+import ComposeMesh from 'js/Scene/ComposeMesh';
+
+import {defaults} from 'lodash';
+import StoreAPI from 'StoreAPI';
 
 class ComposeLayer extends ComposeObject {
-    constructor(options) {
+    constructor(options = {}) {
         super(options);
 
-        this.object = new THREE.Object3D();
+        options = defaults(options, {
+            visible: true
+        });
+
+        this.setState({
+            visible: options.visible
+        });
+        this.composeMesh = new ComposeMesh();
+        this.showMesh();
     }
 
-    get type() {
-        return 'layer';
+    showMesh() {
+        StoreAPI.getController().scene.add(this.composeMesh.mesh);
     }
 
-    selector(state) {
-        return state.scene.getIn(['layers', this.uuid]);
+    hideMesh() {
+        StoreAPI.getController().scene.remove(this.composeMesh.mesh);
+    }
+
+    objectWillUnmount() {
+        this.hideMesh();
+    }
+
+    update(ctx) {
+        this.composeMesh.update(ctx.data);
+    }
+
+    static type() {
+        return 'layer'
     }
 }
 

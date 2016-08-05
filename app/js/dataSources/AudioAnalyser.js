@@ -26,7 +26,7 @@ class AudioAnalyser {
             timeSmoothingConstant: 0.5,
             kernelSize: 16,
             fftSize: 2048,
-            signalPadding: 10,
+            //signalPadding: 10,
             binsIndices: {
                 first: 0,
                 bass: 0,
@@ -54,8 +54,8 @@ class AudioAnalyser {
         this.outputBinCount = ~~(
             (1 / BASS_BIN_SKIP) * (indices.bass - indices.first) +
             (1 / MID_BIN_SKIP)  * (indices.mid - indices.bass) +
-            (1 / HIGH_BIN_SKIP) * (indices.last - indices.mid) +
-            this.settings.signalPadding );
+            (1 / HIGH_BIN_SKIP) * (indices.last - indices.mid))
+            //this.settings.signalPadding );
 
         console.log("Bins " +   this.outputBinCount);
         console.log("Starting bin index: " + indices.first);
@@ -63,12 +63,12 @@ class AudioAnalyser {
     }
 
     initBinBuffers() {
-        this.workBuffer = new Uint8Array(this.outputBinCount);
+        this.workBuffer = new Uint8Array(this.analyserNode.frequencyBinCount);
         this.outputBuffer = new Float32Array( this.outputBinCount);
     }
 
     getNode(context) {
-        const bufferSize = 1024;
+        const bufferSize = 512;
         const inputChannels = 2;
         const outputChannels = 1;
 
@@ -91,21 +91,30 @@ class AudioAnalyser {
 
         this.analyserNode.getByteFrequencyData(this.workBuffer);
 
-        for (var i = binIndices.first; i < binIndices.bass; i += BASS_BIN_SKIP) {
-            curBuffer[i] = this.workBuffer[i] / 256;
+        for (let i = 0; i < this.workBuffer.length; i ++) {
+            this.workBuffer[i] = this.workBuffer[i] > 64 ? 2 * (this.workBuffer[i] - 64) : 0;
         }
 
-        for (var i = binIndices.bass; i < binIndices.mid; i += MID_BIN_SKIP) {
-            curBuffer[i] = this.workBuffer[i] / 256;
+        let bufferIndex = 0;
+        for (let i = binIndices.first; i < binIndices.bass; i += BASS_BIN_SKIP) {
+            curBuffer[bufferIndex] = this.workBuffer[i] / 256;
+            bufferIndex++;
         }
 
-        for (var i = binIndices.mid; i < binIndices.last; i += HIGH_BIN_SKIP) {
-            curBuffer[i] = this.workBuffer[i] / 256;
+        for (let i = binIndices.bass; i < binIndices.mid; i += MID_BIN_SKIP) {
+            curBuffer[bufferIndex] = this.workBuffer[i] / 256;
+            bufferIndex++;
+        }
+
+        for (let i = binIndices.mid; i < binIndices.last; i += HIGH_BIN_SKIP) {
+            curBuffer[bufferIndex] = this.workBuffer[i] / 256;
+            bufferIndex++;
         }
 
         if (this.onFrameCallback) {
             this.onFrameCallback(curBuffer);
         }
+
     }
 
     get buffers() {

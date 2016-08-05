@@ -7,23 +7,32 @@ import {
     UPDATE_SCENE_COMPONENT
 } from 'constants/action-types';
 
-export function addSceneComponent(layer) {
+import StoreAPI from 'StoreAPI';
+
+export function addSceneComponent(component) {
     return {
         type: ADD_SCENE_COMPONENT,
-        payload: layer
+        payload: component
     }
 }
 
-export function removeSceneComponent(layerUuid) {
+export function removeSceneComponent(component) {
     return {
         type: REMOVE_SCENE_COMPONENT,
-        payload: layerUuid
+        payload: component
     }
 }
 
-export function updateSceneComponent(tick) {
+export function removeSceneComponentById(uuid) {
+    return {
+        type: REMOVE_SCENE_COMPONENT,
+        payload: StoreAPI.getObjectById(uuid)
+    }
+}
+
+export function updateSceneComponent(component) {
     return {
         type: UPDATE_SCENE_COMPONENT,
-        payload: tick
+        payload: component
     }
 }

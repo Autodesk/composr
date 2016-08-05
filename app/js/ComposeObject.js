@@ -5,16 +5,25 @@
 import connector from 'js/connector';
 import store from 'store';
 import Immutable from 'immutable';
+import {updateSceneComponent, addSceneComponent, removeSceneComponent} from 'redux/actions/sceneActions';
 
 class ComposeObject {
-    constructor(options) {
-        this.connector = new connector(this.selector, this.onStateChange);
+    constructor(options = {}) {
+        //this.connector = new connector(this.selector, this.onStateChange);
 
         this._state = Immutable.Map({
             uuid: options.uuid || THREE.Math.generateUUID(),
             name: options.name || '',
             type: this.type
         });
+
+        this.needsUpdate = false;
+
+        store.dispatch(addSceneComponent(this));
+    }
+
+    update() {
+
     }
 
     get uuid() {
@@ -29,19 +38,30 @@ class ComposeObject {
         return this._state;
     }
 
+    destroy() {
+        store.dispatch(removeSceneComponent(this));
+    }
+
+    setState(state, silent = false) {
+        this._state = this._state.merge(state);
+        if (!silent) {
+            store.dispatch(updateSceneComponent(this));
+        }
+    }
+
+    static type() {
+        return 'object'
+    }
+
     get type() {
-        return 'object';
+        return this.constructor.type();
     }
 
     selector(state) {
-        return state;
+        return state.scene.getIn([this.type, this.uuid]);
     }
 
     onStateChange() {
-
-    }
-
-    setState(state) {
 
     }
 

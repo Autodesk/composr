@@ -67,8 +67,8 @@ class MicrophoneSource extends DataSource{
     }
 
     getMicrophoneSource() {
-        const gUM = Modernizr.prefixed('getUserMedia', navigator);
-        gUM({audio: true},  (stream) => {
+        const gUM = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+        gUM.call(navigator, {audio: true},  (stream) => {
             const microphone = this.context.createMediaStreamSource(stream);
 
             // Create a buffer source node

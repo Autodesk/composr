@@ -6,7 +6,7 @@ import {UPDATE_DATA} from 'constants/action-types';
 
 const INITIAL_STATE = {
     data: [],
-    maxDataSize: 50
+    maxDataSize: 150
 };
 
 const dataSourceReducer = function(state = INITIAL_STATE, action) {
@@ -15,7 +15,7 @@ const dataSourceReducer = function(state = INITIAL_STATE, action) {
             if (state.data.length > state.maxDataSize) {
                 state.data.shift();
             }
-            state.data.push(action.payload);
+            state.data.push(new Float32Array(action.payload));
 
             return Object.assign({}, state);
         default:

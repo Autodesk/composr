@@ -1,14 +1,14 @@
 {
-  "name": "starter",
+  "name": "openComposr",
   "version": "1.0.0",
-  "description": "Application starter kit",
+  "description": "Live visualization of data in 3D",
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --host 0.0.0.0 --config webpack.config.dev.js --progress --hot --inline",
     "build": "NODE_ENV=production  webpack --config webpack.config.build.js --progress --colors --bail",
     "deploy-dev": "NODE_ENV=development  webpack --config webpack.config.devdeploy.js --progress --colors --bail"
   },
-  "author": "Shay Keinan",
+  "author": "Matan Zohar",
   "dependencies": {
     "15": "0.0.0",
     "classnames": "2.2.1",

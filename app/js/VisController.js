@@ -2,20 +2,25 @@ import 'js/3rdParty/OrbitControls';
 import MicrophoneSource from './dataSources/MicrophoneSource';
 
 import connector from 'js/connector';
+import ComposeObject from 'js/ComposeObject';
+import StoreAPI from 'StoreAPI';
 
-class VisController {
-    constructor() {
+class VisController extends ComposeObject {
+    constructor(options = {}) {
+        super(options)
         this.dataSource = new MicrophoneSource();
+    }
 
-        //this.connector = new connector((state)=>state.dataSource, ()=>console.log('cb'));
-
-        this.state = {
-            pause: false
-        }
+    get type() {
+        return 'controller';
     }
 
     get data() {
         return this.dataSource.data;
+    }
+
+    onLayerAdded(layer) {
+
     }
 
     init(parentElement) {
@@ -44,20 +49,19 @@ class VisController {
 
         this.initCamera();
         this.initLighting();
-
-        // temp test scene
-        const mesh = new THREE.Mesh (
-            new THREE.OctahedronGeometry(3,3),
-            new THREE.MeshStandardMaterial() );
-        this.scene.add(mesh);
-        //
-
     }
 
     initLighting() {
-        const hemiLight = new THREE.HemisphereLight(0xeeeeee, 0x888888, 1);
+        const lights = [];
+        lights[0] = new THREE.PointLight( 0xffffff, 1, 0 );
+        lights[1] = new THREE.PointLight( 0xf28800, 1, 0 );
+        lights[2] = new THREE.PointLight( 0x00ffff, 1, 0 );
 
-        this.scene.add(hemiLight);
+        lights[0].position.set( 0, 200, 0 );
+        lights[1].position.set( 100, 200, 100 );
+        lights[2].position.set( -100, -200, -100 );
+
+        lights.forEach((l) => this.scene.add(l));
     }
 
     initCamera() {
@@ -68,11 +72,23 @@ class VisController {
         );
     }
 
+    update() {
+        const layers = StoreAPI.getObjectByType('layer');
+        const ctx = {
+            data: StoreAPI.getCurrentData()
+        }
+
+        if (layers) {
+            layers.forEach((o) => o.update(ctx));
+        }
+    }
+
     render() {
         if (!this.state.pause) {
             requestAnimationFrame(() => this.render());
         }
 
+        this.update();
         this.controls.update();
 
         this.renderer.clear()

@@ -4,8 +4,6 @@
 import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import Layer from 'common/layer';
-import store from 'store';
-import {addSceneComponent} from 'actions/sceneActions';
 import {List, ListItem} from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import ComposeLayer from 'js/Scene/ComposeLayer';
@@ -19,7 +17,7 @@ class Layers extends React.Component {
     }
 
     addLayer(e) {
-        store.dispatch(addSceneComponent(new ComposeLayer({name: 'Unnamed Layer'})));
+        new ComposeLayer({name: 'Unnamed Layer'})
     }
 
     renderLayerList() {
@@ -36,8 +34,6 @@ class Layers extends React.Component {
     }
 
     render() {
-        console.log('render list');
-
         return (
             <div>
                 <FlatButton label="Add Layer" onClick={this.addLayer}/>

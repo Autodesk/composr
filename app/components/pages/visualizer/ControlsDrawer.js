@@ -34,11 +34,5 @@ class ControlsDrawer extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-
-    };
-}
-
-export default connect(mapStateToProps, { })(ControlsDrawer);
+export default ControlsDrawer;
 
