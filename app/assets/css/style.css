@@ -4,6 +4,10 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* GENERAL STYLES */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+body {
+    overflow: hidden;
+}
+
 .content {
     position: absolute;
     width: 100%;
@@ -14,8 +18,11 @@
 
 .three {
     background: blue;
-    /*width: 100%;*/
+    top: 0;
+    left: 0;
+    z-index: -1;
     height: 100%;
+    width: 100%;
 }
 
 .container{
@@ -30,6 +37,11 @@
 
 .controlsDrawer {
     background: yellow;
+    position: absolute;
+    right: 0;
+    width: 300px;
+    height: 100vh;
+    top: 30px;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

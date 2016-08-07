@@ -33,7 +33,7 @@ class Visualizer extends React.Component {
     }
 
     componentDidMount() {
-        const element = document.getElementById(CANVAS_ID)
+        const element = this.refs[CANVAS_ID];
 
         this.state.controller.init(element);
         store.dispatch(addSceneComponent(this.state.controller));
@@ -44,10 +44,8 @@ class Visualizer extends React.Component {
     render() {
         return (
             <div className="container-fluid visualizer-container">
-                <div className="row" style={{height: '100%'}}>
-                    <div className="col-sm-9 three" id={CANVAS_ID}></div>
-                    <ControlsDrawer open={true} controller={this.state.controller}></ControlsDrawer>
-                </div>
+                <div className="three" ref={CANVAS_ID}></div>
+                <ControlsDrawer open={true} controller={this.state.controller}></ControlsDrawer>
             </div>
         );
     }

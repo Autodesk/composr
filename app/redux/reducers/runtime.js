@@ -3,6 +3,7 @@
  */
 
 import {ADD_SCENE_COMPONENT, REMOVE_SCENE_COMPONENT} from 'constants/action-types';
+import {remove} from 'lodash/array';
 
 const INITIAL_STATE = {
     instances: {}
@@ -24,9 +25,9 @@ const runtimeReducer = function(state = INITIAL_STATE, action) {
             console.log(`removed ${action.payload.type}`);
 
             action.payload.objectWillUnmount();
-            delete state.instances[action.payload.uuid];
 
-            state[action.payload.type]
+            delete state.instances[action.payload.uuid];
+            remove(state[action.payload.type], (o)=> action.payload.uuid === o.uuid);
 
             return state;
         default:

@@ -9,7 +9,7 @@ import {updateSceneComponent, addSceneComponent, removeSceneComponent} from 'red
 
 class ComposeObject {
     constructor(options = {}) {
-        //this.connector = new connector(this.selector, this.onStateChange);
+        this.connector = new connector(this.selector.bind(this), this.onStateChange.bind(this));
 
         this._state = Immutable.Map({
             uuid: options.uuid || THREE.Math.generateUUID(),
@@ -68,6 +68,10 @@ class ComposeObject {
     fromStore() {
 
     }
+
+
+    // lifecycle functions
+    objectWillUnmount() { }
 }
 
 export default ComposeObject;

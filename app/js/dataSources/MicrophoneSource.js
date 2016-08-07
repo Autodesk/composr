@@ -4,7 +4,6 @@
 
 import DataSource from './DataSource';
 import AudioAnalyser from './AudioAnalyser';
-import 'js/3rdParty/modernizr';
 
 import {updateData} from 'actions/mainActions'
 import store from 'store';

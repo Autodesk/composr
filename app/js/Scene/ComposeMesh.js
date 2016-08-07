@@ -37,6 +37,11 @@ class ComposeMesh extends ComposeObject {
     static type() {
         return 'mesh';
     }
+
+    destroy() {
+        this.deformer.destroy();
+        super.destroy();
+    }
 }
 
 export default ComposeMesh;

@@ -4,7 +4,7 @@
 import FlatButton from 'material-ui/FlatButton';
 import storeAPI from 'StoreAPI';
 import {removeSceneComponentById} from 'actions/sceneActions';
-import {List, ListItem} from 'material-ui/List';
+import {ListItem} from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import cx from 'classnames';
 
@@ -33,13 +33,7 @@ class Layer extends React.Component {
     }
 
     render() {
-        const visibleClass = cx('fa', {'fa-eye': this.props.visible, 'fa-eye-slash': !this.props.visible});
-
-        return (
-            <ListItem primaryText={this.props.name}
-                      leftIcon={<FontIcon onClick={()=>this.toggleHidden()} className={visibleClass}/>}
-                      rightIcon={<FontIcon onClick={()=>this.removeLayer()} className="fa fa-times"/>} />
-        )
+        return(this.state.object.renderUI());
     }
 }
 
