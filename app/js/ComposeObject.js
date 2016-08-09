@@ -9,8 +9,6 @@ import {updateSceneComponent, addSceneComponent, removeSceneComponent} from 'red
 
 class ComposeObject {
     constructor(options = {}) {
-        this.connector = new connector(this.selector.bind(this), this.onStateChange.bind(this));
-
         this._state = Immutable.Map({
             uuid: options.uuid || THREE.Math.generateUUID(),
             name: options.name || '',
@@ -20,6 +18,7 @@ class ComposeObject {
         this.needsUpdate = false;
 
         store.dispatch(addSceneComponent(this));
+        this.connector = new connector(this.selector.bind(this), this.onStateChange.bind(this));
     }
 
     update() {

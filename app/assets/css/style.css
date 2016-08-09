@@ -44,6 +44,24 @@ body {
     top: 30px;
 }
 
+/*****************************/
+
+.ValueSlider {
+    width: 60%;
+    margin-left: 2%;
+    display: inline-block;
+    float: left;
+    margin-right: 10%;
+}
+
+.TextValueSlider {
+    width: 20% !important;
+}
+
+.TextValueVector3 {
+    width: 20% !important;
+}
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* NAVIGATION */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -23,7 +23,6 @@ const sceneReducer = function(state = INITIAL_STATE, action) {
             return state.deleteIn([action.payload.type, action.payload.uuid]);
 
         case UPDATE_SCENE_COMPONENT:
-            console.log(action.payload.state.toJS())
             return state.setIn([action.payload.type, action.payload.uuid], action.payload.state);
 
         default:

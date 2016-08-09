@@ -3,7 +3,7 @@
  */
 import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
-import Layer from 'common/layer';
+import ComposeElement from 'common/composeElement';
 import {List, ListItem} from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import ComposeLayer from 'js/Scene/ComposeLayer';
@@ -25,8 +25,7 @@ class Layers extends React.Component {
 
         if (this.props.layers) {
             for (let layer of this.props.layers.values()) {
-
-                listItems.push(<Layer key={layer.get('uuid')} {...layer.toJS()} />);
+                listItems.push(<ComposeElement key={layer.get('uuid')} uuid = {layer.get('uuid')} />);
             }
         }
 

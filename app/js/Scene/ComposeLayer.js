@@ -6,10 +6,11 @@ import ComposeMesh from 'js/Scene/ComposeMesh';
 
 import {defaults} from 'lodash';
 import StoreAPI from 'StoreAPI';
-
-import {ListItem, Slider} from 'material-ui';
+import {ListItem, Divider} from 'material-ui';
+import ValueSlider from 'common/valueSlider';
 import cx from 'classnames';
 import FontIcon from 'material-ui/FontIcon';
+import ComposeElement from 'common/composeElement';
 
 class ComposeLayer extends ComposeObject {
     constructor(options = {}) {
@@ -48,6 +49,12 @@ class ComposeLayer extends ComposeObject {
 
     toggleHidden() {
         this.setState({visible: !this.state.get('visible')});
+
+        if (this.state.get('visible')) {
+            this.showMesh();
+        } else {
+            this.hideMesh();
+        }
     }
 
     destroy() {
@@ -72,10 +79,18 @@ class ComposeLayer extends ComposeObject {
         });
 
         return (
-            //<ListItem primaryText={this.state.get('name')}
-            //          leftIcon={<FontIcon onClick={()=>this.toggleHidden()} className={visibleClass}/>}
-            //          rightIcon={<FontIcon onClick={()=>this.destroy()} className="fa fa-times"/>} />
-            <Slider onChange = {(e, v) => this.sliderChange(e, v)}/>
+            <div>
+
+                <ListItem primaryText={this.state.get('name')}
+                          leftIcon={<FontIcon onClick={()=>this.toggleHidden()} className={visibleClass}/>}
+                          rightIcon={<FontIcon onClick={()=>this.destroy()} className="fa fa-times"/>} />
+
+                <ValueSlider value={this.state.get('value')} onChange={this.sliderChange.bind(this)} />
+                <Divider />
+
+                <ComposeElement key={this.composeMesh.uuid} uuid={this.composeMesh.uuid} />
+
+            </div>
         )
     }
 }
