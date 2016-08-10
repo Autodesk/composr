@@ -6,6 +6,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 body {
     overflow: hidden;
+    font-family: Roboto, sans-serif;
 }
 
 .content {
@@ -17,7 +18,7 @@ body {
 }
 
 .three {
-    background: blue;
+    background: white;
     top: 0;
     left: 0;
     z-index: -1;
@@ -36,12 +37,13 @@ body {
 }
 
 .controlsDrawer {
-    background: yellow;
+    background: rgba(221, 216, 228,0.7);
     position: absolute;
-    right: 0;
+    right: 8px;
     width: 300px;
-    height: 100vh;
+    height: 85vh;
     top: 30px;
+    padding: 12px;
 }
 
 /*****************************/
@@ -52,6 +54,14 @@ body {
     display: inline-block;
     float: left;
     margin-right: 10%;
+    height: 20px;
+}
+
+.ui-label {
+    font-size: 12px;
+    display: block;
+    margin-bottom: -13px;
+    margin-top: 17px;
 }
 
 .TextValueSlider {
@@ -60,6 +70,11 @@ body {
 
 .TextValueVector3 {
     width: 20% !important;
+    margin-right: 15px;
+}
+
+.value-slider{
+    display: block;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

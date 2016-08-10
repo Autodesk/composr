@@ -7,18 +7,40 @@ import store from 'store';
 import Immutable from 'immutable';
 import {updateSceneComponent, addSceneComponent, removeSceneComponent} from 'redux/actions/sceneActions';
 
+import {defaults} from 'lodash';
+
 class ComposeObject {
     constructor(options = {}) {
-        this._state = Immutable.Map({
-            uuid: options.uuid || THREE.Math.generateUUID(),
-            name: options.name || '',
-            type: this.type
-        });
+        this._state = Immutable.Map( ComposeObject.setDefaults(options, this.defaultOptions) );
 
+        // marks dirty object
         this.needsUpdate = false;
 
-        store.dispatch(addSceneComponent(this));
-        this.connector = new connector(this.selector.bind(this), this.onStateChange.bind(this));
+        // used to provide change callback with state change info
+        this._stateContext = {
+            changedKeys: [],
+            prevState: this._state
+        }
+
+
+            store.dispatch(addSceneComponent(this));
+        setTimeout(()=>{
+            this.connector = new connector(this.selector.bind(this),
+                () => this.onStateChange(this._stateContext.changedKeys, this._stateContext.prevState));
+        }, 10)
+
+    }
+
+    static setDefaults(options, defautOptions) {
+        return defaults(options, defautOptions)
+    }
+
+    get defaultOptions() {
+      return {
+          uuid: THREE.Math.generateUUID(),
+          name: 'Unnamed',
+          type: this.type
+      }
     }
 
     update() {
@@ -42,6 +64,9 @@ class ComposeObject {
     }
 
     setState(state, silent = false) {
+        this._stateContext.changedKeys = Object.keys(state);
+        this._stateContext.prevState = this._state;
+
         this._state = this._state.merge(state);
         if (!silent) {
             store.dispatch(updateSceneComponent(this));
@@ -60,7 +85,7 @@ class ComposeObject {
         return state.scene.getIn([this.type, this.uuid]);
     }
 
-    onStateChange() {
+    onStateChange(changedKeys, prevState) {
 
     }
 

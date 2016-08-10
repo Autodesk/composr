@@ -4,7 +4,6 @@
 import ComposeObject from 'js/ComposeObject';
 import ComposeMesh from 'js/Scene/ComposeMesh';
 
-import {defaults} from 'lodash';
 import StoreAPI from 'StoreAPI';
 import {ListItem, Divider} from 'material-ui';
 import ValueSlider from 'common/valueSlider';
@@ -14,25 +13,22 @@ import ComposeElement from 'common/composeElement';
 
 class ComposeLayer extends ComposeObject {
     constructor(options = {}) {
-        super(options);
-
-        options = defaults(options, {
+        options = ComposeLayer.setDefaults(options,{
             visible: true
         });
 
-        this.setState({
-            visible: options.visible
-        });
+        super(options);
+
         this.composeMesh = new ComposeMesh();
-        this.showMesh();
+        this.setVisibiltyFromState();
     }
 
-    showMesh() {
-        StoreAPI.getController().scene.add(this.composeMesh.mesh);
-    }
-
-    hideMesh() {
-        StoreAPI.getController().scene.remove(this.composeMesh.mesh);
+    setVisibiltyFromState() {
+        if (this.state.get('visible')) {
+            StoreAPI.getController().scene.add(this.composeMesh.mesh);
+        } else {
+            StoreAPI.getController().scene.remove(this.composeMesh.mesh);
+        }
     }
 
     objectWillUnmount() {
@@ -49,12 +45,6 @@ class ComposeLayer extends ComposeObject {
 
     toggleHidden() {
         this.setState({visible: !this.state.get('visible')});
-
-        if (this.state.get('visible')) {
-            this.showMesh();
-        } else {
-            this.hideMesh();
-        }
     }
 
     destroy() {
@@ -66,9 +56,9 @@ class ComposeLayer extends ComposeObject {
         this.setState({value})
     }
 
-    onStateChange() {
-        if (this.composeMesh) {
-            this.composeMesh.material.color.setRGB(this.state.get('value'),  0.2, 0.2);
+    onStateChange(changedKeys, prevState) {
+        if (changedKeys.indexOf('visible') > -1) {
+            this.setVisibiltyFromState();
         }
     }
 
@@ -85,7 +75,6 @@ class ComposeLayer extends ComposeObject {
                           leftIcon={<FontIcon onClick={()=>this.toggleHidden()} className={visibleClass}/>}
                           rightIcon={<FontIcon onClick={()=>this.destroy()} className="fa fa-times"/>} />
 
-                <ValueSlider value={this.state.get('value')} onChange={this.sliderChange.bind(this)} />
                 <Divider />
 
                 <ComposeElement key={this.composeMesh.uuid} uuid={this.composeMesh.uuid} />

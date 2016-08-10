@@ -19,10 +19,10 @@ class ComposeElement extends React.Component {
         this.shouldUpdate = false;
 
         this.lazy = () => {
-            this.shouldUpdate = true;
+            this.forceUpdate();
         }
 
-        this.lazyUpdate = debounce(this.lazy, 10, { 'maxWait': 100 });
+        this.lazyUpdate = debounce(this.lazy, 100, { 'maxWait': 100 });
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -30,7 +30,7 @@ class ComposeElement extends React.Component {
             this.lazyUpdate();
         }
 
-        return this.shouldUpdate;
+        return false;
     }
 
     static get propTypes() {

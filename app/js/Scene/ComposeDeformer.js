@@ -2,13 +2,9 @@
  * @author Matan Zohar / matan.zohar@autodesk.com
  */
 import ComposeObject from 'js/ComposeObject';
-import Noise from './../Deformers/SimplexNoiseDeformer';
+import Noise from 'js/Deformers/SimplexNoiseDeformer';
 
 class Deformer extends ComposeObject {
-    constructor(options = {}) {
-        super(options);
-    }
-
     getValFromDataInterpolated(data, u, v) {
         u = (u + 100) % (MOD_EPS);
         v = (v + 100) % (MOD_EPS);

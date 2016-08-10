@@ -2,13 +2,41 @@
  * @author Matan Zohar / matan.zohar@autodesk.com
  */
 
+import ComposeGeometry from './ComposeGeometry';
 import PlaneGeometry from './PlaneGeometry';
 
-class SphereGeometry {
-    static createBufferGeometry(
-        {radius = 1, udiv = 50, vdiv = 50}) {
+import ValueSlider from 'common/valueSlider';
 
-        const geom = PlaneGeometry.createBufferGeometry({width: udiv, length: vdiv, loopIndices: true});
+class SphereGeometry extends ComposeGeometry{
+    constructor(options) {
+        options = SphereGeometry.setDefaults(options,{
+            radius: 1,
+            uDiv: 50,
+            vDiv: 50
+        });
+
+        super(options);
+
+        this.updateGeometry();
+    }
+
+    get geometry() {
+        return this._geometry;
+    }
+
+    onStateChange() {
+        this.updateGeometry();
+    }
+
+    updateGeometry() {
+        this._geometry = SphereGeometry.createBufferGeometry(this.state.toJS());
+        this.setDeformerAttributes(this.geometry);
+    }
+
+    static createBufferGeometry(
+        {radius = 1, uDiv = 50, vDiv = 50}) {
+
+        const geom = PlaneGeometry.createBufferGeometry({width: uDiv, length: vDiv, loopIndices: true});
         const pos = geom.attributes.position.array;
         const uvs = geom.attributes.uv.array;
         const pi = Math.PI;
@@ -26,6 +54,21 @@ class SphereGeometry {
 
     static get name() {
         return 'Sphere'
+    }
+
+    sliderChange(propName, e, v) {
+        this.setState({
+            [propName]: v
+        })
+    }
+
+    renderUI() {
+
+        return (<div>
+            <ValueSlider name="Sphere Radius" min={0.1} max={50} value={this.state.get('radius')} onChange={this.sliderChange.bind(this, 'radius')} />
+            <ValueSlider name="U Divisions" min={4} max={250} step={1} value={this.state.get('uDiv')} onChange={this.sliderChange.bind(this, 'uDiv')} />
+            <ValueSlider name="V Divisions" min={4} max={250} step={1} value={this.state.get('vDiv')} onChange={this.sliderChange.bind(this, 'vDiv')} />
+        </div>)
     }
 }
 

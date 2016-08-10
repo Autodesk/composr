@@ -8,12 +8,17 @@ import SimplexNoiseDeformer from 'js/Deformers/SimplexNoiseDeformer';
 
 import {SelectField, MenuItem,Divider} from 'material-ui';
 import Vector3Input from 'common/vector3Input';
+import ComposeElement from 'common/composeElement';
 
 class ComposeMesh extends ComposeObject {
     constructor(options) {
-        super(options);
+        options = ComposeMesh.setDefaults(options,{
+            geometryName: Object.keys(GeometryTypes)[0],
+            position: [0,0,0],
+            rotation: [0,0,0]
+        });
 
-        this.t = 0;
+        super(options);
 
         this.material = new THREE.MeshStandardMaterial({
             color: 0x123524,
@@ -22,10 +27,6 @@ class ComposeMesh extends ComposeObject {
             metalness: 0.1});
 
         this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), this.material);
-        this.setState({
-            geometryName: Object.keys(GeometryTypes)[0],
-            position: [0,0,0]
-        });
 
 
         this.deformer = new SimplexNoiseDeformer();
@@ -33,9 +34,8 @@ class ComposeMesh extends ComposeObject {
     }
 
     setGeometry() {
-        this.geometry = GeometryTypes[this.state.get('geometryName')].createBufferGeometry({udiv: 150, vdiv: 150});
-        SimplexNoiseDeformer.setGeometry(this.geometry);
-        this.mesh.geometry = this.geometry;
+        this.geometry = new GeometryTypes[this.state.get('geometryName')]({udiv: 150, vdiv: 150});
+        SimplexNoiseDeformer.setGeometry(this.geometry.geometry);
     }
 
     handleGeometryChange(e, v, payload) {
@@ -48,17 +48,20 @@ class ComposeMesh extends ComposeObject {
         this.setState({position: v});
     }
 
-    onStateChange() {
-        this._mesh.position.fromArray(this.state.get('position').toJS());
+    onStateChange(changedKeys, prevState) {
+        this._mesh.position.fromArray(this.state.get('position'));
+        this._mesh.position.fromArray(this.state.get('rotation'));
+
+        if (changedKeys.indexOf('geometryName') > -1) {
+            this.setGeometry();
+        }
+
     }
 
     update(data) {
-        this.deformer.apply(this.geometry, data);
-        this.geometry.computeVertexNormals();
-
-        this.setState({
-            position: [10*Math.sin(0.01 * (++this.t)),0,0]
-        })
+        this.mesh.geometry = this.geometry.geometry;
+        this.deformer.apply(this.mesh.geometry, data);
+        this.mesh.geometry.computeVertexNormals();
     }
 
     get mesh () {
@@ -86,7 +89,9 @@ class ComposeMesh extends ComposeObject {
                     {items}
                 </SelectField>
 
-                <Vector3Input text="Position" value = {this.state.get('position').toJS()} onChange={this.handlePositionChange.bind(this)}/>
+                <Vector3Input name="Position" value = {this.state.get('position')} onChange={this.handlePositionChange.bind(this)}/>
+
+                <ComposeElement key={this.geometry.uuid} uuid={this.geometry.uuid} />
             </div>
         )
     }

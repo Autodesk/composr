@@ -8,7 +8,10 @@ class ValueSlider extends React.Component {
     static get propTypes() {
         return {
             value: React.PropTypes.number,
-            onChange: React.PropTypes.func
+            onChange: React.PropTypes.func,
+            min: React.PropTypes.number,
+            max: React.PropTypes.number,
+            step: React.PropTypes.number
         }
     }
 
@@ -19,9 +22,22 @@ class ValueSlider extends React.Component {
     }
 
     render() {
-        return (<div>
-            <Slider onChange = {this.handleChange.bind(this)} value={this.props.value} className="ValueSlider"/>
-            <TextField  onChange={this.handleChange.bind(this)} value={this.props.value} className="TextValueSlider"/>
+        return (<div className="value-slider">
+            <span className="ui-label">{this.props.name}</span>
+
+            <Slider
+                min={this.props.min}
+                max={this.props.max}
+                step={this.props.step}
+                onChange = {this.handleChange.bind(this)}
+                value={this.props.value}
+                className="ValueSlider"/>
+
+            <TextField
+                onChange={this.handleChange.bind(this)}
+                value={this.props.value}
+                className="TextValueSlider"/>
+
         </div>)
     }
 
