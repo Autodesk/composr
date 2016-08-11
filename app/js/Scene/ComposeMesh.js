@@ -9,13 +9,14 @@ import SimplexNoiseDeformer from 'js/Deformers/SimplexNoiseDeformer';
 import {SelectField, MenuItem,Divider} from 'material-ui';
 import Vector3Input from 'common/vector3Input';
 import ComposeElement from 'common/composeElement';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 class ComposeMesh extends ComposeObject {
     constructor(options) {
-        options = ComposeMesh.setDefaults(options,{
+        options = ComposeMesh.setDefaults(options, {
             geometryName: Object.keys(GeometryTypes)[0],
-            position: [0,0,0],
-            rotation: [0,0,0]
+            position: [0, 0, 0],
+            rotation: [0, 0, 0]
         });
 
         super(options);
@@ -24,10 +25,10 @@ class ComposeMesh extends ComposeObject {
             color: 0x123524,
             emissive: 0x072534,
             roughness: 0.1,
-            metalness: 0.1});
+            metalness: 0.1
+        });
 
         this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), this.material);
-
 
         this.deformer = new SimplexNoiseDeformer();
         this.setGeometry();
@@ -44,13 +45,13 @@ class ComposeMesh extends ComposeObject {
         }
     }
 
-    handlePositionChange(e,v) {
+    handlePositionChange(e, v) {
+        console.log(v)
         this.setState({position: v});
     }
 
     onStateChange(changedKeys, prevState) {
-        this._mesh.position.fromArray(this.state.get('position'));
-        this._mesh.position.fromArray(this.state.get('rotation'));
+        this._mesh.position.fromArray(this.state.get('position').toArray());
 
         if (changedKeys.indexOf('geometryName') > -1) {
             this.setGeometry();
@@ -64,7 +65,7 @@ class ComposeMesh extends ComposeObject {
         this.mesh.geometry.computeVertexNormals();
     }
 
-    get mesh () {
+    get mesh() {
         return this._mesh;
     }
 
@@ -73,25 +74,38 @@ class ComposeMesh extends ComposeObject {
     }
 
     destroy() {
-        this.deformer.destroy();
         super.destroy();
+        this.deformer.destroy();
+        this.geometry.destroy();
     }
 
     renderUI() {
         const items = [];
-        for (let type of Object.keys(GeometryTypes) ) {
-            items.push(<MenuItem value={type} key={type} primaryText={`${GeometryTypes[type].name}`} />)
+        for (let type of Object.keys(GeometryTypes)) {
+            items.push(<MenuItem value={type} key={type} primaryText={`${GeometryTypes[type].name}`}/>)
         }
 
         return (
             <div>
-                <SelectField value={this.state.get('geometryName')} onChange={this.handleGeometryChange.bind(this)} maxHeight={200}>
+                <SelectField value={this.state.get('geometryName')} onChange={this.handleGeometryChange.bind(this)}
+                             maxHeight={200}>
                     {items}
                 </SelectField>
 
-                <Vector3Input name="Position" value = {this.state.get('position')} onChange={this.handlePositionChange.bind(this)}/>
+                <Vector3Input name="Position" value={this.state.get('position').toArray()}
+                              onChange={this.handlePositionChange.bind(this)}/>
 
-                <ComposeElement key={this.geometry.uuid} uuid={this.geometry.uuid} />
+                Geometry
+                <div style={{ borderLeft: '1px solid #e0e0e0'}}>
+                <CardText expandable={true}>
+
+
+                        <ComposeElement key={this.geometry.uuid} uuid={this.geometry.uuid}/>
+
+                </CardText>
+                </div>
+
+
             </div>
         )
     }

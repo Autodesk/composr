@@ -737,7 +737,6 @@ THREE.OrbitControls = function ( object, domElement ) {
     }
 
     function onMouseUp( event ) {
-
         if ( scope.enabled === false ) return;
 
         handleMouseUp( event );
@@ -752,7 +751,6 @@ THREE.OrbitControls = function ( object, domElement ) {
     }
 
     function onMouseWheel( event ) {
-
         if ( scope.enabled === false || scope.enableZoom === false || ( state !== STATE.NONE && state !== STATE.ROTATE ) ) return;
 
         event.preventDefault();

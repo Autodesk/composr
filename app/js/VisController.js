@@ -30,11 +30,13 @@ class VisController extends ComposeObject {
         // TODO: move controls to different init with options to set the controller
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.controls.minDistance = 1;
-        this.controls.maxDistance = 15000;
+        this.controls.maxDistance = 1500;
     }
 
     initThreeRenderer(parentElement) {
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+        console.log(parentElement.offsetWidth, parentElement.offsetHeight);
 
         renderer.setSize(parentElement.offsetWidth, parentElement.offsetHeight);
         renderer.setClearColor(0x000000, 0.0);
@@ -49,6 +51,9 @@ class VisController extends ComposeObject {
 
         this.initCamera();
         this.initLighting();
+
+        const gridHelper = new THREE.GridHelper( 10, 10);
+        this.scene.add( gridHelper );
     }
 
     initLighting() {
@@ -70,6 +75,8 @@ class VisController extends ComposeObject {
         this.camera = new THREE.PerspectiveCamera(
             45, size.width / size.height, 0.1, 15000
         );
+
+        this.camera.position.set(0, 10, 10);
     }
 
     update() {

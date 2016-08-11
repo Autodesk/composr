@@ -7,6 +7,7 @@ import storeAPI from 'StoreAPI';
 import {removeSceneComponentById} from 'actions/sceneActions';
 import {ListItem} from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import cx from 'classnames';
 import {debounce} from 'lodash/function';
 
@@ -16,13 +17,8 @@ class ComposeElement extends React.Component {
         super(props);
 
         this.state = { object: storeAPI.getObjectById(props.uuid) }
-        this.shouldUpdate = false;
 
-        this.lazy = () => {
-            this.forceUpdate();
-        }
-
-        this.lazyUpdate = debounce(this.lazy, 100, { 'maxWait': 100 });
+        this.lazyUpdate = debounce(this.forceUpdate, 100, { 'maxWait': 100 });
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -36,13 +32,34 @@ class ComposeElement extends React.Component {
     static get propTypes() {
         return {
             uuid: React.PropTypes.string,
-            type: React.PropTypes.string
+            type: React.PropTypes.string,
+            initiallyExpanded: React.PropTypes.bool
+        };
+    }
+
+    getDefaultProps() {
+        return {
+            initiallyExpanded: false
         };
     }
 
     render() {
-        this.shouldUpdate = false;
-        return(this.state.object.renderUI());
+        return this.state.object.renderUI();
+
+
+        //(
+        //    <Card>
+        //        <CardHeader
+        //            title={this.props.store.get('name')}
+        //            actAsExpander={true}
+        //            showExpandableButton={true}
+        //            initiallyExpanded={this.props.initiallyExpanded}
+        //        />
+        //        <CardText expandable={true}>
+        //
+        //        </CardText>
+        //    </Card>
+        //    );
     }
 }
 

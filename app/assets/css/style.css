@@ -1,12 +1,24 @@
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css);
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 
+::-webkit-scrollbar
+{
+    width: 6px;
+    background-color:rgba(221, 216, 228,0.7);
+}
+
+::-webkit-scrollbar-thumb
+{
+    background-color: #D1C4E9;
+}
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* GENERAL STYLES */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 body {
     overflow: hidden;
     font-family: Roboto, sans-serif;
+
 }
 
 .content {
@@ -24,6 +36,13 @@ body {
     z-index: -1;
     height: 100%;
     width: 100%;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,e5e5e5+100;White+3D */
+    background: #ffffff; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover,  #ffffff 0%, #e5e5e5 100%); /* FF3.6-15 */
+    background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#e5e5e5 100%); /* Chrome10-25,Safari5.1-6 */
+    background: radial-gradient(ellipse at center,  #ffffff 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 .container{
@@ -37,13 +56,20 @@ body {
 }
 
 .controlsDrawer {
-    background: rgba(221, 216, 228,0.7);
+
     position: absolute;
     right: 8px;
     width: 300px;
-    height: 85vh;
     top: 30px;
+    overflow: hidden;
+}
+
+.controlsDrawerInner {
+    background: rgba(221, 216, 228,0.7);
     padding: 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 220px);
 }
 
 /*****************************/
@@ -76,6 +102,8 @@ body {
 .value-slider{
     display: block;
 }
+
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* NAVIGATION */
@@ -120,14 +148,10 @@ body {
     color: #A5A5A5;
 }
 
-.profile_nav .notif {
-    position: absolute;
-    top:0px;
-    right:0px;
-    width:10px;
-    height: 10px;
-    background: #D61400;
-    border-radius: 50%;
+
+.top-nav-button {
+    margin: 0px 22px !important;
+    font-size: 12px !important;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

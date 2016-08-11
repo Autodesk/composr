@@ -11,7 +11,7 @@ import {defaults} from 'lodash';
 
 class ComposeObject {
     constructor(options = {}) {
-        this._state = Immutable.Map( ComposeObject.setDefaults(options, this.defaultOptions) );
+        this._state = Immutable.fromJS( ComposeObject.setDefaults(options, this.defaultOptions) );
 
         // marks dirty object
         this.needsUpdate = false;
@@ -38,7 +38,7 @@ class ComposeObject {
     get defaultOptions() {
       return {
           uuid: THREE.Math.generateUUID(),
-          name: 'Unnamed',
+          name: `A ${this.type}`,
           type: this.type
       }
     }
@@ -60,6 +60,7 @@ class ComposeObject {
     }
 
     destroy() {
+        this.connector.disconnect();
         store.dispatch(removeSceneComponent(this));
     }
 

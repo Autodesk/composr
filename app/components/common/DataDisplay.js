@@ -35,9 +35,16 @@ class DataDisplay extends React.Component {
     render() {
         const height = 50;
 
+        const canvasStyle = {
+            width: '100%',
+            height: '100%',
+            borderBottom: '1px solid #d1c0e6',
+            background: 'rgba(255,255,255,0.1)'
+        }
+
         return (
-            <div style={{background: 'red', width: '100%', height: `${height}px`}}>
-                <canvas ref="canvas" style ={{background: 'white', width: '100%', height: '100%'}} />
+            <div style={{width: '100%', height: `${height}px`}}>
+                <canvas ref="canvas" style ={canvasStyle} />
             </div>
         )
     }

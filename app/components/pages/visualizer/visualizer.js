@@ -6,6 +6,9 @@ import {addSceneComponent} from 'actions/sceneActions';
 
 import VisController from 'js/VisController';
 import ControlsDrawer from './ControlsDrawer';
+import TopMenu from 'layouts/topMenu';
+
+
 const CANVAS_ID = "three-canvas";
 
 class Visualizer extends React.Component {
@@ -35,15 +38,19 @@ class Visualizer extends React.Component {
     componentDidMount() {
         const element = this.refs[CANVAS_ID];
 
-        this.state.controller.init(element);
-        store.dispatch(addSceneComponent(this.state.controller));
-        element.appendChild(this.state.controller.renderer.domElement);
-        this.state.controller.render();
+        setTimeout( ()=> {
+            this.state.controller.init(element);
+            element.appendChild(this.state.controller.renderer.domElement);
+
+            this.state.controller.render();
+
+        },1)
     }
 
     render() {
         return (
             <div className="container-fluid visualizer-container">
+                <TopMenu/>
                 <div className="three" ref={CANVAS_ID}></div>
                 <ControlsDrawer open={true} controller={this.state.controller}></ControlsDrawer>
             </div>

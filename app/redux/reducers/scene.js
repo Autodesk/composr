@@ -15,7 +15,6 @@ const INITIAL_STATE = Immutable.Map({
 const sceneReducer = function(state = INITIAL_STATE, action) {
     switch(action.type) {
         case ADD_SCENE_COMPONENT:
-            console.log(action.payload.state.toJS())
             return state.setIn([action.payload.type, action.payload.uuid], action.payload.state);
 
         case REMOVE_SCENE_COMPONENT:

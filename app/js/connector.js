@@ -5,7 +5,7 @@ class connector {
     constructor(select, callback) {
         this.select = select;
         this.currentValue = null;
-        store.subscribe(()=>this.handleChange())
+        this.disconnect = store.subscribe(()=>this.handleChange())
         this.callback = callback;
     }
 

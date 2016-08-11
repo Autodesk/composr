@@ -25,7 +25,6 @@ class Vector3Input extends React.Component {
                 new_val[i] = parseFloat(v);
             }
 
-
             this.props.onChange(e, new_val);
         }
     }
