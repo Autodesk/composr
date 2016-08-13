@@ -28,8 +28,7 @@ class ControlsDrawer extends React.Component {
                 <Tabs>
                     <Tab icon={<FontIcon className="fa fa-cubes"/>} >
                         <div className="controlsDrawerInner" >
-                            <DataDisplay data={this.props.controller.data}></DataDisplay>
-
+                            <div style={{marginBottom: '10px'}}>Layers</div>
                             <Layers></Layers>
                         </div>
                     </Tab>

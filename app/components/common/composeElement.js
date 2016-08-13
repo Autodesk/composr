@@ -45,21 +45,6 @@ class ComposeElement extends React.Component {
 
     render() {
         return this.state.object.renderUI();
-
-
-        //(
-        //    <Card>
-        //        <CardHeader
-        //            title={this.props.store.get('name')}
-        //            actAsExpander={true}
-        //            showExpandableButton={true}
-        //            initiallyExpanded={this.props.initiallyExpanded}
-        //        />
-        //        <CardText expandable={true}>
-        //
-        //        </CardText>
-        //    </Card>
-        //    );
     }
 }
 

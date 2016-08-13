@@ -76,6 +76,9 @@ class ComposeLayer extends ComposeObject {
                         showExpandableButton={true}
                         initiallyExpanded={true}
                     />
+            <ListItem primaryText={this.state.get('name')}
+                      leftIcon={<FontIcon onClick={()=>this.toggleHidden()} className={visibleClass}/>}
+                      rightIcon={<FontIcon onClick={()=>this.destroy()} className="fa fa-times"/>} />
 
                     <CardText expandable={true}>
                         <ComposeElement key={this.composeMesh.uuid} uuid={this.composeMesh.uuid} />
@@ -86,8 +89,6 @@ class ComposeLayer extends ComposeObject {
 }
 
 
-//<ListItem primaryText={this.state.get('name')}
-//          leftIcon={<FontIcon onClick={()=>this.toggleHidden()} className={visibleClass}/>}
-//          rightIcon={<FontIcon onClick={()=>this.destroy()} className="fa fa-times"/>} />
+
 
 export default ComposeLayer;

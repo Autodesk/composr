@@ -24,7 +24,6 @@ import Index from 'pages/index';
 import Visualizer from 'pages/visualizer/visualizer';
 
 
-
 render(
     <Provider store={ store }>
         <Router history={ browserHistory }>
@@ -38,4 +37,3 @@ render(
     </Provider>,
     document.getElementById('app')
 );
-

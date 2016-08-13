@@ -3,8 +3,12 @@
  */
 
 import store from 'store';
+import {updateData} from 'actions/mainActions'
+import {resetScene} from 'actions/sceneActions';
+import VisController from 'js/VisController';
 
 class StoreAPI {
+    // Scene Objects actions
     static getObjectById(uuid) {
         return store.getState().runtime.instances[uuid];
     }
@@ -17,8 +21,41 @@ class StoreAPI {
         return store.getState().runtime['controller'][0];
     }
 
+    // Scene Controls actions
+    static initVisualizer(element) {
+        const controller = StoreAPI.getController();
+
+        controller.init(element);
+
+        element.innerHTML = "";
+        element.appendChild(controller.renderer.domElement);
+
+        controller.render();
+    }
+
+    static reset() {
+        const element = StoreAPI.getController().parentElement;
+        store.dispatch(resetScene());
+
+        new VisController();
+        StoreAPI.initVisualizer(element);
+    }
+
+    static exportToJson() {
+        console.log(store.getState().scene.toJS())
+    }
+
+    static loadFromJson() {
+
+    }
+
+    // data source actions
     static getCurrentData() {
         return store.getState().dataSource.data;
+    }
+
+    static pushDataSourceBuffer(buffer) {
+        store.dispatch(updateData(buffer));
     }
 }
 

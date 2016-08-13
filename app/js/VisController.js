@@ -9,6 +9,8 @@ class VisController extends ComposeObject {
     constructor(options = {}) {
         super(options)
         this.dataSource = new MicrophoneSource();
+
+        this._isMounted = true;
     }
 
     get type() {
@@ -19,13 +21,10 @@ class VisController extends ComposeObject {
         return this.dataSource.data;
     }
 
-    onLayerAdded(layer) {
-
-    }
-
     init(parentElement) {
         this.renderer = this.initThreeRenderer(parentElement);
         this.initThreeScene();
+        this.parentElement = parentElement;
 
         // TODO: move controls to different init with options to set the controller
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
@@ -35,8 +34,6 @@ class VisController extends ComposeObject {
 
     initThreeRenderer(parentElement) {
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-
-        console.log(parentElement.offsetWidth, parentElement.offsetHeight);
 
         renderer.setSize(parentElement.offsetWidth, parentElement.offsetHeight);
         renderer.setClearColor(0x000000, 0.0);
@@ -81,6 +78,7 @@ class VisController extends ComposeObject {
 
     update() {
         const layers = StoreAPI.getObjectByType('layer');
+        this.dataSource.update();
         const ctx = {
             data: StoreAPI.getCurrentData()
         }
@@ -90,8 +88,13 @@ class VisController extends ComposeObject {
         }
     }
 
+    objectWillUnmount() {
+        this._isMounted = false;
+        this.dataSource.objectWillUnmount;
+    }
+
     render() {
-        if (!this.state.pause) {
+        if (!this.state.pause && this._isMounted) {
             requestAnimationFrame(() => this.render());
         }
 

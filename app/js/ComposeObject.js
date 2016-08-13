@@ -96,7 +96,7 @@ class ComposeObject {
 
 
     // lifecycle functions
-    objectWillUnmount() { }
+    objectWillUnmount() { console.log('objectWillUnmount', this.uuid) }
 }
 
 export default ComposeObject;

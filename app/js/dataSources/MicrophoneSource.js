@@ -4,9 +4,7 @@
 
 import DataSource from './DataSource';
 import AudioAnalyser from './AudioAnalyser';
-
-import {updateData} from 'actions/mainActions'
-import store from 'store';
+import storeAPI from 'storeAPI';
 
 class MicrophoneSource extends DataSource{
     constructor () {
@@ -14,8 +12,6 @@ class MicrophoneSource extends DataSource{
         this.context = this.createAudioContext();
         this.analyser = new AudioAnalyser();
         this.analyserNode = this.analyser.getNode(this.context);
-
-        this.analyser.onFrameCallback = (buffer) => store.dispatch(updateData(buffer));
 
         this.gainNode = this.createGainNode();
         this.sourceNode = null;
@@ -35,7 +31,6 @@ class MicrophoneSource extends DataSource{
         catch (e) {
             return this.context.createGain();
         }
-
     }
 
     createAudioContext() {
@@ -51,15 +46,15 @@ class MicrophoneSource extends DataSource{
         // with a different sample rate
         if (/(iPhone|iPad)/i.test(navigator.userAgent) &&
             context.sampleRate !== desiredSampleRate) {
-            const buffer = context.createBuffer(1, 1, desiredSampleRate)
-            const dummy = context.createBufferSource()
-            dummy.buffer = buffer
-            dummy.connect(context.destination)
-            dummy.start(0)
-            dummy.disconnect()
+            const buffer = context.createBuffer(1, 1, desiredSampleRate);
+            const dummy = context.createBufferSource();
+            dummy.buffer = buffer;
+            dummy.connect(context.destination);
+            dummy.start(0);
+            dummy.disconnect();
 
-            context.close() // dispose old context
-            context = new AudioCtor()
+            context.close(); // dispose old context
+            context = new AudioCtor();
         }
 
         return context
@@ -71,13 +66,27 @@ class MicrophoneSource extends DataSource{
             const microphone = this.context.createMediaStreamSource(stream);
 
             // Create a buffer source node
-            this.sourceNode = microphone; //context.createBufferSource();
+            this.sourceNode = microphone;
 
             microphone.connect(this.gainNode, 0, 0);
 
         }, function () {
         });
     }
+
+    update() {
+        storeAPI.pushDataSourceBuffer(this.analyser.update());
+    }
+
+    disconnect() {
+        this.analyser.disconnect();
+        this.sourceNode.disconnect();
+        this.gainNode.disconnect();
+    }
+
+    objectWillUnmount() {
+        this.disconnect();
+   }
 }
 
 export default MicrophoneSource;

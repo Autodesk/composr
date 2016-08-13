@@ -18,6 +18,10 @@ class DataSource {
     disconnect() {
 
     }
+
+    objectWillUnmount() {
+
+    }
 }
 
 export default DataSource;

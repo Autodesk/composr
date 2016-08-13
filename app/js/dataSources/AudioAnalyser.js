@@ -17,7 +17,6 @@ class AudioAnalyser {
     constructor() {
         this.analyserNode = null;
         this.scriptNode = null;
-        this.onFrameCallback = null;
 
         this.outputBinCount = 0;
 
@@ -74,7 +73,7 @@ class AudioAnalyser {
 
         this.scriptNode = context.createScriptProcessor(bufferSize, inputChannels, outputChannels)
         this.scriptNode.connect(context.destination);
-        this.scriptNode.onaudioprocess = (e) => {this.audioProcessCallback(e)};
+        //this.scriptNode.onaudioprocess = (e) => {this.audioProcessCallback(e)};
 
         this.analyserNode = context.createAnalyser();
         this.analyserNode.connect(this.scriptNode);
@@ -85,7 +84,11 @@ class AudioAnalyser {
         return this.analyserNode;
     }
 
-    audioProcessCallback(e) {
+    update() {
+        return this.processAudio();
+    }
+
+    processAudio() {
         const curBuffer = this.outputBuffer;
         const binIndices = this.settings.binsIndices;
 
@@ -111,14 +114,18 @@ class AudioAnalyser {
             bufferIndex++;
         }
 
-        if (this.onFrameCallback) {
-            this.onFrameCallback(curBuffer);
-        }
+
+        return curBuffer;
 
     }
 
     get buffers() {
         return this.outputBuffers;
+    }
+
+    disconnect() {
+        this.scriptNode.disconnect();
+        this.analyserNode.disconnect();
     }
 }
 

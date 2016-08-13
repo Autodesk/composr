@@ -14,28 +14,29 @@ import Menu from 'material-ui/Menu';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 import ComposeLayer from 'js/Scene/ComposeLayer';
+import StoreAPI from 'StoreAPI';
 
 class VisualizerTopMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: 3,
+            open: -1
         };
     }
 
-    handleTouchTap(event) {
+    handleTouchTap(item, event) {
         // This prevents ghost click.
-        event.preventDefault();
+        //event.preventDefault();
 
         this.setState({
-            open: true,
+            open: item,
             anchorEl: event.currentTarget,
         });
     };
 
     handleRequestClose(event) {
         this.setState({
-            open: false,
+            open: -1,
         });
     }
 
@@ -50,15 +51,35 @@ class VisualizerTopMenu extends React.Component {
 
         return (
             <Toolbar style={{ height: '36px', backgroundColor: 'white' }}>
-                <ToolbarGroup firstChild={true}>
+                <ToolbarGroup firstChild={false}>
                     <FlatButton
                         className="top-nav-button"
-                        onTouchTap={this.handleTouchTap.bind(this)}
+                        onTouchTap={this.handleTouchTap.bind(this, 0)}
+                        label="File"
+                        labelStyle={labelStyle} />
+
+                    <Popover
+                        open={this.state.open === 0}
+                        anchorEl={this.state.anchorEl}
+                        anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                        targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                        onRequestClose={this.handleRequestClose.bind(this)}
+                    >
+                        <Menu>
+                            <MenuItem primaryText="Reset" onClick={StoreAPI.reset} />
+                            <MenuItem primaryText="Save" onClick={StoreAPI.exportToJson} />
+                            <MenuItem primaryText="Load..." onClick={StoreAPI.loadFromJson} />
+                        </Menu>
+                    </Popover>
+
+                    <FlatButton
+                        className="top-nav-button"
+                        onTouchTap={this.handleTouchTap.bind(this, 1)}
                         label="Create"
                         labelStyle={labelStyle} />
 
                     <Popover
-                        open={this.state.open}
+                        open={this.state.open === 1}
                         anchorEl={this.state.anchorEl}
                         anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                         targetOrigin={{horizontal: 'left', vertical: 'top'}}
@@ -70,6 +91,7 @@ class VisualizerTopMenu extends React.Component {
                             <MenuItem primaryText="Material" />
                         </Menu>
                     </Popover>
+
                 </ToolbarGroup>
 
             </Toolbar>
