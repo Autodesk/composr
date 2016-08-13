@@ -4,7 +4,7 @@
 
 import DataSource from './DataSource';
 import AudioAnalyser from './AudioAnalyser';
-import storeAPI from 'storeAPI';
+import StoreAPI from 'StoreAPI';
 
 class MicrophoneSource extends DataSource{
     constructor () {
@@ -75,7 +75,7 @@ class MicrophoneSource extends DataSource{
     }
 
     update() {
-        storeAPI.pushDataSourceBuffer(this.analyser.update());
+        StoreAPI.pushDataSourceBuffer(this.analyser.update());
     }
 
     disconnect() {

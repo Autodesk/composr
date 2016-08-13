@@ -4,8 +4,10 @@ import ValueSlider from 'common/valueSlider';
 class PlaneGeometry extends ComposeGeometry {
     constructor(options) {
         options = PlaneGeometry.setDefaults(options,{
-            width: 10,
-            length: 10,
+            uDiv: 50,
+            vDiv: 50,
+            width: 1,
+            length: 1,
             loopIndices: false
         });
 
@@ -15,29 +17,36 @@ class PlaneGeometry extends ComposeGeometry {
     }
 
     static createBufferGeometry(
-        {width = 10, length = 10, loopIndices = false}) {
+        {width = 1, length = 1, uDiv = 50, vDiv= 50, loopIndices = false}) {
+        console.log(width ,length , uDiv, vDiv, loopIndices)
         const geom = new THREE.BufferGeometry();
 
         var vertices = [];
         var uvs = [];
         var indices = [];
-        var width1 = width + 1, length1 = length + 1;
+        var uDiv1 = uDiv + 1, vDiv1 = vDiv + 1;
 
-        for (var i=0; i < width1; i++){
-            for (var j=0; j < length1; j++){
-                vertices.push ( i / width, 0, j / length);
-                uvs.push(i / width, j / length);
+        for (var i=0; i < uDiv1; i++){
+            for (var j=0; j < vDiv1; j++){
+                vertices.push (
+                    (i - 0.5) * width / uDiv,
+                    0,
+                    (j - 0.5) * length / vDiv);
+
+                uvs.push(
+                    i / uDiv,
+                    j / vDiv);
             }
         }
 
-        for (var i=0; i < width; i++){
-            for (var j=0; j < length; j++){
+        for (var i=0; i < uDiv; i++){
+            for (var j=0; j < vDiv; j++){
 
                 // face vertices
-                var a = i * length1 + j;
-                var b = i * length1 + j + 1;
-                var c = (i+1) * length1 + j;
-                var d = (i+1) * length1 + j + 1;
+                var a = i * vDiv1 + j;
+                var b = i * vDiv1 + (j + 1);
+                var c = (i+1) * vDiv1 + j;
+                var d = (i+1) * vDiv1 + (j + 1);
 
                 // face indices
                 indices.push(a, c, b);
@@ -48,14 +57,14 @@ class PlaneGeometry extends ComposeGeometry {
 
         // connects both ends of the plane so convex shapes mapping can be used.
         if (loopIndices) {
-            for (var i=0; i < width; i++){
-                const j = length - 1;
+            for (var i=0; i < uDiv; i++){
+                const j = vDiv - 1;
 
                 // face vertices
-                var a = i * length1 + j;
-                var b = i * length1 ;
-                var c = (i+1) * length1 + j;
-                var d = (i+1) * length1 ;
+                var a = i * vDiv1 + j;
+                var b = i * vDiv1 ;
+                var c = (i+1) * vDiv1 + j;
+                var d = (i+1) * vDiv1 ;
 
                 // face indices
                 indices.push(a, c, b);
@@ -95,8 +104,10 @@ class PlaneGeometry extends ComposeGeometry {
     renderUI() {
 
         return (<div>
-            <ValueSlider name="Length" min={4} max={250} step={1} value={this.state.get('width')} onChange={this.sliderChange.bind(this, 'width')} />
-            <ValueSlider name="Width" min={4} max={250} step={1} value={this.state.get('length')} onChange={this.sliderChange.bind(this, 'length')} />
+            <ValueSlider name="uDiv" min={4} max={250} step={1} value={this.state.get('uDiv')} onChange={this.sliderChange.bind(this, 'uDiv')} />
+            <ValueSlider name="vDiv" min={4} max={250} step={1} value={this.state.get('vDiv')} onChange={this.sliderChange.bind(this, 'vDiv')} />
+            <ValueSlider name="Length" min={0.1} max={50} step={0.1} value={this.state.get('length')} onChange={this.sliderChange.bind(this, 'length')} />
+            <ValueSlider name="Width" min={0.1} max={50} step={0.1} value={this.state.get('width')} onChange={this.sliderChange.bind(this, 'width')} />
         </div>)
     }
 }

@@ -1,12 +1,8 @@
 import cx from 'classnames';
-
-import StoreAPI from 'storeAPI';
-
-import ControlsDrawer from './ControlsDrawer';
+import StoreAPI from 'StoreAPI';
+import ControlsDrawer from './controlsDrawer';
 import TopMenu from 'layouts/topMenu';
-
 import VisController from 'js/VisController';
-
 
 const CANVAS_ID = "three-canvas";
 
@@ -19,7 +15,7 @@ class Visualizer extends React.Component {
     componentDidMount() {
         const element = this.refs[CANVAS_ID];
 
-        setTimeout( ()=> StoreAPI.initVisualizer(element), 1)
+        setTimeout( ()=> StoreAPI.initVisualizer(element), 1);
     }
 
     render() {
@@ -27,7 +23,7 @@ class Visualizer extends React.Component {
             <div className="container-fluid visualizer-container">
                 <TopMenu/>
                 <div className="three" ref={CANVAS_ID}></div>
-                <ControlsDrawer></ControlsDrawer>
+                <ControlsDrawer/>
             </div>
         );
     }

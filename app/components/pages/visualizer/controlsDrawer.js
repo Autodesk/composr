@@ -2,9 +2,8 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import VisController from 'js/VisController';
 import {Drawer, Tabs, Tab, FontIcon} from 'material-ui';
-
-import DataDisplay from 'common/dataDisplay'
-import Layers from 'common/layers'
+import Layers from './layers'
+import DataControls from './dataControls'
 
 class ControlsDrawer extends React.Component {
     static get propTypes() {
@@ -48,6 +47,13 @@ class ControlsDrawer extends React.Component {
                     <Tab icon={<FontIcon className="fa fa-camera-retro"/>} >
                         <div className="controlsDrawerInner" >
                             Controls
+                        </div>
+                    </Tab>
+
+                    <Tab icon={<FontIcon className="fa fa-volume-up"/>} >
+                        <div className="controlsDrawerInner" >
+                            Sound Controls
+                            <DataControls></DataControls>
                         </div>
                     </Tab>
                 </Tabs>

@@ -3,7 +3,7 @@
  */
 import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
-import storeAPI from 'StoreAPI';
+import StoreAPI from 'StoreAPI';
 import {removeSceneComponentById} from 'actions/sceneActions';
 import {ListItem} from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
@@ -16,7 +16,7 @@ class ComposeElement extends React.Component {
 
         super(props);
 
-        this.state = { object: storeAPI.getObjectById(props.uuid) }
+        this.state = { object: StoreAPI.getObjectById(props.uuid) }
 
         this.lazyUpdate = debounce(this.forceUpdate, 100, { 'maxWait': 100 });
     }
@@ -50,7 +50,7 @@ class ComposeElement extends React.Component {
 
 
 function mapStateToProps(state, ownProp) {
-    const object = storeAPI.getObjectById(ownProp.uuid);
+    const object = StoreAPI.getObjectById(ownProp.uuid);
     const type = object.constructor.type();
 
     return {

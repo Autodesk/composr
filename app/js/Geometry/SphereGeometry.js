@@ -23,7 +23,7 @@ class SphereGeometry extends ComposeGeometry {
     static createBufferGeometry(
         {radius = 1, uDiv = 50, vDiv = 50}) {
 
-        const geom = PlaneGeometry.createBufferGeometry({width: uDiv, length: vDiv, loopIndices: true});
+        const geom = PlaneGeometry.createBufferGeometry({uDiv, vDiv, loopIndices: true});
         const pos = geom.attributes.position.array;
         const uvs = geom.attributes.uv.array;
         const pi = Math.PI;

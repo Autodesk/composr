@@ -13,6 +13,8 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
+import DataDisplay from 'common/dataDisplay'
+
 import ComposeLayer from 'js/Scene/ComposeLayer';
 import StoreAPI from 'StoreAPI';
 
@@ -92,6 +94,10 @@ class VisualizerTopMenu extends React.Component {
                         </Menu>
                     </Popover>
 
+                </ToolbarGroup>
+
+                <ToolbarGroup>
+                    <DataDisplay height={36}/>
                 </ToolbarGroup>
 
             </Toolbar>

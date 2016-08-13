@@ -12,8 +12,7 @@ const INITIAL_STATE = () => ( {
 const runtimeReducer = function(state = INITIAL_STATE(), action) {
     switch(action.type) {
         case ADD_SCENE_COMPONENT:
-            console.log(state);
-            console.log(`added ${action.payload.type}`);
+            console.info(`Runtime Reducer: added ${action.payload.type}`);
             state.instances[action.payload.uuid] = action.payload;
             if (state[action.payload.type] === undefined) {
                 state[action.payload.type] = [];
@@ -23,7 +22,7 @@ const runtimeReducer = function(state = INITIAL_STATE(), action) {
             return state;
 
         case REMOVE_SCENE_COMPONENT:
-            console.log(`removed ${action.payload.type}`);
+            console.info(`Runtime Reducer: removed ${action.payload.type}`);
 
             action.payload.objectWillUnmount();
 
