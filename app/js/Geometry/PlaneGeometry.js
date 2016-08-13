@@ -1,5 +1,19 @@
+import ComposeGeometry from './ComposeGeometry';
+import ValueSlider from 'common/valueSlider';
 
-class PlaneGeometry{
+class PlaneGeometry extends ComposeGeometry {
+    constructor(options) {
+        options = PlaneGeometry.setDefaults(options,{
+            width: 10,
+            length: 10,
+            loopIndices: false
+        });
+
+        super(options);
+
+        this.updateGeometry();
+    }
+
     static createBufferGeometry(
         {width = 10, length = 10, loopIndices = false}) {
         const geom = new THREE.BufferGeometry();
@@ -65,6 +79,25 @@ class PlaneGeometry{
 
     static get name() {
         return 'Plane'
+    }
+
+    updateGeometry() {
+        this._geometry = PlaneGeometry.createBufferGeometry(this.state.toJS());
+        this.setDeformerAttributes(this.geometry);
+    }
+
+    sliderChange(propName, e, v) {
+        this.setState({
+            [propName]: v
+        })
+    }
+
+    renderUI() {
+
+        return (<div>
+            <ValueSlider name="Length" min={4} max={250} step={1} value={this.state.get('width')} onChange={this.sliderChange.bind(this, 'width')} />
+            <ValueSlider name="Width" min={4} max={250} step={1} value={this.state.get('length')} onChange={this.sliderChange.bind(this, 'length')} />
+        </div>)
     }
 }
 

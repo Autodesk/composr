@@ -7,10 +7,19 @@ import SND from 'js/Deformers/SimplexNoiseDeformer';
 class ComposeGeometry extends ComposeObject {
     constructor(options) {
         super(options);
+        this._geometry = null;
     }
 
     static type() {
         return 'geometry';
+    }
+
+    get geometry() {
+        return this._geometry;
+    }
+
+    onStateChange() {
+        this.updateGeometry();
     }
 
     setDeformerAttributes() {

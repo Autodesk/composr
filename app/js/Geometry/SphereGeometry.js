@@ -7,7 +7,7 @@ import PlaneGeometry from './PlaneGeometry';
 
 import ValueSlider from 'common/valueSlider';
 
-class SphereGeometry extends ComposeGeometry{
+class SphereGeometry extends ComposeGeometry {
     constructor(options) {
         options = SphereGeometry.setDefaults(options,{
             radius: 1,
@@ -18,19 +18,6 @@ class SphereGeometry extends ComposeGeometry{
         super(options);
 
         this.updateGeometry();
-    }
-
-    get geometry() {
-        return this._geometry;
-    }
-
-    onStateChange() {
-        this.updateGeometry();
-    }
-
-    updateGeometry() {
-        this._geometry = SphereGeometry.createBufferGeometry(this.state.toJS());
-        this.setDeformerAttributes(this.geometry);
     }
 
     static createBufferGeometry(
@@ -54,6 +41,11 @@ class SphereGeometry extends ComposeGeometry{
 
     static get name() {
         return 'Sphere'
+    }
+
+    updateGeometry() {
+        this._geometry = SphereGeometry.createBufferGeometry(this.state.toJS());
+        this.setDeformerAttributes(this.geometry);
     }
 
     sliderChange(propName, e, v) {
