@@ -88,7 +88,7 @@ class ComposeLayer extends ComposeObject {
     }
 }
 
-
+ComposeLayer.registerObject('ComposeLayer', ComposeLayer);
 
 
 export default ComposeLayer;

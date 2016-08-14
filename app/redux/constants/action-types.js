@@ -6,3 +6,9 @@ export const ADD_SCENE_COMPONENT = 'ADD_SCENE_COMPONENT';
 export const REMOVE_SCENE_COMPONENT = 'REMOVE_SCENE_COMPONENT';
 export const UPDATE_SCENE_COMPONENT = 'UPDATE_SCENE_COMPONENT';
 export const RESET_SCENE = 'RESET_SCENE';
+
+// data source actions
+export const UPDATE_DATA_SETTINGS = 'UPDATE_DATA_SETTINGS';
+
+// object types actions
+export const REGISTER_OBJECT_TYPE = 'REGISTER_OBJECT_TYPE';

@@ -3,9 +3,11 @@
  */
 
 import store from 'store';
-import {updateData} from 'actions/mainActions'
+import {updateData, registerObjectType} from 'actions/mainActions'
 import {resetScene} from 'actions/sceneActions';
 import VisController from 'js/VisController';
+
+import SceneParser from 'Parsers/SceneParser';
 
 class StoreAPI {
     // Scene Objects actions
@@ -42,10 +44,22 @@ class StoreAPI {
     }
 
     static exportToJson() {
-        console.log(store.getState().scene.toJS())
+        const state = store.getState();
+
+        localStorage.setItem('openComposer',  JSON.stringify({
+            scene: state.scene.toJS(),
+            dataSource: state.dataSource.settings.toJS()
+        }));
+
+        return {
+            scene: state.scene.toJS(),
+            dataSource: state.dataSource.settings.toJS()
+        }
     }
 
     static loadFromJson() {
+        const state = JSON.parse(localStorage.getItem('openComposer'));
+        SceneParser.fromJSON(state.scene)
 
     }
 
@@ -56,6 +70,14 @@ class StoreAPI {
 
     static pushDataSourceBuffer(buffer) {
         store.dispatch(updateData(buffer));
+    }
+
+    static registerObjectClass(name, classObject) {
+        store.dispatch(registerObjectType(name, classObject, classObject.type()));
+    }
+
+    static getObjectClassesByType(type) {
+        return window.store.getState().runtime.objectTypes[type];
     }
 }
 

@@ -2,11 +2,9 @@
  * @author Matan Zohar / matan.zohar@autodesk.com
  */
 import { connect } from 'react-redux';
-import FlatButton from 'material-ui/FlatButton';
-import ComposeElement from 'common/composeElement';
-import {List, ListItem} from 'material-ui/List';
+import ValueSlider from 'common/valueSlider';
 
-class Layers extends React.Component {
+class DataControls extends React.Component {
 
     static get propTypes() {
         return {
@@ -31,7 +29,7 @@ class Layers extends React.Component {
     render() {
         return (
             <div>
-                    {this.renderLayerList()}
+                <ValueSlider name="Length" min={1} max={250} step={1} value={this.props.maxDataSize} />
             </div>
         )
     }
@@ -39,8 +37,8 @@ class Layers extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        layers: state.scene.get('layer')
+        maxDataSize: state.dataSource.settings.get('maxDataSize')
     }
 }
 
-export default connect(mapStateToProps)(Layers);
+export default connect(mapStateToProps)(DataControls);

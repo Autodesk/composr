@@ -86,10 +86,6 @@ class PlaneGeometry extends ComposeGeometry {
         return geom;
     }
 
-    static get name() {
-        return 'Plane'
-    }
-
     updateGeometry() {
         this._geometry = PlaneGeometry.createBufferGeometry(this.state.toJS());
         this.setDeformerAttributes(this.geometry);
@@ -112,5 +108,6 @@ class PlaneGeometry extends ComposeGeometry {
     }
 }
 
+PlaneGeometry.registerObject('PlaneGeometry', PlaneGeometry)
 
 export default PlaneGeometry

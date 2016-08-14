@@ -70,6 +70,7 @@ class VisualizerTopMenu extends React.Component {
                         <Menu>
                             <MenuItem primaryText="Reset" onClick={StoreAPI.reset} />
                             <MenuItem primaryText="Save" onClick={StoreAPI.exportToJson} />
+                            <MenuItem primaryText="Save To File" onClick={()=>(console.log(StoreAPI.exportToJson()))} />
                             <MenuItem primaryText="Load..." onClick={StoreAPI.loadFromJson} />
                         </Menu>
                     </Popover>

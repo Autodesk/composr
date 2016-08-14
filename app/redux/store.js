@@ -15,11 +15,6 @@ const persistStateConfig = {
     deserialize: (state) => Immutable.fromJS(JSON.parse(state)),
     merge: (initialState, persistedState) => initialState.mergeDeep(persistedState)
 };
-//
-//const storeEnhancers = compose(
-//
-//    persistState(null, persistStateConfig)
-//);
 
 const store = createStore(rootReducer, {});
 window.store = store;

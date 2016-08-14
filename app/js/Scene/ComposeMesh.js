@@ -3,7 +3,10 @@
  */
 
 import ComposeObject from 'js/ComposeObject';
-import GeometryTypes from 'js/Geometry/geometry-types';
+
+import PlaneGeometry from 'js/Geometry/PlaneGeometry';
+import SphereGeometry from 'js/Geometry/SphereGeometry';
+
 import SimplexNoiseDeformer from 'js/Deformers/SimplexNoiseDeformer';
 
 import {SelectField, MenuItem,Divider} from 'material-ui';
@@ -11,15 +14,21 @@ import Vector3Input from 'common/vector3Input';
 import ComposeElement from 'common/composeElement';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
+import StoreAPI from 'StoreAPI';
+
 class ComposeMesh extends ComposeObject {
     constructor(options) {
+        const geometryClasses = StoreAPI.getObjectClassesByType('geometry');
+
         options = ComposeMesh.setDefaults(options, {
-            geometryName: Object.keys(GeometryTypes)[0],
+            geometryName: Object.keys(geometryClasses)[0],
             position: [0, 0, 0],
             rotation: [0, 0, 0]
         });
 
         super(options);
+
+        this.geometryClasses = geometryClasses;
 
         this.material = new THREE.MeshStandardMaterial({
             color: 0x123524,
@@ -34,8 +43,15 @@ class ComposeMesh extends ComposeObject {
         this.setGeometry();
     }
 
+    updateGeometryClasses() {
+        this.geometryClasses = StoreAPI.getObjectClassesByType('geometry');
+    }
+
     setGeometry() {
-        this.geometry = new GeometryTypes[this.state.get('geometryName')]({udiv: 150, vdiv: 150});
+        if (this.geometry) {
+            this.geometry.destroy();
+        }
+        this.geometry = new this.geometryClasses[this.state.get('geometryName')]({udiv: 150, vdiv: 150});
         SimplexNoiseDeformer.setGeometry(this.geometry.geometry);
     }
 
@@ -46,7 +62,6 @@ class ComposeMesh extends ComposeObject {
     }
 
     handlePositionChange(e, v) {
-        console.log(v)
         this.setState({position: v});
     }
 
@@ -56,7 +71,6 @@ class ComposeMesh extends ComposeObject {
         if (changedKeys.indexOf('geometryName') > -1) {
             this.setGeometry();
         }
-
     }
 
     update(data) {
@@ -81,8 +95,8 @@ class ComposeMesh extends ComposeObject {
 
     renderUI() {
         const items = [];
-        for (let type of Object.keys(GeometryTypes)) {
-            items.push(<MenuItem value={type} key={type} primaryText={`${GeometryTypes[type].name}`}/>)
+        for (let type of Object.keys(this.geometryClasses)) {
+            items.push(<MenuItem value={type} key={type} primaryText={`${this.geometryClasses[type].name}`}/>)
         }
 
         return (
@@ -98,10 +112,7 @@ class ComposeMesh extends ComposeObject {
                 Geometry
                 <div style={{ borderLeft: '1px solid #e0e0e0'}}>
                 <CardText expandable={true}>
-
-
                         <ComposeElement key={this.geometry.uuid} uuid={this.geometry.uuid}/>
-
                 </CardText>
                 </div>
 
@@ -110,5 +121,7 @@ class ComposeMesh extends ComposeObject {
         )
     }
 }
+
+ComposeMesh.registerObject('ComposeMesh', ComposeMesh);
 
 export default ComposeMesh;

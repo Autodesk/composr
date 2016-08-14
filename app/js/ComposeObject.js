@@ -7,6 +7,7 @@ import store from 'store';
 import Immutable from 'immutable';
 import {updateSceneComponent, addSceneComponent, removeSceneComponent} from 'redux/actions/sceneActions';
 
+import StoreAPI from 'StoreAPI';
 import {defaults} from 'lodash';
 
 class ComposeObject {
@@ -23,7 +24,9 @@ class ComposeObject {
         }
 
 
-            store.dispatch(addSceneComponent(this));
+        store.dispatch(addSceneComponent(this));
+
+        // let system load before start listening to state changes
         setTimeout(()=>{
             this.connector = new connector(this.selector.bind(this),
                 () => this.onStateChange(this._stateContext.changedKeys, this._stateContext.prevState));
@@ -35,8 +38,19 @@ class ComposeObject {
         return defaults(options, defautOptions)
     }
 
+    static type() {
+        return 'object'
+    }
+
+    // TODO: maybe add this function through StoreAPI so it'll not 'know' about it.
+    static registerObject(name, classObject) {
+        // TODO: timeout to let StoreAPI build. should find better solution
+        setTimeout(() => StoreAPI.registerObjectClass(name, classObject) ,1);
+    }
+
     get defaultOptions() {
       return {
+          constructorName: this.constructor.name,
           uuid: THREE.Math.generateUUID(),
           name: `A ${this.type}`,
           type: this.type
@@ -74,10 +88,6 @@ class ComposeObject {
         }
     }
 
-    static type() {
-        return 'object'
-    }
-
     get type() {
         return this.constructor.type();
     }
@@ -89,11 +99,6 @@ class ComposeObject {
     onStateChange(changedKeys, prevState) {
 
     }
-
-    fromStore() {
-
-    }
-
 
     // lifecycle functions
     objectWillUnmount() { console.log('objectWillUnmount', this.uuid) }

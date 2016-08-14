@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import { connect } from 'react-redux';
-import VisController from 'js/VisController';
 import {Drawer, Tabs, Tab, FontIcon} from 'material-ui';
 import Layers from './layers'
 import DataControls from './dataControls'

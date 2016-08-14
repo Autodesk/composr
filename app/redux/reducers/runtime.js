@@ -2,11 +2,12 @@
  * @author Matan Zohar / matan.zohar@autodesk.com
  */
 
-import {ADD_SCENE_COMPONENT, REMOVE_SCENE_COMPONENT, RESET_SCENE} from 'constants/action-types';
+import {ADD_SCENE_COMPONENT, REMOVE_SCENE_COMPONENT, RESET_SCENE, REGISTER_OBJECT_TYPE} from 'constants/action-types';
 import {remove} from 'lodash/array';
 
 const INITIAL_STATE = () => ( {
-    instances: {}
+    instances: {},
+    objectTypes: {}
 });
 
 const runtimeReducer = function(state = INITIAL_STATE(), action) {
@@ -37,6 +38,16 @@ const runtimeReducer = function(state = INITIAL_STATE(), action) {
             }
 
             return INITIAL_STATE();
+
+        case REGISTER_OBJECT_TYPE:
+            console.info(`Registered Class Type`);
+
+            if (state.objectTypes[action.payload.type] === undefined) {
+                state.objectTypes[action.payload.type] = {};
+            }
+            state.objectTypes[action.payload.type][action.payload.name] = action.payload.objectClass;
+
+            return state;
 
 
         default:

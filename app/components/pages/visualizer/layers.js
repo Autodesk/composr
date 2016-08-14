@@ -14,8 +14,6 @@ class Layers extends React.Component {
         };
     }
 
-
-
     renderLayerList() {
         const listItems = [];
 

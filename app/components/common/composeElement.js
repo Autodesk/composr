@@ -13,7 +13,6 @@ import {debounce} from 'lodash/function';
 
 class ComposeElement extends React.Component {
     constructor(props) {
-
         super(props);
 
         this.state = { object: StoreAPI.getObjectById(props.uuid) }

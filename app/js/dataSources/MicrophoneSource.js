@@ -6,7 +6,7 @@ import DataSource from './DataSource';
 import AudioAnalyser from './AudioAnalyser';
 import StoreAPI from 'StoreAPI';
 
-class MicrophoneSource extends DataSource{
+class MicrophoneSource extends DataSource {
     constructor () {
         super();
         this.context = this.createAudioContext();

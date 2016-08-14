@@ -39,10 +39,6 @@ class SphereGeometry extends ComposeGeometry {
         return geom;
     }
 
-    static get name() {
-        return 'Sphere'
-    }
-
     updateGeometry() {
         this._geometry = SphereGeometry.createBufferGeometry(this.state.toJS());
         this.setDeformerAttributes(this.geometry);
@@ -63,5 +59,7 @@ class SphereGeometry extends ComposeGeometry {
         </div>)
     }
 }
+
+SphereGeometry.registerObject('SphereGeometry', SphereGeometry);
 
 export default SphereGeometry;

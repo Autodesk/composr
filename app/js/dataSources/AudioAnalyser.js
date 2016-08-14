@@ -22,7 +22,7 @@ class AudioAnalyser {
 
         // fft Settings
         this.settings = {
-            timeSmoothingConstant: 0.5,
+            timeSmoothingConstant: 0.3,
             kernelSize: 16,
             fftSize: 2048,
             //signalPadding: 10,

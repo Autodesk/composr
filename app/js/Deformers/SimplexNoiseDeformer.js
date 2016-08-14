@@ -44,4 +44,6 @@ class SimplexNoiseDeformer extends Deformer {
     }
 }
 
+SimplexNoiseDeformer.registerObject('SimplexNoiseDeformer', SimplexNoiseDeformer);
+
 export default SimplexNoiseDeformer;
