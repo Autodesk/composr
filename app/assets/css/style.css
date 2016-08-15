@@ -103,6 +103,9 @@ body {
     display: block;
 }
 
+.fa-sm-icon{
+    font-size: 20px !important;
+}
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -15,7 +15,7 @@ class Visualizer extends React.Component {
     componentDidMount() {
         const element = this.refs[CANVAS_ID];
 
-        setTimeout( ()=> StoreAPI.initVisualizer(element), 1);
+        setTimeout( ()=> StoreAPI.initVisualizer(element), 10);
     }
 
     render() {

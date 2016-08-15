@@ -24,7 +24,8 @@ class VisualizerTopMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: -1
+            open: -1,
+            sanckbarOpen: false
         };
     }
 
