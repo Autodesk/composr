@@ -39,8 +39,18 @@ class ComposeMesh extends ComposeObject {
 
         this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), this.material);
 
-        this.deformer = new SimplexNoiseDeformer();
-        this.setGeometry();
+        this.addReference('deformer');
+        if (this.createReferenceById('deformer', options.deformer) === undefined) {
+            this.deformer = new SimplexNoiseDeformer();
+        }
+
+        this.addReference('geometry');
+        if (this.createReferenceById('geometry', options.geometry) === undefined) {
+            this.setGeometry();
+        } else {
+            SimplexNoiseDeformer.setGeometry(this.geometry.geometry);
+        }
+
     }
 
     updateGeometryClasses() {

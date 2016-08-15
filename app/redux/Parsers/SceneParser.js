@@ -27,10 +27,12 @@ class SceneParser {
         // load controller settings
         // load data settings
 
-        if (json.geometry){ SceneParser.createInstancesFromType('geometry', json) }
-        if (json.deformer){ SceneParser.createInstancesFromType('deformer', json) }
-        if (json.layer){ SceneParser.createInstancesFromType('layer', json) }
-        if (json.mesh){ SceneParser.createInstancesFromType('mesh', json) }
+        const loadOrder = ['geometry', 'deformer', 'mesh', 'layer']
+        for (let i of loadOrder) {
+            if (json[i]) {
+                SceneParser.createInstancesFromType(i, json)
+            }
+        }
     }
 }
 

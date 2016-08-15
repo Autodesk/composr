@@ -34,6 +34,10 @@ class ComposeObject {
 
     }
 
+    getObjectById(uuid) {
+        return StoreAPI.getObjectById(uuid);
+    }
+
     static setDefaults(options, defautOptions) {
         return defaults(options, defautOptions)
     }
@@ -59,6 +63,31 @@ class ComposeObject {
 
     update() {
 
+    }
+
+    addReference(name) {
+        this[`_${name}`] = null;
+
+        Reflect.defineProperty(this, name, {
+            get: () => {
+                return this[`_${name}`];
+            },
+            set: (value) => {
+                this[`_${name}`] = value;
+                this.setState({
+                    [name]: this[`_${name}`].uuid
+                })
+            }
+        });
+    }
+
+    createReferenceById(name, uuid) {
+        const object = this.getObjectById(uuid);
+        if (object !== undefined) {
+            return this[name] = object;
+        }
+
+        console.warn(`No object with ${uuid} exists.`);
     }
 
     get uuid() {

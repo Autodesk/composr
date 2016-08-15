@@ -13,6 +13,8 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
+import Snackbar from 'material-ui/Snackbar';
+
 import DataDisplay from 'common/dataDisplay'
 
 import ComposeLayer from 'js/Scene/ComposeLayer';
@@ -47,6 +49,20 @@ class VisualizerTopMenu extends React.Component {
         this.handleRequestClose();
     }
 
+    handleSave() {
+        StoreAPI.exportToJson();
+        this.setState({
+            sanckbarOpen: true,
+            open: -1
+        });
+    }
+
+    handleSnackbarRequestClose() {
+        this.setState({
+            sanckbarOpen: false
+        });
+    }
+
 
     render() {
         const labelStyle = {fontSize: '12px'};
@@ -69,7 +85,7 @@ class VisualizerTopMenu extends React.Component {
                     >
                         <Menu>
                             <MenuItem primaryText="Reset" onClick={StoreAPI.reset} />
-                            <MenuItem primaryText="Save" onClick={StoreAPI.exportToJson} />
+                            <MenuItem primaryText="Save" onClick={this.handleSave.bind(this)} />
                             <MenuItem primaryText="Save To File" onClick={()=>(console.log(StoreAPI.exportToJson()))} />
                             <MenuItem primaryText="Load..." onClick={StoreAPI.loadFromJson} />
                         </Menu>
@@ -101,6 +117,12 @@ class VisualizerTopMenu extends React.Component {
                     <DataDisplay height={36}/>
                 </ToolbarGroup>
 
+                <Snackbar
+                    open={this.state.sanckbarOpen}
+                    message="Current composition saved"
+                    autoHideDuration={4000}
+                    onRequestClose={this.handleSnackbarRequestClose.bind(this)}
+                />
             </Toolbar>
         );
     }

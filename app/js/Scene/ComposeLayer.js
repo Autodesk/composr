@@ -20,7 +20,11 @@ class ComposeLayer extends ComposeObject {
 
         super(options);
 
-        this.composeMesh = new ComposeMesh();
+        this.addReference('composeMesh');
+        if (this.createReferenceById('composeMesh', options.composeMesh) === undefined) {
+            this.composeMesh = new ComposeMesh();
+        }
+
         this.setVisibiltyFromState();
     }
 
