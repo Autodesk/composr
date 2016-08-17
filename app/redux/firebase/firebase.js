@@ -13,9 +13,9 @@ class FirebaseAPI {
     }
     // REALTIME DATABASE
     // ************************************************
-    add(path, payload, callback) {
+    set(path, payload, callback) {
         this.firebase.database().ref(path).set(payload).then((e) => {
-            console.log(e);
+            //console.log(e);
         });
     }
     push(path, payload, callback) {
@@ -27,22 +27,34 @@ class FirebaseAPI {
     }
     update() {
     }
+
     transaction() {
     }
+
     remove() {
     }
+
     getData(location, callback) {
         this.firebase.database().ref(location).once('value').then((snapshot) => {
             callback(snapshot.val());
             console.log('getting...', snapshot.val());
         });
     }
+
     onAdd(ref, callback) {
         const dataRef = firebase.database().ref(ref);
         dataRef.on('child_added', (data) => {
-            callback({ [data.key]: data.val() });
+            callback(data.val());
         });
     }
+
+    onChange(ref, callback) {
+        const dataRef = firebase.database().ref(ref);
+        dataRef.on('child_changed', (data) => {
+            callback(data.val());
+        });
+    }
+
     // AUTHENTICATION
     // ************************************************
     getCurrentUser(onLogin, onLogout) {

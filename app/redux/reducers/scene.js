@@ -7,7 +7,8 @@ import {
     ADD_SCENE_COMPONENT,
     REMOVE_SCENE_COMPONENT,
     UPDATE_SCENE_COMPONENT,
-    RESET_SCENE
+    RESET_SCENE,
+    //UPDATE_FROM_FIREBASE
 } from 'constants/action-types';
 
 const INITIAL_STATE = Immutable.Map({
@@ -16,6 +17,7 @@ const INITIAL_STATE = Immutable.Map({
 const sceneReducer = function(state = INITIAL_STATE, action) {
     switch(action.type) {
         case ADD_SCENE_COMPONENT:
+            console.log('Scene Reducer:', action.payload.type);
             return state.setIn([action.payload.type, action.payload.uuid], action.payload.state);
 
         case REMOVE_SCENE_COMPONENT:
@@ -23,6 +25,9 @@ const sceneReducer = function(state = INITIAL_STATE, action) {
 
         case UPDATE_SCENE_COMPONENT:
             return state.setIn([action.payload.type, action.payload.uuid], action.payload.state);
+
+        //case UPDATE_FROM_FIREBASE:
+        //    return state.setIn([action.payload.type, action.payload.uuid], action.payload);
 
         case RESET_SCENE:
             return INITIAL_STATE;

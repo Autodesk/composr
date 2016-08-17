@@ -4,6 +4,10 @@
 import ComposeObject from 'js/ComposeObject';
 import Noise from 'js/Deformers/SimplexNoiseDeformer';
 
+import EditableLabel from 'common/editableLabel';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {FontIcon, FlatButton, Subheader} from 'material-ui';
+
 class Deformer extends ComposeObject {
     getValFromDataInterpolated(data, u, v) {
         u = (u + 100) % (MOD_EPS);
@@ -42,8 +46,24 @@ class Deformer extends ComposeObject {
         return 'deformer'
     }
 
+    renderTypeUI() {
+        // Implement this in extended class
+    }
+
     renderUI() {
-        return (<div>{'wtf'}</div>)
+        return (<Card>
+            <CardActions
+                title={this.state.get('name')}
+                textStyle={{padding: '10px'}}
+                showExpandableButton={true}>
+                <EditableLabel label={this.state.get('name')} onChange={this.handleRename.bind(this)} />
+                <Subheader style={{lineHeight: '14px', padding: 0}}>{this.constructor.name}</Subheader>
+            </CardActions>
+
+            <CardText expandable={true}>
+                { this.renderTypeUI() }
+            </CardText>
+        </Card>)
     }
 }
 

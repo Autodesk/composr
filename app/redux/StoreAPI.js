@@ -58,8 +58,11 @@ class StoreAPI {
     }
 
     static loadFromJson() {
+        //console.log(state);
+        //console.log(JSON.parse(localStorage.getItem('openComposer')));
         const state = JSON.parse(localStorage.getItem('openComposer'));
-        SceneParser.fromJSON(state.scene)
+        //console.log(state);
+        SceneParser.fromJSON(state.scene);
 
     }
 

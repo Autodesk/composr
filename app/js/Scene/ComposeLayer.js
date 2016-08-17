@@ -5,14 +5,11 @@ import ComposeObject from 'js/ComposeObject';
 import ComposeMesh from 'js/Scene/ComposeMesh';
 
 import StoreAPI from 'StoreAPI';
-import {ListItem, Divider} from 'material-ui';
-import ValueSlider from 'common/valueSlider';
-import FontIcon from 'material-ui/FontIcon';
+
 import ComposeElement from 'common/composeElement';
 import EditableLabel from 'common/editableLabel';
-import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-
+import {FontIcon, FlatButton} from 'material-ui';
 import LayerActions from 'common/layerActions';
 
 class ComposeLayer extends ComposeObject {
@@ -70,25 +67,18 @@ class ComposeLayer extends ComposeObject {
         }
     }
 
-    handleRename(newName) {
-        this.setState({name: newName});
-    }
-
     renderUI() {
-        return (<Card showExpandableButton={true}>
-            <LayerActions
-                removeLayer={()=>this.destroy()}
-                toggleHidden={()=>this.toggleHidden()}
-                visible= {this.state.get('visible')}
-            />
+        return (<Card>
+                    <LayerActions
+                        removeLayer={()=>this.destroy()}
+                        toggleHidden={()=>this.toggleHidden()}
+                        visible= {this.state.get('visible')}
+                    />
                     <CardActions
                         title={this.state.get('name')}
                         textStyle={{padding: '10px'}}
-                        showExpandableButton={true}
-
-                    >
+                        showExpandableButton={true} >
                         <EditableLabel label={this.state.get('name')} onChange={this.handleRename.bind(this)} />
-
                     </CardActions>
 
 

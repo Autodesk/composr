@@ -17,8 +17,6 @@ class Deformers extends React.Component {
     renderList() {
         const listItems = [];
 
-        console.log(this.props.deformers)
-
         if (this.props.deformers) {
             for (let deformer of this.props.deformers.values()) {
                 listItems.push(<ComposeElement key={deformer.get('uuid')} uuid = {deformer.get('uuid')} />);
@@ -29,8 +27,6 @@ class Deformers extends React.Component {
     }
 
     render() {
-        console.log('render deformer')
-
         return (
             <div>
                 {this.renderList()}

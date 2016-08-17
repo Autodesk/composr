@@ -23,7 +23,6 @@ class ComposeObject {
             prevState: this._state
         }
 
-
         store.dispatch(addSceneComponent(this));
 
         // let system load before start listening to state changes
@@ -102,6 +101,10 @@ class ComposeObject {
         return this._state;
     }
 
+    get(key) {
+        return this.state.get(key);
+    }
+
     destroy() {
         this.connector.disconnect();
         store.dispatch(removeSceneComponent(this));
@@ -131,6 +134,10 @@ class ComposeObject {
 
     // lifecycle functions
     objectWillUnmount() { console.log('objectWillUnmount', this.uuid) }
+
+    handleRename(newName) {
+        this.setState({name: newName});
+    }
 }
 
 export default ComposeObject;

@@ -36,7 +36,7 @@ class ComposeElement extends React.Component {
         };
     }
 
-    getDefaultProps() {
+    static defaultProps() {
         return {
             initiallyExpanded: false
         };

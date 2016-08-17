@@ -6,6 +6,9 @@ import { routerMiddleware, routerReducer } from 'react-router-redux';
 
 import {updateFrame} from 'actions/mainActions'
 import FirebaseMiddlware from 'middleware/firebase';
+import Firebase from 'firebase/firebase';
+import connector from 'js/connector';
+import StoreAPI from 'StoreAPI';
 
 // reducers
 import rootReducer from 'reducers/root';
@@ -30,3 +33,19 @@ const store = createStore(
 
 window.store = store;
 export default store;
+
+//x
+
+//new connector(
+//        (state) => state.scene,
+//        () => {
+//            Firebase.set('/scene', store.getState().scene.toJS())
+//        } );
+
+//Firebase.onChange('/scene', (data) => {
+//    console.log('changed', data)
+//});
+//
+//Firebase.onAdd('/scene', (data) => {
+//    console.log('added', data)
+//});

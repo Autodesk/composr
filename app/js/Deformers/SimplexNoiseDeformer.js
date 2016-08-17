@@ -3,44 +3,74 @@
  */
 import Noise from './PerlinNoiseFunction';
 import Deformer from 'js/Scene/ComposeDeformer';
+import ValueSlider from 'common/valueSlider';
 
 class SimplexNoiseDeformer extends Deformer {
     constructor(options = {}) {
+        options = SimplexNoiseDeformer.setDefaults(options, {
+            octaves: 1,
+            speed: 0.01,
+            scale: 0.5,
+            density: 15,
+            pointiness: 1,
+            center: [0,0,0]
+        });
+
         super(options);
 
-        this.ocatves = options.ocatves || 1;
-        this.speed = options.speed || 0.01;
-        this.scale = options.scale || 0.5;
-        this.density = options.density || 15;
-        this.pointiness = options.pointiness || 1;
-        this.center = options.center || [0,0,0];
+        //debugger;
+
         this.time = 0;
     }
 
     apply(geometry, data) {
         const time = this.time++;
-
         const position = geometry.getAttribute('position').array;
         const bPosition = geometry.getAttribute(Deformer.BASE_POSITION).array;
         const uv = geometry.getAttribute(Deformer.UV).array;
         let p, val, d;
-        const phase = this.speed * time;
+        const phase = this.get('speed') * time;
+        const center = this.get('center').toJS();
 
         for (var i= 0, j=0; i < position.length; i+=3, j+=2){
-            p = 0, d = this.density;
-            for (var k=0; k < this.ocatves; k++){
-                p += Math.pow(Noise.simplex2(uv[j] * d + phase, uv[j+1] * d + phase) , this.pointiness) * this.scale / this.ocatves;
+            p = 0, d = this.get('density');
+            for (var k=0; k < this.get('octaves'); k++){
+                p += Math.pow(Noise.simplex2(uv[j] * d + phase, uv[j+1] * d + phase) , this.get('pointiness')) * this.get('scale') / this.get('octaves');
                 d *= d;
             }
 
             val = ( this.getValFromData(data,  uv[j], uv[j+1]));
 
-            position[i  ] = bPosition[i  ] + (bPosition[i  ] - this.center[0]) * 0.5 * ( (p)*val);
-            position[i+1] = bPosition[i+1] + (bPosition[i+1] - this.center[1]) * 0.5 * ( (p)*val);
-            position[i+2] = bPosition[i+2] + (bPosition[i+2] - this.center[2]) * 0.5 * ( (p)*val);
+            position[i  ] = bPosition[i  ] + (bPosition[i  ] - center[0]) * 0.5 * ( (p)*val);
+            position[i+1] = bPosition[i+1] + (bPosition[i+1] - center[1]) * 0.5 * ( (p)*val);
+            position[i+2] = bPosition[i+2] + (bPosition[i+2] - center[2]) * 0.5 * ( (p)*val);
         }
 
         geometry.getAttribute('position').needsUpdate = true;
+    }
+
+    sliderChange(propName, e, v) {
+        this.setState({
+            [propName]: v
+        })
+    }
+
+    renderValueSliderFromState(stateKey, name, {min, max, step}) {
+        return (
+            <ValueSlider name={name} min={min} max={max} step={step} value={this.state.get(stateKey)} onChange={this.sliderChange.bind(this, stateKey)} />
+        )
+    }
+
+    renderTypeUI() {
+        return (
+            <div>
+                {this.renderValueSliderFromState('density', 'Density', {min: 0.1, max: 50, step: 0.1})}
+                {this.renderValueSliderFromState('scale', 'Effect Scale', {min: 0.01, max: 5, step: 0.01})}
+                {this.renderValueSliderFromState('speed', 'Phase Speed', {min: 0.01, max: 5, step: 0.01})}
+                {this.renderValueSliderFromState('pointiness', 'Pointiness', {min: 1, max: 5, step: 1})}
+                {this.renderValueSliderFromState('octaves', 'Octaves', {min: 1, max: 4, step: 1})}
+            </div>
+        );
     }
 }
 

@@ -29,7 +29,6 @@ class EditableLabel extends React.Component {
     }
 
     handleKeyDown(event) {
-        console.log(event.target.value);
         this.setState({
             newVal: event.target.value
         });
