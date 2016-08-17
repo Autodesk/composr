@@ -1,6 +1,10 @@
 import Navigation from 'common/navigation';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { routerActions } from 'react-router-redux';
+import { connect } from 'react-redux';
+import { getCurrentUser, clearCurrentUser } from 'actions/authActions';
+import store from 'store';
 
 const ComposrPurple = '#563d7c';
 
@@ -16,8 +20,15 @@ class Content extends React.Component {
     static get propTypes() {
         return {
             children: React.PropTypes.object,
-            pushState: React.PropTypes.func
         };
+    }
+
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.currentUser.toJS().uid && window.location.pathname != '/visualizer') {
+            console.log('route to visualizer')
+            this.props.pushState('/visualizer');
+        }
     }
 
     constructor(props) {
@@ -42,4 +53,17 @@ class Content extends React.Component {
     }
 }
 
-export default Content;
+
+
+function mapStateToProps(state) {
+    return {
+        currentUser: state.currentUser,
+    }
+}
+
+export default connect(mapStateToProps, {
+    getCurrentUser,
+    clearCurrentUser,
+    replaceState: routerActions.replace,
+    pushState: routerActions.push
+})(Content);

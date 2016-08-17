@@ -41,6 +41,10 @@ class Deformer extends ComposeObject {
     static type() {
         return 'deformer'
     }
+
+    renderUI() {
+        return (<div>{'wtf'}</div>)
+    }
 }
 
 Deformer.BASE_POSITION = 'base_position';

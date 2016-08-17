@@ -2,9 +2,10 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { browserHistory } from 'react-router';
 import persistState from 'redux-localstorage';
 import Immutable from 'immutable';
-import { syncHistory } from 'react-router-redux';
+import { routerMiddleware, routerReducer } from 'react-router-redux';
 
 import {updateFrame} from 'actions/mainActions'
+import FirebaseMiddlware from 'middleware/firebase';
 
 // reducers
 import rootReducer from 'reducers/root';
@@ -16,6 +17,16 @@ const persistStateConfig = {
     merge: (initialState, persistedState) => initialState.mergeDeep(persistedState)
 };
 
-const store = createStore(rootReducer, {});
+const storeEnhancers = applyMiddleware(
+        FirebaseMiddlware,
+        routerMiddleware(browserHistory)
+    );
+
+
+const store = createStore(
+    rootReducer,
+    {},
+    storeEnhancers);
+
 window.store = store;
 export default store;

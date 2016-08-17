@@ -8,7 +8,7 @@ const HtmlPlugin = require('html-webpack-plugin');
 
 const config = {
     context: appPath,
-
+    devtool: 'source-map',
     entry: {
         app: './app.js',
         vendor: ['react', 'react-dom']
@@ -65,7 +65,11 @@ const config = {
             },
             {
                 test: /\.css$/,
-                loaders: ['style', 'css']
+                loaders: ['style', 'css?root=' + appPath + '/assets']
+            },
+            {
+                test: /\.scss$/,
+                loaders: ['style', 'css?root=' + appPath + '/assets', 'sass']
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,

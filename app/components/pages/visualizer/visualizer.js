@@ -31,4 +31,3 @@ class Visualizer extends React.Component {
 
 
 export default Visualizer;
-

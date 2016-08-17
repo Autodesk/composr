@@ -11,6 +11,10 @@ class VisController extends ComposeObject {
         this.dataSource = new MicrophoneSource();
 
         this._isMounted = true;
+
+        this.handleResize = ()=>(this._handleResize());
+
+        window.addEventListener('resize', this.handleResize);
     }
 
     get type() {
@@ -22,9 +26,9 @@ class VisController extends ComposeObject {
     }
 
     init(parentElement) {
-        this.renderer = this.initThreeRenderer(parentElement);
-        this.initThreeScene();
         this.parentElement = parentElement;
+        this.initThreeRenderer();
+        this.initThreeScene();
 
         // TODO: move controls to different init with options to set the controller
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
@@ -32,10 +36,13 @@ class VisController extends ComposeObject {
         this.controls.maxDistance = 1500;
     }
 
-    initThreeRenderer(parentElement) {
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    setRendererSize() {
+        this.renderer.setSize(this.parentElement.offsetWidth, this.parentElement.offsetHeight);
+    }
 
-        renderer.setSize(parentElement.offsetWidth, parentElement.offsetHeight);
+    initThreeRenderer() {
+        const renderer = this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        this.setRendererSize();
         renderer.setClearColor(0x000000, 0.0);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.autoClear = false;
@@ -66,6 +73,12 @@ class VisController extends ComposeObject {
         lights.forEach((l) => this.scene.add(l));
     }
 
+    setCameraAspectRatio() {
+        const size = this.renderer.getSize();
+        this.camera.aspect = size.width / size.height;
+        this.camera.updateProjectionMatrix();
+    }
+
     initCamera() {
         const size = this.renderer.getSize();
 
@@ -89,8 +102,14 @@ class VisController extends ComposeObject {
     }
 
     objectWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
         this._isMounted = false;
         this.dataSource.objectWillUnmount;
+    }
+
+    _handleResize() {
+        this.setRendererSize()
+        this.setCameraAspectRatio();
     }
 
     render() {

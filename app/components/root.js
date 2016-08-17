@@ -1,11 +1,23 @@
 import { connect } from 'react-redux';
-import { routeActions } from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
+import FirebaseAPI from 'firebase/firebase';
+import { getCurrentUser, clearCurrentUser } from 'actions/authActions';
 
 class Root extends React.Component {
     static get propTypes() {
         return {
-            pushState: React.PropTypes.func.isRequired
+            currentUser:  React.PropTypes.object,
+            pushState: React.PropTypes.func,
+            replaceState: React.PropTypes.func
         };
+    }
+
+    componentDidMount() {
+        FirebaseAPI.getCurrentUser(this.props.getCurrentUser, this.props.clearCurrentUser);
+        console.log('getting current user')
+        if (this.props.location.pathname === '/') {
+            return this.props.replaceState('index');
+        }
     }
 
     constructor(props) {
@@ -23,10 +35,15 @@ class Root extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({});
+function mapStateToProps(state) {
+    return {
+        currentUser: state.currentUser
+    }
+};
 
-export default connect(
-    mapStateToProps,
-    {
-        pushState: routeActions.push,
-    })(Root);
+export default connect(mapStateToProps, {
+    getCurrentUser,
+    clearCurrentUser,
+    replaceState: routerActions.replace,
+    pushState: routerActions.push
+})(Root);

@@ -1,8 +1,10 @@
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import {Drawer, Tabs, Tab, FontIcon} from 'material-ui';
-import Layers from './layers'
-import DataControls from './dataControls'
+import Layers from './layers';
+import Deformers from './deformers';
+import Materials from './materials';
+import DataControls from './dataControls';
 
 class ControlsDrawer extends React.Component {
     static get propTypes() {
@@ -33,13 +35,15 @@ class ControlsDrawer extends React.Component {
 
                     <Tab icon={<FontIcon className="fa fa-circle-thin"/>} >
                         <div className="controlsDrawerInner" >
-                            Material
+                            <div style={{marginBottom: '10px'}}>Materials</div>
+                            <Materials></Materials>
                         </div>
                     </Tab>
 
                     <Tab icon={<FontIcon className="fa fa-asterisk"/>} >
                         <div className="controlsDrawerInner" >
-                            Deformers
+                            <div style={{marginBottom: '10px'}}>Deformers</div>
+                            <Deformers></Deformers>
                         </div>
                     </Tab>
 

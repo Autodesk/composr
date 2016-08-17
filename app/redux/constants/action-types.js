@@ -12,3 +12,9 @@ export const UPDATE_DATA_SETTINGS = 'UPDATE_DATA_SETTINGS';
 
 // object types actions
 export const REGISTER_OBJECT_TYPE = 'REGISTER_OBJECT_TYPE';
+
+// auth actions
+export const SIGNUP = 'SIGNUP';
+export const SIGNIN = 'SIGNIN';
+export const GET_CURRENT_USER = 'GET_CURRENT_USER';
+export const CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER';

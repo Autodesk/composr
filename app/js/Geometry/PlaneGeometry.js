@@ -18,7 +18,6 @@ class PlaneGeometry extends ComposeGeometry {
 
     static createBufferGeometry(
         {width = 1, length = 1, uDiv = 50, vDiv= 50, loopIndices = false}) {
-        console.log(width ,length , uDiv, vDiv, loopIndices)
         const geom = new THREE.BufferGeometry();
 
         var vertices = [];

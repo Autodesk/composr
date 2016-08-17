@@ -75,8 +75,6 @@ class ComposeLayer extends ComposeObject {
     }
 
     renderUI() {
-
-
         return (<Card showExpandableButton={true}>
             <LayerActions
                 removeLayer={()=>this.destroy()}
