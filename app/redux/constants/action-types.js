@@ -9,6 +9,8 @@ export const RESET_SCENE = 'RESET_SCENE';
 
 // data source actions
 export const UPDATE_DATA_SETTINGS = 'UPDATE_DATA_SETTINGS';
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
+
 
 // object types actions
 export const REGISTER_OBJECT_TYPE = 'REGISTER_OBJECT_TYPE';

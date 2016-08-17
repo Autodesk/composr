@@ -9,7 +9,7 @@ class SimplexNoiseDeformer extends Deformer {
     constructor(options = {}) {
         options = SimplexNoiseDeformer.setDefaults(options, {
             octaves: 1,
-            speed: 0.01,
+            speed: 0.0,
             scale: 0.5,
             density: 15,
             pointiness: 1,
@@ -29,7 +29,7 @@ class SimplexNoiseDeformer extends Deformer {
         const bPosition = geometry.getAttribute(Deformer.BASE_POSITION).array;
         const uv = geometry.getAttribute(Deformer.UV).array;
         let p, val, d;
-        const phase = this.get('speed') * time;
+        const phase = 0.1 * this.get('speed') * time;
         const center = this.get('center').toJS();
 
         for (var i= 0, j=0; i < position.length; i+=3, j+=2){
@@ -66,7 +66,7 @@ class SimplexNoiseDeformer extends Deformer {
             <div>
                 {this.renderValueSliderFromState('density', 'Density', {min: 0.1, max: 50, step: 0.1})}
                 {this.renderValueSliderFromState('scale', 'Effect Scale', {min: 0.01, max: 5, step: 0.01})}
-                {this.renderValueSliderFromState('speed', 'Phase Speed', {min: 0.01, max: 5, step: 0.01})}
+                {this.renderValueSliderFromState('speed', 'Phase Speed', {min: -2, max: 2, step: 0.01})}
                 {this.renderValueSliderFromState('pointiness', 'Pointiness', {min: 1, max: 5, step: 1})}
                 {this.renderValueSliderFromState('octaves', 'Octaves', {min: 1, max: 4, step: 1})}
             </div>
