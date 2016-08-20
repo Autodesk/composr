@@ -2,17 +2,17 @@ import ComposeGeometry from './ComposeGeometry';
 import ValueSlider from 'common/valueSlider';
 
 class PlaneGeometry extends ComposeGeometry {
-    constructor(options) {
-        options = PlaneGeometry.setDefaults(options,{
+    defaults() {
+        return {
             uDiv: 50,
             vDiv: 50,
             width: 1,
             length: 1,
             loopIndices: false
-        });
+        }
+    }
 
-        super(options);
-
+    componenetDidMount() {
         this.updateGeometry();
     }
 

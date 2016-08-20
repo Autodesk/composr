@@ -43,6 +43,9 @@ class ComposeElement extends React.Component {
     }
 
     render() {
+        if (!this.state.object.get('isMounted'))
+            return null;
+
         return this.state.object.renderUI();
     }
 }

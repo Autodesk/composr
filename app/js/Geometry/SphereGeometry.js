@@ -8,15 +8,15 @@ import PlaneGeometry from './PlaneGeometry';
 import ValueSlider from 'common/valueSlider';
 
 class SphereGeometry extends ComposeGeometry {
-    constructor(options) {
-        options = SphereGeometry.setDefaults(options,{
+    defaults() {
+        return {
             radius: 1,
             uDiv: 50,
             vDiv: 50
-        });
+        }
+    }
 
-        super(options);
-
+    componenetDidMount() {
         this.updateGeometry();
     }
 

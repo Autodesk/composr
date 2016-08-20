@@ -18,39 +18,41 @@ import StoreAPI from 'StoreAPI';
 
 class ComposeMesh extends ComposeObject {
     constructor(options) {
-        const geometryClasses = StoreAPI.getObjectClassesByType('geometry');
-
-        options = ComposeMesh.setDefaults(options, {
-            geometryName: Object.keys(geometryClasses)[0],
-            position: [0, 0, 0],
-            rotation: [0, 0, 0]
-        });
-
         super(options);
+    }
 
-        this.geometryClasses = geometryClasses;
-
+    defaults() {
+        const geometryClasses = StoreAPI.getObjectClassesByType('geometry');
         this.material = new THREE.MeshStandardMaterial({
-            color: 0x123524,
-            emissive: 0x072534,
+            color: 0x563d7c,
+            emissive: 0x250734,
             roughness: 0.1,
             metalness: 0.1
         });
 
         this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), this.material);
 
+        return {
+            geometryName: Object.keys(geometryClasses)[0],
+            position: [0, 0, 0],
+            rotation: [0, 0, 0]
+        }
+    }
+
+    componenetDidMount() {
+        this.geometryClasses = StoreAPI.getObjectClassesByType('geometry');
+
         this.addReference('deformer');
-        if (this.createReferenceById('deformer', options.deformer) === undefined) {
+        if (this.createReferenceById('deformer', this.get('deformer')) === undefined) {
             this.deformer = new SimplexNoiseDeformer();
         }
 
         this.addReference('geometry');
-        if (this.createReferenceById('geometry', options.geometry) === undefined) {
+        if (this.createReferenceById('geometry', this.get('geometry')) === undefined) {
             this.setGeometry();
         } else {
             SimplexNoiseDeformer.setGeometry(this.geometry.geometry);
         }
-
     }
 
     updateGeometryClasses() {

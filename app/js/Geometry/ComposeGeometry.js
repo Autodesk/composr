@@ -5,8 +5,7 @@ import ComposeObject from 'js/ComposeObject';
 import SND from 'js/Deformers/SimplexNoiseDeformer';
 
 class ComposeGeometry extends ComposeObject {
-    constructor(options) {
-        super(options);
+    componenetDidMount() {
         this._geometry = null;
     }
 

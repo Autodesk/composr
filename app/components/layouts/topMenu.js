@@ -9,6 +9,9 @@ import DataDisplay from 'common/dataDisplay'
 
 import ComposeLayer from 'js/Scene/ComposeLayer';
 import StoreAPI from 'StoreAPI';
+import Firebase from 'firebase/firebase';
+
+window.load = StoreAPI.loadState;
 
 class VisualizerTopMenu extends React.Component {
     constructor(props) {
@@ -48,6 +51,33 @@ class VisualizerTopMenu extends React.Component {
         });
     }
 
+    handleLoad() {
+        StoreAPI.loadState(JSON.parse(localStorage.getItem('openComposer')).scene);
+        this.setState({
+            open: -1
+        });
+    }
+
+    handleLoad2() {
+        StoreAPI.loadState(JSON.parse(localStorage.getItem('openComposer2')));
+        this.setState({
+            open: -1
+        });
+    }
+
+    handleLoadFirbase() {
+        Firebase.getData('/scene', (data) => {
+            //window.load = StoreAPI.loadFromJson;
+            //console.log('firebase savet to openComposr2');
+
+            StoreAPI.loadState(data);
+        })
+
+        this.setState({
+            open: -1
+        });
+    }
+
     handleSnackbarRequestClose() {
         this.setState({
             sanckbarOpen: false
@@ -78,7 +108,9 @@ class VisualizerTopMenu extends React.Component {
                             <MenuItem primaryText="Reset" onClick={StoreAPI.reset} />
                             <MenuItem primaryText="Save" onClick={this.handleSave.bind(this)} />
                             <MenuItem primaryText="Save To File" onClick={()=>(console.log(StoreAPI.exportToJson()))} />
-                            <MenuItem primaryText="Load..." onClick={StoreAPI.loadFromJson} />
+                            <MenuItem primaryText="Load..." onClick={this.handleLoad.bind(this)} />
+                            <MenuItem primaryText="Load2..." onClick={this.handleLoad2.bind(this)} />
+                            <MenuItem primaryText="Load Remote" onClick={this.handleLoadFirbase.bind(this)} />
                         </Menu>
                     </Popover>
 

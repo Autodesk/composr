@@ -7,13 +7,6 @@ import ComposeElement from 'common/composeElement';
 import {List, ListItem} from 'material-ui/List';
 
 class Layers extends React.Component {
-
-    static get propTypes() {
-        return {
-            layers: React.PropTypes.object,
-        };
-    }
-
     renderLayerList() {
         const listItems = [];
 
@@ -27,6 +20,7 @@ class Layers extends React.Component {
     }
 
     render() {
+        console.log('---- render layers')
         return (
             <div>
                     {this.renderLayerList()}

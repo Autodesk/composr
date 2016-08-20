@@ -18,7 +18,11 @@ const runtimeReducer = function(state = INITIAL_STATE(), action) {
             if (state[action.payload.type] === undefined) {
                 state[action.payload.type] = [];
             }
+
             state[action.payload.type].push(action.payload);
+
+            action.payload.componenetWillMount();
+            setTimeout(() => action.payload._componenetDidMount(), 1)
 
             return state;
 

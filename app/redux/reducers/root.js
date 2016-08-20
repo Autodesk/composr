@@ -10,8 +10,8 @@ import currentUser from 'reducers/currentUser';
 const rootReducer = combineReducers({
     routing: routerReducer,
     dataSource,
-    scene,
     metadata,
+    scene,
     runtime,
     currentUser
 });

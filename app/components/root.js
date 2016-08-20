@@ -6,7 +6,6 @@ import { getCurrentUser, clearCurrentUser } from 'actions/authActions';
 class Root extends React.Component {
     static get propTypes() {
         return {
-            currentUser:  React.PropTypes.object,
             pushState: React.PropTypes.func,
             replaceState: React.PropTypes.func
         };

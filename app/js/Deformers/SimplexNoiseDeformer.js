@@ -6,21 +6,19 @@ import Deformer from 'js/Scene/ComposeDeformer';
 import ValueSlider from 'common/valueSlider';
 
 class SimplexNoiseDeformer extends Deformer {
-    constructor(options = {}) {
-        options = SimplexNoiseDeformer.setDefaults(options, {
+    componenetDidMount() {
+        this.time = 0;
+    }
+
+    defaults() {
+        return {
             octaves: 1,
             speed: 0.0,
             scale: 0.5,
             density: 15,
             pointiness: 1,
             center: [0,0,0]
-        });
-
-        super(options);
-
-        //debugger;
-
-        this.time = 0;
+        }
     }
 
     apply(geometry, data) {
@@ -65,7 +63,7 @@ class SimplexNoiseDeformer extends Deformer {
         return (
             <div>
                 {this.renderValueSliderFromState('density', 'Density', {min: 0.1, max: 50, step: 0.1})}
-                {this.renderValueSliderFromState('scale', 'Effect Scale', {min: 0.01, max: 5, step: 0.01})}
+                {this.renderValueSliderFromState('scale', 'Effect Scale', {min: -5, max: 5, step: 0.01})}
                 {this.renderValueSliderFromState('speed', 'Phase Speed', {min: -2, max: 2, step: 0.01})}
                 {this.renderValueSliderFromState('pointiness', 'Pointiness', {min: 1, max: 5, step: 1})}
                 {this.renderValueSliderFromState('octaves', 'Octaves', {min: 1, max: 4, step: 1})}

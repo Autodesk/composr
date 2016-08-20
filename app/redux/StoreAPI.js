@@ -8,6 +8,7 @@ import {resetScene} from 'actions/sceneActions';
 import VisController from 'js/VisController';
 
 import SceneParser from 'Parsers/SceneParser';
+import DataSourceParser from 'Parsers/DataSourceParser';
 
 class StoreAPI {
     // Scene Objects actions
@@ -57,12 +58,14 @@ class StoreAPI {
         }
     }
 
-    static loadFromJson() {
+    static loadState(state) {
         //console.log(state);
         //console.log(JSON.parse(localStorage.getItem('openComposer')));
-        const state = JSON.parse(localStorage.getItem('openComposer'));
+        //const state = JSON.parse(localStorage.getItem('openComposer'));
+
         //console.log(state);
-        SceneParser.fromJSON(state.scene);
+        SceneParser.fromJSON( state );
+        //DataSourceParser.fromJSON(state.dataSource);
 
     }
 

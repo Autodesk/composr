@@ -13,15 +13,15 @@ import {FontIcon, FlatButton} from 'material-ui';
 import LayerActions from 'common/layerActions';
 
 class ComposeLayer extends ComposeObject {
-    constructor(options = {}) {
-        options = ComposeLayer.setDefaults(options,{
+    defaults() {
+        return {
             visible: true
-        });
+        }
+    }
 
-        super(options);
-
+    componenetDidMount() {
         this.addReference('composeMesh');
-        if (this.createReferenceById('composeMesh', options.composeMesh) === undefined) {
+        if (this.createReferenceById('composeMesh', this.get('composeMesh')) === undefined) {
             this.composeMesh = new ComposeMesh();
         }
 
@@ -41,6 +41,7 @@ class ComposeLayer extends ComposeObject {
     }
 
     update(ctx) {
+        if (!this.get('isMounted')) return;
         this.composeMesh.update(ctx.data);
     }
 

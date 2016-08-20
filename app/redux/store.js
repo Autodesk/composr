@@ -34,7 +34,28 @@ const store = createStore(
 window.store = store;
 export default store;
 
-//x
+//
+//setTimeout( ()=> {
+//    Firebase.getData('/scene', (data) => {
+//
+//        StoreAPI.loadFromJson(JSON.stringify(data));
+//
+//        new connector(
+//            (state) => state.scene,
+//            () => {
+//                Firebase.set('/scene', store.getState().scene.toJS())
+//            } );
+//    })
+//}, 1250)
+
+//setTimeout( ()=> {
+//    Firebase.getData('/scene', (data) => {
+//        localStorage.setItem('openComposer2', JSON.stringify(data));
+//        window.load = StoreAPI.loadFromJson;
+//        console.log('firebase savet to openComposr2');
+//        //StoreAPI.loadFromJson(JSON.stringify(data))
+//    })
+//}, 1000);
 
 //new connector(
 //        (state) => state.scene,

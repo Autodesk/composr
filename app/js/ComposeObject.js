@@ -12,10 +12,7 @@ import {defaults} from 'lodash';
 
 class ComposeObject {
     constructor(options = {}) {
-        this._state = Immutable.fromJS( ComposeObject.setDefaults(options, this.defaultOptions) );
-
-        // marks dirty object
-        this.needsUpdate = false;
+        this._state = Immutable.fromJS( this.setDefaults(options) );
 
         // used to provide change callback with state change info
         this._stateContext = {
@@ -24,12 +21,21 @@ class ComposeObject {
         }
 
         store.dispatch(addSceneComponent(this));
+    }
 
-        // let system load before start listening to state changes
-        setTimeout(()=>{
-            this.connector = new connector(this.selector.bind(this),
-                () => this.onStateChange(this._stateContext.changedKeys, this._stateContext.prevState));
-        }, 10)
+    componenetWillMount() {
+    }
+
+    _componenetDidMount() {
+        this.connector = new connector(this.selector.bind(this),
+            () => this.onStateChange(this._stateContext.changedKeys, this._stateContext.prevState));
+
+        this.componenetDidMount();
+
+        this.setState({isMounted: true});
+    }
+
+    componenetDidMount() {
 
     }
 
@@ -37,8 +43,9 @@ class ComposeObject {
         return StoreAPI.getObjectById(uuid);
     }
 
-    static setDefaults(options, defautOptions) {
-        return defaults(options, defautOptions)
+    setDefaults(options) {
+        options = defaults(options, this.defaultOptions); // compose object basic options
+        return defaults(options, this.defaults()) // inherited object defaults implementation
     }
 
     static type() {
@@ -51,12 +58,15 @@ class ComposeObject {
         setTimeout(() => StoreAPI.registerObjectClass(name, classObject) ,1);
     }
 
+    defaults() { }
+
     get defaultOptions() {
       return {
           constructorName: this.constructor.name,
           uuid: THREE.Math.generateUUID(),
           name: `A ${this.type}`,
-          type: this.type
+          type: this.type,
+          isMounted: false
       }
     }
 
