@@ -47,10 +47,12 @@ class Deformer extends ComposeObject {
     }
 
     renderTypeUI() {
+        console.log('rendered', this.name)
         // Implement this in extended class
     }
 
     renderUI() {
+        console.log('---------------> rendered', this.name)
         return (<Card>
             <CardActions
                 title={this.state.get('name')}

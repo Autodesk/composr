@@ -3,14 +3,14 @@
  */
 import cx from 'classnames';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import {MenuItem, Snackbar, FlatButton, Popover, Menu} from 'material-ui';
+import {MenuItem, Snackbar, FlatButton, Popover, Menu, Divider} from 'material-ui';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 
 import DataDisplay from 'common/dataDisplay'
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import { connect } from 'react-redux';
 
 import ComposeLayer from 'js/Scene/ComposeLayer';
-import SimplexNoiseDeformer from 'js/Deformers/SimplexNoiseDeformer';
 
 import StoreAPI from 'StoreAPI';
 import Firebase from 'firebase/firebase';
@@ -87,6 +87,25 @@ class VisualizerTopMenu extends React.Component {
         this.handleRequestClose();
     }
 
+    renderDeformersMenu() {
+        const menuItems = [];
+        if (this.props.deformerTypes) {
+            for (let dtype of Object.keys(this.props.deformerTypes)) {
+                const handleClick = () => {
+                    new this.props.deformerTypes[dtype]()
+                    this.handleRequestClose();
+                }
+
+                menuItems.push(<MenuItem
+                    primaryText={dtype}
+                    onClick={ handleClick }
+                />);
+            }
+        }
+
+        return menuItems;
+    }
+
 
     render() {
         const labelStyle = {fontSize: '12px'};
@@ -116,11 +135,12 @@ class VisualizerTopMenu extends React.Component {
                         targetOrigin={{horizontal: 'left', vertical: 'top'}}
                         onRequestClose={this.handleRequestClose.bind(this)}
                     >
-                        <Menu>
+                        <Menu width={150}>
                             <MenuItem primaryText="Reset" onClick={StoreAPI.reset} />
+                            <Divider/>
                             <MenuItem primaryText="Save" onClick={this.handleSave.bind(this)} />
-                            <MenuItem primaryText="Save To File" onClick={()=>(console.log(StoreAPI.exportToJson()))} />
                             <MenuItem primaryText="Save Remote" onClick={this.handleSaveRemote.bind(this)} />
+                            <Divider/>
                             <MenuItem primaryText="Load..." onClick={this.handleLoad.bind(this)} />
                             <MenuItem primaryText="Load Remote" onClick={this.handleLoadRemote.bind(this)} />
                         </Menu>
@@ -139,9 +159,12 @@ class VisualizerTopMenu extends React.Component {
                         targetOrigin={{horizontal: 'left', vertical: 'top'}}
                         onRequestClose={this.handleRequestClose.bind(this)}
                     >
-                        <Menu>
+                        <Menu width={150}>
                             <MenuItem primaryText="Layer" onClick={this.addLayer.bind(this)} />
-                            <MenuItem primaryText="Deformer" onClick={this.addDeformer.bind(this)} />
+                            <MenuItem primaryText="Deformer"
+                                      rightIcon={<ArrowDropRight />}
+                                      menuItems={this.renderDeformersMenu()}
+                            />
                             <MenuItem primaryText="Material" />
                         </Menu>
                     </Popover>
@@ -165,7 +188,8 @@ class VisualizerTopMenu extends React.Component {
 
 function mapStateToProps(state, ownProp) {
     return {
-        remoteState: state.runtime.remoteState
+        remoteState: state.runtime.remoteState,
+        deformerTypes: StoreAPI.getObjectClassesByType('deformer')
     }
 }
 

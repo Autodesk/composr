@@ -8,6 +8,7 @@ import PlaneGeometry from 'js/Geometry/PlaneGeometry';
 import SphereGeometry from 'js/Geometry/SphereGeometry';
 
 import SimplexNoiseDeformer from 'js/Deformers/SimplexNoiseDeformer';
+import NormalPushDeformer from 'js/Deformers/NormalPushDeformer';
 
 import {SelectField, MenuItem,Divider} from 'material-ui';
 import Vector3Input from 'common/vector3Input';
@@ -17,10 +18,6 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import StoreAPI from 'StoreAPI';
 
 class ComposeMesh extends ComposeObject {
-    constructor(options) {
-        super(options);
-    }
-
     defaults() {
         const geometryClasses = StoreAPI.getObjectClassesByType('geometry');
         this.material = new THREE.MeshStandardMaterial({

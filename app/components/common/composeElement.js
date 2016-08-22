@@ -14,14 +14,15 @@ class ComposeElement extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { object: StoreAPI.getObjectById(props.uuid) }
-
-        this.lazyUpdate = debounce(this.forceUpdate, 100, { 'maxWait': 100 });
+        this.lazyUpdate = debounce(this.forceUpdate, 60, { 'maxWait': 100 });
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.props !== nextProps) {
-            this.lazyUpdate();
+        for (let k of Object.keys(this.props)) {
+            if (this.props[k] !== nextProps[k]) {
+                this.lazyUpdate();
+                return false;
+            }
         }
 
         return false;
@@ -42,17 +43,20 @@ class ComposeElement extends React.Component {
     }
 
     render() {
-        if (!this.state.object.get('isMounted'))
+        if (!this.props.object.get('isMounted'))
             return null;
 
-        return this.state.object.renderUI();
+        const object = StoreAPI.getObjectById(this.props.uuid);
+        //if(object.type === 'deformer') debugger;
+
+        return (object.renderUI());
     }
 }
 
 
 function mapStateToProps(state, ownProp) {
     return {
-        store: state.scene.getIn([ownProp.type, ownProp.uuid])
+        object: state.scene.getIn([ownProp.type, ownProp.uuid])
     }
 }
 

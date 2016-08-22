@@ -48,8 +48,8 @@ class PlaneGeometry extends ComposeGeometry {
                 var d = (i+1) * vDiv1 + (j + 1);
 
                 // face indices
-                indices.push(a, c, b);
-                indices.push(b, c, d);
+                indices.push(a, b, c);
+                indices.push(b, d, c);
 
             }
         }
@@ -66,8 +66,8 @@ class PlaneGeometry extends ComposeGeometry {
                 var d = (i+1) * vDiv1 ;
 
                 // face indices
-                indices.push(a, c, b);
-                indices.push(b, c, d);
+                indices.push(a, b, c);
+                indices.push(b, d, c);
 
             }
         }
