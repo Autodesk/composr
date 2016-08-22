@@ -117,7 +117,10 @@ class VisController extends ComposeObject {
             requestAnimationFrame(() => this.render());
         }
 
-        this.update();
+        if (StoreAPI.getPlaybackState().get('isPlaying')) {
+            this.update();
+        }
+
         this.controls.update();
 
         this.renderer.clear()

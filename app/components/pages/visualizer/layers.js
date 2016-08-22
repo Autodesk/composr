@@ -12,7 +12,7 @@ class Layers extends React.Component {
 
         if (this.props.layers) {
             for (let layer of this.props.layers.values()) {
-                listItems.push(<ComposeElement key={layer.get('uuid')} uuid = {layer.get('uuid')} />);
+                listItems.push(<ComposeElement key={layer.get('uuid')} type={layer.get('type')} uuid={layer.get('uuid')} />);
             }
         }
 
@@ -20,7 +20,6 @@ class Layers extends React.Component {
     }
 
     render() {
-        console.log('---- render layers')
         return (
             <div>
                     {this.renderLayerList()}

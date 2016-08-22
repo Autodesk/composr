@@ -64,12 +64,15 @@ class ComposeMesh extends ComposeObject {
             this.geometry.destroy();
         }
         this.geometry = new this.geometryClasses[this.state.get('geometryName')]({udiv: 150, vdiv: 150});
-        SimplexNoiseDeformer.setGeometry(this.geometry.geometry);
     }
 
     handleGeometryChange(e, v, payload) {
+        // need To change this implementaion to a direct change of new geometry
         if (payload) {
-            this.setState({geometryName: payload});
+            this.setState({
+                geometryName: payload,
+                geometry: ''
+            });
         }
     }
 
@@ -81,7 +84,10 @@ class ComposeMesh extends ComposeObject {
         this._mesh.position.fromArray(this.state.get('position').toArray());
 
         if (changedKeys.indexOf('geometryName') > -1) {
-            this.setGeometry();
+            if (this.createReferenceById('geometry', this.get('geometry')) === undefined) {
+                this.setGeometry();
+            }
+
         }
     }
 
@@ -124,7 +130,7 @@ class ComposeMesh extends ComposeObject {
                 Geometry
                 <div style={{ borderLeft: '1px solid #e0e0e0'}}>
                 <CardText expandable={true}>
-                        <ComposeElement key={this.geometry.uuid} uuid={this.geometry.uuid}/>
+                        <ComposeElement key={this.geometry.uuid} uuid={this.geometry.uuid} type={this.geometry.type}/>
                 </CardText>
                 </div>
 

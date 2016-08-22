@@ -85,7 +85,7 @@ class ComposeLayer extends ComposeObject {
 
 
                     <CardText expandable={true}>
-                        <ComposeElement key={this.composeMesh.uuid} uuid={this.composeMesh.uuid} />
+                        <ComposeElement key={this.composeMesh.uuid} uuid={this.composeMesh.uuid} type={this.composeMesh.type}/>
                     </CardText>
                 </Card>)
 

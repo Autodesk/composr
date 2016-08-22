@@ -5,7 +5,8 @@ import {
     ADD_SCENE_COMPONENT,
     REMOVE_SCENE_COMPONENT,
     UPDATE_SCENE_COMPONENT,
-    RESET_SCENE
+    RESET_SCENE,
+    UPDATE_PLAYBACK
 } from 'constants/action-types';
 
 import StoreAPI from 'StoreAPI';
@@ -42,5 +43,12 @@ export function resetScene() {
     return {
         type: RESET_SCENE,
         payload: {}
+    }
+}
+
+export function updatePlayback(state) {
+    return {
+        type: UPDATE_PLAYBACK,
+        payload: state
     }
 }

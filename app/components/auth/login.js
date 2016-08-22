@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { signUp, signIn } from 'actions/authActions';
+
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -68,4 +69,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default connect(null, {signIn, signUp})(Login);;

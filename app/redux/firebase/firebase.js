@@ -1,4 +1,7 @@
 import Firebase from 'firebase';
+
+const clientId = THREE.Math.generateUUID();
+
 class FirebaseAPI {
     constructor() {
         // Initialize Firebase
@@ -14,8 +17,10 @@ class FirebaseAPI {
     // REALTIME DATABASE
     // ************************************************
     set(path, payload, callback) {
+        payload.clientId = clientId;
+
         this.firebase.database().ref(path).set(payload).then((e) => {
-            //console.log(e);
+            if (callback) callback();
         });
     }
     push(path, payload, callback) {
@@ -50,8 +55,12 @@ class FirebaseAPI {
 
     onChange(ref, callback) {
         const dataRef = firebase.database().ref(ref);
-        dataRef.on('child_changed', (data) => {
-            callback(data.val());
+        dataRef.on('value', (data) => {
+            if (clientId != data.val().clientId) {
+                callback(data.val());
+            } else {
+                console.log('same client');
+            }
         });
     }
 

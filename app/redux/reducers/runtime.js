@@ -2,12 +2,24 @@
  * @author Matan Zohar / matan.zohar@autodesk.com
  */
 
-import {ADD_SCENE_COMPONENT, REMOVE_SCENE_COMPONENT, RESET_SCENE, REGISTER_OBJECT_TYPE} from 'constants/action-types';
+import {ADD_SCENE_COMPONENT, REMOVE_SCENE_COMPONENT,
+    RESET_SCENE, REGISTER_OBJECT_TYPE,
+    REMOTE_FETCH, REMOTE_SUCCESS, UPDATE_PLAYBACK
+} from 'constants/action-types';
 import {remove} from 'lodash/array';
+import Immutable from 'immutable';
 
 const INITIAL_STATE = () => ( {
     instances: {},
-    objectTypes: {}
+    objectTypes: {},
+
+    remoteState: Immutable.fromJS({
+        isFetching: false
+    }),
+
+    playback: Immutable.fromJS({
+        isPlaying: true
+    })
 });
 
 const runtimeReducer = function(state = INITIAL_STATE(), action) {
@@ -40,12 +52,12 @@ const runtimeReducer = function(state = INITIAL_STATE(), action) {
             for (let i of Object.keys(state.instances)) {
                 state.instances[i].objectWillUnmount();
             }
+            const resetState = INITIAL_STATE();
+            resetState.objectTypes = state.objectTypes;
 
-            return INITIAL_STATE();
+            return resetState;
 
         case REGISTER_OBJECT_TYPE:
-            console.info(`Registered Class Type`);
-
             if (state.objectTypes[action.payload.type] === undefined) {
                 state.objectTypes[action.payload.type] = {};
             }
@@ -53,6 +65,14 @@ const runtimeReducer = function(state = INITIAL_STATE(), action) {
 
             return state;
 
+        case REMOTE_FETCH:
+        case REMOTE_SUCCESS:
+            state.remoteState = state.remoteState.merge(action.payload);
+            return state;
+
+        case UPDATE_PLAYBACK:
+            state.playback = state.playback.merge(action.payload);
+            return state;
 
         default:
             return state

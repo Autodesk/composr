@@ -6,6 +6,8 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import {MenuItem, Snackbar, FlatButton, Popover, Menu} from 'material-ui';
 
 import DataDisplay from 'common/dataDisplay'
+import RefreshIndicator from 'material-ui/RefreshIndicator';
+import { connect } from 'react-redux';
 
 import ComposeLayer from 'js/Scene/ComposeLayer';
 import StoreAPI from 'StoreAPI';
@@ -19,6 +21,12 @@ class VisualizerTopMenu extends React.Component {
         this.state = {
             open: -1,
             sanckbarOpen: false
+        };
+    }
+
+    static get propTypes() {
+        return {
+            visName: React.PropTypes.string,
         };
     }
 
@@ -38,6 +46,12 @@ class VisualizerTopMenu extends React.Component {
         });
     }
 
+    handleSnackbarRequestClose() {
+        this.setState({
+            sanckbarOpen: false
+        });
+    }
+
     addLayer(e) {
         new ComposeLayer({name: 'Unnamed Layer'});
         this.handleRequestClose();
@@ -52,45 +66,36 @@ class VisualizerTopMenu extends React.Component {
     }
 
     handleLoad() {
-        StoreAPI.loadState(JSON.parse(localStorage.getItem('openComposer')).scene);
-        this.setState({
-            open: -1
-        });
+        StoreAPI.loadState(JSON.parse(localStorage.getItem('openComposer')));
+        this.handleRequestClose();
     }
 
-    handleLoad2() {
-        StoreAPI.loadState(JSON.parse(localStorage.getItem('openComposer2')));
-        this.setState({
-            open: -1
-        });
+    handleLoadRemote() {
+        StoreAPI.loadStateRemote(this.props.visName);
+        this.handleRequestClose();
     }
 
-    handleLoadFirbase() {
-        Firebase.getData('/scene', (data) => {
-            //window.load = StoreAPI.loadFromJson;
-            //console.log('firebase savet to openComposr2');
-
-            StoreAPI.loadState(data);
-        })
-
-        this.setState({
-            open: -1
-        });
-    }
-
-    handleSnackbarRequestClose() {
-        this.setState({
-            sanckbarOpen: false
-        });
+    handleSaveRemote() {
+        StoreAPI.saveStateRemote(this.props.visName);
+        this.handleRequestClose();
     }
 
 
     render() {
         const labelStyle = {fontSize: '12px'};
 
+        const loadStatus = this.props.remoteState.get('isFetching') ? 'loading' : 'ready';
+
         return (
             <Toolbar style={{ height: '36px', backgroundColor: 'white' }}>
                 <ToolbarGroup firstChild={false}>
+                    <RefreshIndicator left={0} top={5} size={26} status={loadStatus} />
+                    <FlatButton
+                        className="top-nav-button"
+                        primary={true}
+                        label={ this.props.visName }
+                        labelStyle={labelStyle} />
+
                     <FlatButton
                         className="top-nav-button"
                         onTouchTap={this.handleTouchTap.bind(this, 0)}
@@ -108,9 +113,9 @@ class VisualizerTopMenu extends React.Component {
                             <MenuItem primaryText="Reset" onClick={StoreAPI.reset} />
                             <MenuItem primaryText="Save" onClick={this.handleSave.bind(this)} />
                             <MenuItem primaryText="Save To File" onClick={()=>(console.log(StoreAPI.exportToJson()))} />
+                            <MenuItem primaryText="Save Remote" onClick={this.handleSaveRemote.bind(this)} />
                             <MenuItem primaryText="Load..." onClick={this.handleLoad.bind(this)} />
-                            <MenuItem primaryText="Load2..." onClick={this.handleLoad2.bind(this)} />
-                            <MenuItem primaryText="Load Remote" onClick={this.handleLoadFirbase.bind(this)} />
+                            <MenuItem primaryText="Load Remote" onClick={this.handleLoadRemote.bind(this)} />
                         </Menu>
                     </Popover>
 
@@ -151,5 +156,10 @@ class VisualizerTopMenu extends React.Component {
     }
 }
 
-export default VisualizerTopMenu;
+function mapStateToProps(state, ownProp) {
+    return {
+        remoteState: state.runtime.remoteState
+    }
+}
 
+export default connect(mapStateToProps)(VisualizerTopMenu);

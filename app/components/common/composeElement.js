@@ -4,7 +4,6 @@
 import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import StoreAPI from 'StoreAPI';
-import {removeSceneComponentById} from 'actions/sceneActions';
 import {ListItem} from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
@@ -52,11 +51,8 @@ class ComposeElement extends React.Component {
 
 
 function mapStateToProps(state, ownProp) {
-    const object = StoreAPI.getObjectById(ownProp.uuid);
-    const type = object.constructor.type();
-
     return {
-        store: state.scene.getIn([type, ownProp.uuid])
+        store: state.scene.getIn([ownProp.type, ownProp.uuid])
     }
 }
 

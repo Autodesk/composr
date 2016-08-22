@@ -30,12 +30,11 @@ render(
     <Provider store={ store }>
         <Router history={ browserHistory }>
             <Route path="/" component={ Root }>
-
-
                 <Route component={ Content }>
                         <Route path="/" component={ Index }/>
                         <Route path="/login" component={ Login }/>
                         <Route path="/visualizer" component={ Visualizer }/>
+                        <Route path="/visualizer/:visName" component={ Visualizer }/>
                 </Route>
             </Route>
         </Router>

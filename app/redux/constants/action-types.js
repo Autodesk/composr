@@ -20,3 +20,11 @@ export const SIGNUP = 'SIGNUP';
 export const SIGNIN = 'SIGNIN';
 export const GET_CURRENT_USER = 'GET_CURRENT_USER';
 export const CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER';
+
+// Remote Actions
+export const REMOTE_FETCH = 'REMOTE_FETCH';
+export const REMOTE_SUCCESS = 'REMOTE_SUCCESS';
+export const REMOTE_ERROR = 'REMOTE_ERROR';
+
+// playback Actions
+export const UPDATE_PLAYBACK = 'UPDATE_PLAYBACK';

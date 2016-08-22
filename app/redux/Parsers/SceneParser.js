@@ -19,7 +19,13 @@ class SceneParser {
         const types = StoreAPI.getObjectClassesByType(typeName);
 
         for (let k of Object.keys(json[typeName])) {
-            SceneParser.createInstance(types, json[typeName][k]);
+            const instance = StoreAPI.getObjectById(json[typeName][k].uuid);
+
+            if (instance) {
+                instance.setState(json[typeName][k]);
+            } else {
+                SceneParser.createInstance(types, json[typeName][k]);
+            }
         }
     }
 

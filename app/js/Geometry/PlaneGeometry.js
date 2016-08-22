@@ -12,7 +12,7 @@ class PlaneGeometry extends ComposeGeometry {
         }
     }
 
-    componenetDidMount() {
+    componenetWillMount() {
         this.updateGeometry();
     }
 

@@ -44,6 +44,8 @@ class ComposeObject {
     }
 
     setDefaults(options) {
+        delete options.isMounted;
+
         options = defaults(options, this.defaultOptions); // compose object basic options
         return defaults(options, this.defaults()) // inherited object defaults implementation
     }
