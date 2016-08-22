@@ -44,7 +44,7 @@ class ComposeMesh extends ComposeObject {
 
         this.addReference('deformer');
         if (this.createReferenceById('deformer', this.get('deformer')) === undefined) {
-            this.deformer = new SimplexNoiseDeformer();
+            this.deformer = null;
         }
 
         this.addReference('geometry');
@@ -93,7 +93,11 @@ class ComposeMesh extends ComposeObject {
 
     update(data) {
         this.mesh.geometry = this.geometry.geometry;
-        this.deformer.apply(this.mesh.geometry, data);
+
+        if (this.deformer) {
+            this.deformer.apply(this.mesh.geometry, data);
+        }
+
         this.mesh.geometry.computeVertexNormals();
     }
 
@@ -107,21 +111,44 @@ class ComposeMesh extends ComposeObject {
 
     destroy() {
         super.destroy();
-        this.deformer.destroy();
+
+        if (this.deformer) {
+            this.deformer.destroy();
+        }
+
         this.geometry.destroy();
     }
 
+    handleDeformerChange(e, v, payload) {
+        this.createReferenceById('deformer', payload)
+    }
+
     renderUI() {
-        const items = [];
+        const geometryOptions = [];
         for (let type of Object.keys(this.geometryClasses)) {
-            items.push(<MenuItem value={type} key={type} primaryText={`${this.geometryClasses[type].name}`}/>)
+            geometryOptions.push(<MenuItem value={type} key={type} primaryText={`${this.geometryClasses[type].name}`}/>)
         }
+
+        const deformerOptions = [ (<MenuItem value={null} key={1111} primaryText={'No Deformation'}/>) ];
+
+        if (StoreAPI.getObjectByType('deformer')) {
+            for (let deformer of StoreAPI.getObjectByType('deformer')) {
+                deformerOptions.push(<MenuItem value={deformer.uuid} key={deformer.uuid} primaryText={deformer.name}/>)
+            }
+        }
+
+        const deformerValue = this.deformer ? this.deformer.uuid : null;
 
         return (
             <div>
                 <SelectField value={this.state.get('geometryName')} onChange={this.handleGeometryChange.bind(this)}
                              maxHeight={200}>
-                    {items}
+                    {geometryOptions}
+                </SelectField>
+
+                <SelectField value={deformerValue} onChange={this.handleDeformerChange.bind(this)}
+                             maxHeight={200}>
+                    {deformerOptions}
                 </SelectField>
 
                 <Vector3Input name="Position" value={this.state.get('position').toArray()}

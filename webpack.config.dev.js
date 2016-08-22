@@ -5,6 +5,7 @@ const distPath = path.join(__dirname, 'dist');
 const exclude = /node_modules/;
 const CleanPlugin = require('clean-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
+const DashboardPlugin = require('webpack-dashboard/plugin');
 
 const config = {
     context: appPath,
@@ -41,7 +42,9 @@ const config = {
         new webpack.optimize.CommonsChunkPlugin(
             /* chunkName: */ 'vendor',
             /* filename: */ 'vendor.[hash].js'
-        )
+        ),
+
+        new DashboardPlugin()
     ],
 
     module: {

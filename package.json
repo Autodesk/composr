@@ -4,7 +4,7 @@
   "description": "Live visualization of data in 3D",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development webpack-dev-server --host 0.0.0.0 --config webpack.config.dev.js --progress --hot --inline",
+    "dev": "NODE_ENV=development webpack-dashboard -c magenta -- webpack-dev-server --host 0.0.0.0 --config webpack.config.dev.js --progress --hot --inline",
     "build": "NODE_ENV=production  webpack --config webpack.config.build.js --progress --colors --bail",
     "deploy-dev": "NODE_ENV=development  webpack --config webpack.config.devdeploy.js --progress --colors --bail"
   },
@@ -42,12 +42,13 @@
     "babel-preset-react": "6.1.18",
     "clean-webpack-plugin": "^0.1.6",
     "css-loader": "0.23.0",
-    "style-loader": "^0.13.0",
     "expose-loader": "0.7.1",
     "file-loader": "0.8.5",
     "html-webpack-plugin": "^1.7.0",
+    "style-loader": "^0.13.0",
     "url-loader": "0.5.7",
     "webpack": "1.12.6",
+    "webpack-dashboard": "^0.1.6",
     "webpack-dev-server": "1.12.1",
     "webpack-s3-plugin": "^0.6.7"
   }

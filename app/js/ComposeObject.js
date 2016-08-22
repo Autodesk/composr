@@ -85,14 +85,17 @@ class ComposeObject {
             },
             set: (value) => {
                 this[`_${name}`] = value;
+
                 this.setState({
-                    [name]: this[`_${name}`].uuid
+                    [name]: value? this[`_${name}`].uuid : null
                 })
             }
         });
     }
 
     createReferenceById(name, uuid) {
+        if (!uuid) return;
+
         const object = this.getObjectById(uuid);
         if (object !== undefined) {
             return this[name] = object;

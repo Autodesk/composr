@@ -10,6 +10,8 @@ import RefreshIndicator from 'material-ui/RefreshIndicator';
 import { connect } from 'react-redux';
 
 import ComposeLayer from 'js/Scene/ComposeLayer';
+import SimplexNoiseDeformer from 'js/Deformers/SimplexNoiseDeformer';
+
 import StoreAPI from 'StoreAPI';
 import Firebase from 'firebase/firebase';
 
@@ -54,6 +56,11 @@ class VisualizerTopMenu extends React.Component {
 
     addLayer(e) {
         new ComposeLayer({name: 'Unnamed Layer'});
+        this.handleRequestClose();
+    }
+
+    addDeformer(e) {
+        new SimplexNoiseDeformer();
         this.handleRequestClose();
     }
 
@@ -134,7 +141,7 @@ class VisualizerTopMenu extends React.Component {
                     >
                         <Menu>
                             <MenuItem primaryText="Layer" onClick={this.addLayer.bind(this)} />
-                            <MenuItem primaryText="Deformer" />
+                            <MenuItem primaryText="Deformer" onClick={this.addDeformer.bind(this)} />
                             <MenuItem primaryText="Material" />
                         </Menu>
                     </Popover>
