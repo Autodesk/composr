@@ -17,11 +17,11 @@ class Materials extends React.Component {
     renderList() {
         const listItems = [];
 
-        //if (this.props.layers) {
-        //    for (let layer of this.props.layers.values()) {
-        //        listItems.push(<ComposeElement key={layer.get('uuid')} uuid = {layer.get('uuid')} />);
-        //    }
-        //}
+        if (this.props.materials) {
+            for (let material of this.props.materials.values()) {
+                listItems.push(<ComposeElement key={material.get('uuid')} type={material.get('type')} uuid={material.get('uuid')} />);
+            }
+        }
 
         return listItems;
     }
@@ -29,7 +29,7 @@ class Materials extends React.Component {
     render() {
         return (
             <div>
-                    Material list
+                {this.renderList()}
             </div>
         )
     }
@@ -37,7 +37,7 @@ class Materials extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        //materials: state.scene.get('material')
+        materials: state.scene.get('material')
     }
 }
 

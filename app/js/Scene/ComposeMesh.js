@@ -10,6 +10,8 @@ import SphereGeometry from 'js/Geometry/SphereGeometry';
 import SimplexNoiseDeformer from 'js/Deformers/SimplexNoiseDeformer';
 import NormalPushDeformer from 'js/Deformers/NormalPushDeformer';
 
+import StandardMaterial from 'js/Materials/StandardMaterial';
+
 import {SelectField, MenuItem,Divider} from 'material-ui';
 import Vector3Input from 'common/vector3Input';
 import ValueSlider from 'common/valueSlider';
@@ -21,20 +23,18 @@ import StoreAPI from 'StoreAPI';
 class ComposeMesh extends ComposeObject {
     defaults() {
         const geometryClasses = StoreAPI.getObjectClassesByType('geometry');
-        this.material = new THREE.MeshStandardMaterial({
-            color: 0x563d7c,
-            emissive: 0x250734,
-            roughness: 0.1,
-            metalness: 0.1
-        });
-
-        this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), this.material);
+        //this.material = new THREE.MeshStandardMaterial({
+        //    color: 0x563d7c,
+        //    emissive: 0x250734,
+        //    roughness: 0.1,
+        //    metalness: 0.1
+        //});
 
         return {
             geometryName: Object.keys(geometryClasses)[0],
             position: [0, 0, 0],
             rotation: [0, 0, 0],
-            scale: [1, 1, 1],
+            scale: [1, 1, 1]
         }
     }
 
@@ -46,12 +46,24 @@ class ComposeMesh extends ComposeObject {
             this.deformer = null;
         }
 
+        this.addReference('material');
+        if (this.createReferenceById('material', this.get('material')) === undefined) {
+            this.material = new THREE.MeshStandardMaterial({
+                    color: 0x563d7c,
+                    emissive: 0x250734,
+                    roughness: 0.1,
+                    metalness: 0.1
+                });
+        }
+
         this.addReference('geometry');
         if (this.createReferenceById('geometry', this.get('geometry')) === undefined) {
             this.setGeometry();
         } else {
             SimplexNoiseDeformer.setGeometry(this.geometry.geometry);
         }
+
+        this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), this.material);
     }
 
     updateGeometryClasses() {
@@ -63,6 +75,13 @@ class ComposeMesh extends ComposeObject {
             this.geometry.destroy();
         }
         this.geometry = new this.geometryClasses[this.state.get('geometryName')]({udiv: 150, vdiv: 150});
+    }
+
+    setMaterial() {
+        if (this.material) {
+            this.material.destroy();
+        }
+
     }
 
     handleGeometryChange(e, v, payload) {
@@ -89,7 +108,13 @@ class ComposeMesh extends ComposeObject {
 
     onStateChange(changedKeys, prevState) {
         this._mesh.position.fromArray(this.state.get('position').toArray());
-        this._mesh.rotation.fromArray(this.state.get('rotation').toArray());
+
+        const rot = this.state.get('rotation').toArray();
+        rot[0] = THREE.Math.degToRad(rot[0]);
+        rot[1] = THREE.Math.degToRad(rot[1]);
+        rot[2] = THREE.Math.degToRad(rot[2]);
+
+        this._mesh.rotation.fromArray(rot);
         this._mesh.scale.fromArray(this.state.get('scale').toArray());
 
         if (changedKeys.indexOf('geometryName') > -1) {
@@ -101,6 +126,8 @@ class ComposeMesh extends ComposeObject {
     }
 
     update(data) {
+        if (!this.get('isMounted')) return;
+
         this.mesh.geometry = this.geometry.geometry;
 
         if (this.deformer) {

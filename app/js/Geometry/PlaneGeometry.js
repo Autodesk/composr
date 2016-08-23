@@ -28,9 +28,9 @@ class PlaneGeometry extends ComposeGeometry {
         for (var i=0; i < uDiv1; i++){
             for (var j=0; j < vDiv1; j++){
                 vertices.push (
-                    (i - 0.5) * width / uDiv,
+                    i * width / uDiv - 0.5,
                     0,
-                    (j - 0.5) * length / vDiv);
+                    j * length / vDiv - 0.5);
 
                 uvs.push(
                     i / uDiv,

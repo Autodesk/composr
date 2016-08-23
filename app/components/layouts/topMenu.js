@@ -106,6 +106,25 @@ class VisualizerTopMenu extends React.Component {
         return menuItems;
     }
 
+    renderMaterialsMenu() {
+        const menuItems = [];
+        if (this.props.materialTypes) {
+            for (let dtype of Object.keys(this.props.materialTypes)) {
+                const handleClick = () => {
+                    new this.props.materialTypes[dtype]()
+                    this.handleRequestClose();
+                }
+
+                menuItems.push(<MenuItem
+                    primaryText={dtype}
+                    onClick={ handleClick }
+                />);
+            }
+        }
+
+        return menuItems;
+    }
+
 
     render() {
         const labelStyle = {fontSize: '12px'};
@@ -165,7 +184,10 @@ class VisualizerTopMenu extends React.Component {
                                       rightIcon={<ArrowDropRight />}
                                       menuItems={this.renderDeformersMenu()}
                             />
-                            <MenuItem primaryText="Material" />
+                            <MenuItem primaryText="Material"
+                                      rightIcon={<ArrowDropRight />}
+                                      menuItems={this.renderMaterialsMenu()}
+                            />
                         </Menu>
                     </Popover>
 
@@ -189,7 +211,8 @@ class VisualizerTopMenu extends React.Component {
 function mapStateToProps(state, ownProp) {
     return {
         remoteState: state.runtime.remoteState,
-        deformerTypes: StoreAPI.getObjectClassesByType('deformer')
+        deformerTypes: StoreAPI.getObjectClassesByType('deformer'),
+        materialTypes: StoreAPI.getObjectClassesByType('material')
     }
 }
 

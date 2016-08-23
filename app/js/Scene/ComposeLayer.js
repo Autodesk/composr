@@ -25,10 +25,13 @@ class ComposeLayer extends ComposeObject {
             this.composeMesh = new ComposeMesh();
         }
 
-        this.setVisibiltyFromState();
+        setTimeout(()=>{this.setVisibiltyFromState()}, 5);
     }
 
     setVisibiltyFromState() {
+        if (!this.composeMesh.mesh)
+            return;
+
         if (this.state.get('visible')) {
             StoreAPI.getController().scene.add(this.composeMesh.mesh);
         } else {

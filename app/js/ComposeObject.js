@@ -23,21 +23,20 @@ class ComposeObject {
         store.dispatch(addSceneComponent(this));
     }
 
-    componenetWillMount() {
-    }
-
     _componenetDidMount() {
+        this.componenetDidMount();
+
         this.connector = new connector(this.selector.bind(this),
             () => this.onStateChange(this._stateContext.changedKeys, this._stateContext.prevState));
-
-        this.componenetDidMount();
 
         this.setState({isMounted: true});
     }
 
-    componenetDidMount() {
+    // called before this object did mount
+    componenetWillMount() { }
 
-    }
+    // called when this object did mount
+    componenetDidMount() { }
 
     getObjectById(uuid) {
         return StoreAPI.getObjectById(uuid);

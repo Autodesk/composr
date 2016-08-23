@@ -37,7 +37,7 @@ body {
     width: 100%;
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,e5e5e5+100;White+3D */
-    background: #ffffff; /* Old browsers */
+    background: #a88; /* Old browsers */
     background: -moz-radial-gradient(center, ellipse cover,  #ffffff 0%, #e5e5e5 100%); /* FF3.6-15 */
     background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#e5e5e5 100%); /* Chrome10-25,Safari5.1-6 */
     background: radial-gradient(ellipse at center,  #ffffff 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
