@@ -1,4 +1,4 @@
-import ComposeGeometry from './ComposeGeometry';
+import ComposeGeometry from './../Scene/ComposeGeometry';
 import ValueSlider from 'common/valueSlider';
 
 class PlaneGeometry extends ComposeGeometry {

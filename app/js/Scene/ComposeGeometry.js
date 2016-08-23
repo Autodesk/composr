@@ -24,12 +24,6 @@ class ComposeGeometry extends ComposeObject {
     setDeformerAttributes() {
         SND.setGeometry(this.geometry);
     }
-
-    renderUI() {
-        return (<div>
-            <ValueSlider value={this.state.get('value')} onChange={this.sliderChange.bind(this)} />
-        </div>);
-    }
 }
 
 export default ComposeGeometry;

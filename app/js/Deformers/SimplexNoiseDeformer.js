@@ -12,9 +12,9 @@ class SimplexNoiseDeformer extends Deformer {
 
     defaults() {
         return {
+            scale: 0.5,
             octaves: 1,
             speed: 0.0,
-            scale: 0.5,
             density: 15,
             pointiness: 1,
             center: [0,0,0]
@@ -37,11 +37,11 @@ class SimplexNoiseDeformer extends Deformer {
                 d *= d;
             }
 
-            val = ( this.getValFromData(data,  uv[j], uv[j+1]));
+            val = 0.5 * p * ( this.getValFromData(data,  uv[j], uv[j+1]));
 
-            position[i  ] = bPosition[i  ] + (bPosition[i  ] - center[0]) * 0.5 * ( (p)*val);
-            position[i+1] = bPosition[i+1] + (bPosition[i+1] - center[1]) * 0.5 * ( (p)*val);
-            position[i+2] = bPosition[i+2] + (bPosition[i+2] - center[2]) * 0.5 * ( (p)*val);
+            position[i  ] = bPosition[i  ] + (bPosition[i  ] - center[0]) * val;
+            position[i+1] = bPosition[i+1] + (bPosition[i+1] - center[1]) * val;
+            position[i+2] = bPosition[i+2] + (bPosition[i+2] - center[2]) * val;
         }
 
         geometry.getAttribute('position').needsUpdate = true;

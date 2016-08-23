@@ -2,7 +2,7 @@
  * @author Matan Zohar / matan.zohar@autodesk.com
  */
 
-import ComposeGeometry from './ComposeGeometry';
+import ComposeGeometry from './../Scene/ComposeGeometry';
 import PlaneGeometry from './PlaneGeometry';
 
 import ValueSlider from 'common/valueSlider';

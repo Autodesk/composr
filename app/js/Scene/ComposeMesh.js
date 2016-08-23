@@ -12,6 +12,7 @@ import NormalPushDeformer from 'js/Deformers/NormalPushDeformer';
 
 import {SelectField, MenuItem,Divider} from 'material-ui';
 import Vector3Input from 'common/vector3Input';
+import ValueSlider from 'common/valueSlider';
 import ComposeElement from 'common/composeElement';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
@@ -32,7 +33,8 @@ class ComposeMesh extends ComposeObject {
         return {
             geometryName: Object.keys(geometryClasses)[0],
             position: [0, 0, 0],
-            rotation: [0, 0, 0]
+            rotation: [0, 0, 0],
+            scale: [1, 1, 1],
         }
     }
 
@@ -77,8 +79,18 @@ class ComposeMesh extends ComposeObject {
         this.setState({position: v});
     }
 
+    handleRotationChange(e, v) {
+        this.setState({rotation: v});
+    }
+
+    handleScaleChange(e, v) {
+        this.setState({scale: [v, v, v]});
+    }
+
     onStateChange(changedKeys, prevState) {
         this._mesh.position.fromArray(this.state.get('position').toArray());
+        this._mesh.rotation.fromArray(this.state.get('rotation').toArray());
+        this._mesh.scale.fromArray(this.state.get('scale').toArray());
 
         if (changedKeys.indexOf('geometryName') > -1) {
             if (this.createReferenceById('geometry', this.get('geometry')) === undefined) {
@@ -150,6 +162,11 @@ class ComposeMesh extends ComposeObject {
 
                 <Vector3Input name="Position" value={this.state.get('position').toArray()}
                               onChange={this.handlePositionChange.bind(this)}/>
+
+                <Vector3Input name="Rotation" value={this.state.get('rotation').toArray()}
+                              onChange={this.handleRotationChange.bind(this)}/>
+
+                <ValueSlider name="Scale" min={0} max={100} value={this.state.get('scale').toJS()[0]} onChange={this.handleScaleChange.bind(this)} />
 
                 Geometry
                 <div style={{ borderLeft: '1px solid #e0e0e0'}}>

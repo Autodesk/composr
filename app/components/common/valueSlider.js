@@ -11,7 +11,8 @@ class ValueSlider extends React.Component {
             onChange: React.PropTypes.func,
             min: React.PropTypes.number,
             max: React.PropTypes.number,
-            step: React.PropTypes.number
+            step: React.PropTypes.number,
+            disabled: React.PropTypes.bool
         }
     }
 
@@ -31,6 +32,7 @@ class ValueSlider extends React.Component {
                 step={this.props.step}
                 onChange = {this.handleChange.bind(this)}
                 value={this.props.value}
+                disabled={this.props.disabled}
                 className="ValueSlider"/>
 
             <TextField

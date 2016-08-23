@@ -20,8 +20,6 @@ class Deformers extends React.Component {
         if (this.props.deformers) {
             for (let deformer of this.props.deformers.values()) {
                 listItems.push(<ComposeElement key={deformer.get('uuid')} type={deformer.get('type')} uuid={deformer.get('uuid')} />);
-
-                console.log('!!!!!!!!! deformer state' , deformer.get('isMounted'));
             }
         }
 
@@ -29,7 +27,6 @@ class Deformers extends React.Component {
     }
 
     render() {
-        console.log('-----> render deformers')
         return (
             <div>
                 {this.renderList()}
