@@ -17,6 +17,8 @@ class Visualizer extends React.Component {
     componentDidMount() {
         const element = this.refs[CANVAS_ID];
 
+        document.body.classList.toggle('noScroll');
+
         setTimeout( ()=> {
             StoreAPI.initVisualizer(element);
             StoreAPI.loadStateRemote(this.props.params.visName, () => {

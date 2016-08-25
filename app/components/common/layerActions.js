@@ -52,7 +52,7 @@ class LayerActions extends React.Component {
         return (
             <CardActions style={{padding: '0 8px'}}>
                 <IconButton tooltip="Toggle Visible" tooltipPosition="top-center" style={iconStyle}>
-                    <FontIcon onClick={this.props.toggleHidden} className={visibleClass} iconStyle={fontIconStyle}/>
+                    <FontIcon onClick={this.props.toggleHidden} className={visibleClass} style={fontIconStyle}/>
                 </IconButton>
                 <IconButton tooltip="Remove Layer" tooltipPosition="top-center" iconStyle={iconStyle}>
                     <FontIcon onClick={this.props.removeLayer} className="fa-sm-icon fa fa-times" style={fontIconStyle}/>

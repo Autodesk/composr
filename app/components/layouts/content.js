@@ -1,4 +1,4 @@
-import Navigation from 'common/navigation';
+import Navigation from 'layouts/navigation';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { routerActions } from 'react-router-redux';
@@ -39,12 +39,10 @@ class Content extends React.Component {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
             <div>
-                <Navigation
-                    pushState={ this.props.pushState } />
+                <Navigation pushState={ this.props.pushState } />
 
                 <div className="content">
-                    { this.props.children && React.cloneElement(this.props.children, {})
-                    }
+                    { this.props.children && React.cloneElement(this.props.children, {})}
                 </div>
             </div>
                 </MuiThemeProvider>

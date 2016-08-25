@@ -59,8 +59,6 @@ class NormalPushDeformer extends Deformer {
                 val = this.getValFromData(data,  uv[j], uv[j+1]) * this.get('scale');
             }
 
-
-
             position[i  ] = bPosition[i  ] + dir[0] * val;
             position[i+1] = bPosition[i+1] + dir[1] * val;
             position[i+2] = bPosition[i+2] + dir[2] * val;

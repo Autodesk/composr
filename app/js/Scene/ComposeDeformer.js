@@ -55,7 +55,7 @@ class Deformer extends ComposeObject {
         return (<Card>
             <CardActions
                 title={this.state.get('name')}
-                textStyle={{padding: '10px'}}
+                style={{padding: '10px'}}
                 showExpandableButton={true}>
                 <EditableLabel label={this.state.get('name')} onChange={this.handleRename.bind(this)} />
                 <Subheader style={{lineHeight: '14px', padding: 0}}>{this.constructor.name}</Subheader>

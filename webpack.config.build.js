@@ -78,7 +78,11 @@ const config = {
             },
             {
                 test: /\.css$/,
-                loaders: ['style', 'css?root=' + appPath]
+                loaders: ['style', 'css?root=' + appPath + '/assets']
+            },
+            {
+                test: /\.scss$/,
+                loaders: ['style', 'css?root=' + appPath + '/assets', 'sass']
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,

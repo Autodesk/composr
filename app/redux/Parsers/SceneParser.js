@@ -33,7 +33,7 @@ class SceneParser {
         // load controller settings
         // load data settings
 
-        const loadOrder = ['geometry', 'deformer', 'mesh', 'layer']
+        const loadOrder = ['material', 'geometry', 'deformer', 'mesh', 'layer']
         for (let i of loadOrder) {
             if (json[i]) {
                 SceneParser.createInstancesFromType(i, json)

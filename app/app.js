@@ -29,7 +29,7 @@ import Login from 'auth/login';
 render(
     <Provider store={ store }>
         <Router history={ browserHistory }>
-            <Route path="/" component={ Root }>
+            <Route component={ Root }>
                 <Route component={ Content }>
                         <Route path="/" component={ Index }/>
                         <Route path="/login" component={ Login }/>

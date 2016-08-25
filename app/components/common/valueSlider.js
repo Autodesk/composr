@@ -36,6 +36,7 @@ class ValueSlider extends React.Component {
                 className="ValueSlider"/>
 
             <TextField
+                name={this.props.name}
                 onChange={this.handleChange.bind(this)}
                 value={this.props.value}
                 className="TextValueSlider"/>

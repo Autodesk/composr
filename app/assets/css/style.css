@@ -1,5 +1,6 @@
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css);
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+@import url(https://fonts.googleapis.com/css?family=Raleway:700);
 
 ::-webkit-scrollbar
 {
@@ -16,9 +17,11 @@
 /* GENERAL STYLES */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 body {
-    overflow: hidden;
     font-family: Roboto, sans-serif;
+}
 
+.noScroll{
+    overflow: hidden;
 }
 
 .content {
@@ -526,4 +529,78 @@ body {
 
 .form_content {
     float: left;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* Landing Page */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+#main-hero-overlay {
+    background: rgba(20,20,20,0.4);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    color: white;
+    text-align: center;
+}
+#main-hero-overlay .h1 {
+    font-weight: 700;
+}
+
+#main-video-overlay {
+    position: relative;
+}
+
+#main-video {
+    width: 100%;
+}
+
+.composr-logo-only {
+    background-image: url('/images/composr_logoOnly.png');
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: auto;
+    margin-bottom: 30px;
+    margin-top: 40px;
+}
+#welcome-to-composr {
+    font-size: 20px;
+}
+
+#welcome-to-composr-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 35px;
+    font-weight: 700;
+    margin: 0 60px;
+    line-height: 40px;
+}
+
+.main-gallery-header {
+    font-family: 'Raleway', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    width: 100%;
+    border-bottom: 3px solid #ffd800;
+    color: white;
+    line-height: 60px;
+    margin-bottom: 20px;
+}
+
+.main-gallery{
+    width: 100%;
+    background: #5b5661;
+    padding-top: 40px;
+}
+
+.main-gallery-content {
+    height: 100%;
+    width: 80%;
+    margin: auto;
+}
+
+
+.composition-card {
+    width: 30%;
+
 }

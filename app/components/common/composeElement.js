@@ -17,16 +17,16 @@ class ComposeElement extends React.Component {
         this.lazyUpdate = debounce(this.forceUpdate, 60, { 'maxWait': 100 });
     }
 
-    //shouldComponentUpdate(nextProps, nextState) {
-    //    for (let k of Object.keys(this.props)) {
-    //        if (this.props[k] !== nextProps[k]) {
-    //            this.lazyUpdate();
-    //            return false;
-    //        }
-    //    }
-    //
-    //    return false;
-    //}
+    shouldComponentUpdate(nextProps, nextState) {
+        for (let k of Object.keys(this.props)) {
+            if (this.props[k] !== nextProps[k]) {
+                this.lazyUpdate();
+                return false;
+            }
+        }
+
+        return false;
+    }
 
     static get propTypes() {
         return {
@@ -47,7 +47,6 @@ class ComposeElement extends React.Component {
             return null;
 
         const object = StoreAPI.getObjectById(this.props.uuid);
-        //if(object.type === 'deformer') debugger;
 
         return (object.renderUI());
     }

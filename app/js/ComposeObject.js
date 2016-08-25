@@ -26,8 +26,10 @@ class ComposeObject {
     _componenetDidMount() {
         this.componenetDidMount();
 
-        this.connector = new connector(this.selector.bind(this),
-            () => this.onStateChange(this._stateContext.changedKeys, this._stateContext.prevState));
+        this.connector = new connector(
+            this.selector.bind(this),
+            this.onStateChange.bind(this, this._stateContext.changedKeys, this._stateContext.prevState)
+        );
 
         this.setState({isMounted: true});
     }
@@ -93,11 +95,13 @@ class ComposeObject {
     }
 
     createReferenceById(name, uuid) {
-        if (!uuid) return;
-
-        const object = this.getObjectById(uuid);
-        if (object !== undefined) {
-            return this[name] = object;
+        if (uuid) {
+            const object = this.getObjectById(uuid);
+            if (object !== undefined) {
+                return this[name] = object;
+            }
+        } else if(uuid === null) {
+            return this[name] = null;
         }
 
         console.warn(`No object with ${uuid} exists.`);

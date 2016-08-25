@@ -80,12 +80,10 @@ class ComposeLayer extends ComposeObject {
                     />
                     <CardActions
                         title={this.state.get('name')}
-                        textStyle={{padding: '10px'}}
+                        style={{padding: '10px'}}
                         showExpandableButton={true} >
                         <EditableLabel label={this.state.get('name')} onChange={this.handleRename.bind(this)} />
                     </CardActions>
-
-
 
                     <CardText expandable={true}>
                         <ComposeElement key={this.composeMesh.uuid} uuid={this.composeMesh.uuid} type={this.composeMesh.type}/>

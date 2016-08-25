@@ -23,12 +23,6 @@ import StoreAPI from 'StoreAPI';
 class ComposeMesh extends ComposeObject {
     defaults() {
         const geometryClasses = StoreAPI.getObjectClassesByType('geometry');
-        //this.material = new THREE.MeshStandardMaterial({
-        //    color: 0x563d7c,
-        //    emissive: 0x250734,
-        //    roughness: 0.1,
-        //    metalness: 0.1
-        //});
 
         return {
             geometryName: Object.keys(geometryClasses)[0],
@@ -48,12 +42,7 @@ class ComposeMesh extends ComposeObject {
 
         this.addReference('material');
         if (this.createReferenceById('material', this.get('material')) === undefined) {
-            this.material = new THREE.MeshStandardMaterial({
-                    color: 0x563d7c,
-                    emissive: 0x250734,
-                    roughness: 0.1,
-                    metalness: 0.1
-                });
+            this.material = new StandardMaterial()//new StandardMaterial();
         }
 
         this.addReference('geometry');
@@ -63,7 +52,7 @@ class ComposeMesh extends ComposeObject {
             SimplexNoiseDeformer.setGeometry(this.geometry.geometry);
         }
 
-        this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), this.material);
+        this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), this.material.material);
     }
 
     updateGeometryClasses() {
@@ -156,20 +145,21 @@ class ComposeMesh extends ComposeObject {
     }
 
     handleDeformerChange(e, v, payload) {
-        this.createReferenceById('deformer', payload)
+        return this.createReferenceById('deformer', payload);
     }
 
     renderUI() {
         const geometryOptions = [];
+        let i=0;
         for (let type of Object.keys(this.geometryClasses)) {
-            geometryOptions.push(<MenuItem value={type} key={type} primaryText={`${this.geometryClasses[type].name}`}/>)
+            geometryOptions.push(<MenuItem value={type} key={i++} primaryText={`${this.geometryClasses[type].name}`}/>)
         }
 
-        const deformerOptions = [ (<MenuItem value={null} key={1111} primaryText={'No Deformation'}/>) ];
+        const deformerOptions = [ <MenuItem value={null} key={i++} primaryText={'No Deformation'}/> ];
 
         if (StoreAPI.getObjectByType('deformer')) {
             for (let deformer of StoreAPI.getObjectByType('deformer')) {
-                deformerOptions.push(<MenuItem value={deformer.uuid} key={deformer.uuid} primaryText={deformer.name}/>)
+                deformerOptions.push(<MenuItem value={deformer.uuid} key={i++} primaryText={deformer.name}/>)
             }
         }
 
@@ -177,13 +167,15 @@ class ComposeMesh extends ComposeObject {
 
         return (
             <div>
-                <SelectField value={this.state.get('geometryName')} onChange={this.handleGeometryChange.bind(this)}
-                             maxHeight={200}>
+                <SelectField value={this.state.get('geometryName')}
+                    floatingLabelText="Geometry Type"
+                    floatingLabelFixed={true} >
                     {geometryOptions}
                 </SelectField>
 
                 <SelectField value={deformerValue} onChange={this.handleDeformerChange.bind(this)}
-                             maxHeight={200}>
+                    floatingLabelText="Active Geometry Deformer"
+                    floatingLabelFixed={true}>
                     {deformerOptions}
                 </SelectField>
 
