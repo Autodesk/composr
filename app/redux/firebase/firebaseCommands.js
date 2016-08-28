@@ -20,3 +20,7 @@ export function getNewSignupRef() {
 export function getVisualizaionRef(vid, isPrivate = true ) {
 
 }
+
+export function createComposition() {
+
+}

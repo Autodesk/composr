@@ -71,17 +71,17 @@ class FirebaseAPI {
     // AUTHENTICATION
     // ************************************************
     getCurrentUser(onLogin, onLogout) {
-        this.firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                // User is signed in.
-                console.log('signed in...', user);
-                onLogin(user);
-            } else {
-                // No user is signed in.
-                console.log('not signed in');
-                onLogout();
-            }
-        });
+        //this.firebase.auth().onAuthStateChanged(function(user) {
+        //    if (user) {
+        //        // User is signed in.
+        //        console.log('signed in...', user);
+        //        onLogin(user);
+        //    } else {
+        //        // No user is signed in.
+        //        console.log('not signed in');
+        //        onLogout();
+        //    }
+        //});
     }
     createUser(email, password) {
         this.firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {

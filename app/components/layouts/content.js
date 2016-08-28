@@ -23,15 +23,6 @@ class Content extends React.Component {
         };
     }
 
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.currentUser.toJS().uid && window.location.pathname != '/visualizer') {
-            //this.props.pushState('/visualizer');
-        } else {
-            //this.props.pushState('/');
-        }
-    }
-
     constructor(props) {
         super(props);
     }
@@ -53,16 +44,7 @@ class Content extends React.Component {
 }
 
 
-
-function mapStateToProps(state) {
-    return {
-        currentUser: state.currentUser,
-    }
-}
-
-export default connect(mapStateToProps, {
-    getCurrentUser,
-    clearCurrentUser,
+export default connect(null, {
     replaceState: routerActions.replace,
     pushState: routerActions.push
 })(Content);

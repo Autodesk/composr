@@ -14,13 +14,13 @@
       "$uid" : {
         ".write": "$uid == auth.uid",
         ".read": "true"
-      },
+      }
     },
 
     "private": {
       "$uid" : {
         ".write": "$uid === auth.uid",
-        ".read": "$uid === auth.uid",
+        ".read": "$uid === auth.uid"
       }
     }
   }

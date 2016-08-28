@@ -30,7 +30,7 @@ body {
     height: 100%;
     top: 64px;
     background: #5b5661;
-}∂
+}
 
 .three {
     background: white;
@@ -123,7 +123,6 @@ body {
     background: #fff;
     border-bottom: 1px solid #dadada;
     height: 60px;
-    line-height: 60px;
     vertical-align: middle;
 }
 

@@ -28,7 +28,7 @@ class ComposeObject {
 
         this.connector = new connector(
             this.selector.bind(this),
-            this.onStateChange.bind(this, this._stateContext.changedKeys, this._stateContext.prevState)
+            this.onStateChange.bind(this, this._stateContext)
         );
 
         this.setState({isMounted: true});
@@ -146,7 +146,8 @@ class ComposeObject {
         return state.scene.getIn([this.type, this.uuid]);
     }
 
-    onStateChange(changedKeys, prevState) {
+    // lastState contains this._stateContext
+    onStateChange(lastState, prevState) {
 
     }
 

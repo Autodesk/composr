@@ -95,7 +95,7 @@ class ComposeMesh extends ComposeObject {
         this.setState({scale: [v, v, v]});
     }
 
-    onStateChange(changedKeys, prevState) {
+    onStateChange(lastState, prevState) {
         this._mesh.position.fromArray(this.state.get('position').toArray());
 
         const rot = this.state.get('rotation').toArray();
@@ -106,11 +106,10 @@ class ComposeMesh extends ComposeObject {
         this._mesh.rotation.fromArray(rot);
         this._mesh.scale.fromArray(this.state.get('scale').toArray());
 
-        if (changedKeys.indexOf('geometryName') > -1) {
+        if (lastState.changedKeys.indexOf('geometryName') > -1) {
             if (this.createReferenceById('geometry', this.get('geometry')) === undefined) {
                 this.setGeometry();
             }
-
         }
     }
 
@@ -167,7 +166,7 @@ class ComposeMesh extends ComposeObject {
 
         return (
             <div>
-                <SelectField value={this.state.get('geometryName')}
+                <SelectField value={this.state.get('geometryName')} onChange={this.handleGeometryChange.bind(this)}
                     floatingLabelText="Geometry Type"
                     floatingLabelFixed={true} >
                     {geometryOptions}

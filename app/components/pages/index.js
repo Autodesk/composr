@@ -1,10 +1,10 @@
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import cookie from 'react-cookie';
-import StoreAPI from 'StoreAPI';
 import CompositionCard from 'common/compositionCard'
 import {GridList, GridTile} from 'material-ui/GridList';
 import {RaisedButton, Popover, TextField, FlatButton} from 'material-ui';
+import Firebase from 'firebase/firebase';
 
 import {getNewSignupRef} from 'firebase/firebaseCommands';
 
@@ -27,6 +27,14 @@ class Index extends React.Component {
 
     componentDidMount() {
         this.refs.mainVideo.onended = () => this.refs.mainVideo.play();
+
+        this.offAuthStateChange = Firebase.firebase.auth().onAuthStateChanged (
+            (user) => this.setState({currentUser: user})
+        )
+    }
+
+    componentWillUnmount() {
+        this.offAuthStateChange();
     }
 
     handleTouchTap (event) {
@@ -80,7 +88,7 @@ class Index extends React.Component {
     }
 
     renderSignUp() {
-        if (this.props.currentUser.get('uid'))
+        if (this.state.currentUser)
             return null;
 
         return [
@@ -148,11 +156,5 @@ class Index extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        currentUser:  StoreAPI.getCurrentUser()
-    };
-}
-
-export default connect(mapStateToProps)(Index);
+export default Index;
 

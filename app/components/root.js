@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { routerActions } from 'react-router-redux';
-import FirebaseAPI from 'firebase/firebase';
+import Firebase from 'firebase/firebase';
 import { getCurrentUser, clearCurrentUser } from 'actions/authActions';
 
 class Root extends React.Component {
@@ -12,17 +12,19 @@ class Root extends React.Component {
     }
 
     componentDidMount() {
-        FirebaseAPI.getCurrentUser(
-            (user)=>{
-            this.props.getCurrentUser(user);
-            if (this.props.location.pathname === 'login') {
-                return this.props.replaceState('/');
+        this.offAuthStateChange = Firebase.firebase.auth().onAuthStateChanged (
+            (user) => {
+               if (user) {
+                   if (this.props.location.pathname === 'login') {
+                       return this.props.replaceState('/');
+                   }
+               }
             }
-        },
-            this.props.clearCurrentUser);
+        )
+    }
 
-
-
+    componentWillUnmount() {
+        this.offAuthStateChange();
     }
 
     constructor(props) {
@@ -40,15 +42,7 @@ class Root extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        currentUser: state.currentUser
-    }
-};
-
-export default connect(mapStateToProps, {
-    getCurrentUser,
-    clearCurrentUser,
+export default connect(null, {
     replaceState: routerActions.replace,
     pushState: routerActions.push
 })(Root);
