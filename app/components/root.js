@@ -12,10 +12,17 @@ class Root extends React.Component {
     }
 
     componentDidMount() {
-        FirebaseAPI.getCurrentUser(this.props.getCurrentUser, this.props.clearCurrentUser);
-        if (this.props.location.pathname === '/') {
-            //return this.props.replaceState('index');
-        }
+        FirebaseAPI.getCurrentUser(
+            (user)=>{
+            this.props.getCurrentUser(user);
+            if (this.props.location.pathname === 'login') {
+                return this.props.replaceState('/');
+            }
+        },
+            this.props.clearCurrentUser);
+
+
+
     }
 
     constructor(props) {

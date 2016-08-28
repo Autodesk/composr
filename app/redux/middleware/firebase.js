@@ -1,4 +1,4 @@
-import { SIGNUP, SIGNIN, CLEAR_USER } from 'constants/action-types';
+import { SIGNUP, SIGNIN, CLEAR_CURRENT_USER } from 'constants/action-types';
 import FirebaseAPI from 'firebase/firebase';
 export default function firebaseMiddleware({ getState, dispatch }) {
     return (next) => (action) => {
@@ -9,7 +9,7 @@ export default function firebaseMiddleware({ getState, dispatch }) {
             case SIGNIN:
                 FirebaseAPI.signIn(action.payload.email, action.payload.password);
                 break;
-            case CLEAR_USER:
+            case CLEAR_CURRENT_USER:
                 FirebaseAPI.signOut();
                 break;
             default:

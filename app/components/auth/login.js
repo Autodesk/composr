@@ -15,14 +15,29 @@ class Login extends React.Component {
             this.props.pushState('/home');
         }
     }
+    //
+    //_signup() {
+    //    return (
+    //        <div>
+    //            <div className="title">sign up</div>
+    //            <input type="text" placeholder="email" ref="signup_mail" />
+    //            <input type="password" placeholder="password" ref="signup_pass" />
+    //            <div className="button" onClick={ () => this.signUp() }>sign up</div>
+    //            <div className="footer">
+    //                already a member?
+    //                <span className="action" onClick={ () => this.setState({ mode: 'login' }) }>
+    //                    sign in<i className="fa fa-sign-in" aria-hidden="true" />
+    //                </span>
+    //            </div>
+    //        </div>
+    //    );
+    //}
 
     _signup() {
         return (
             <div>
                 <div className="title">sign up</div>
-                <input type="text" placeholder="email" ref="signup_mail" />
-                <input type="password" placeholder="password" ref="signup_pass" />
-                <div className="button" onClick={ () => this.signUp() }>sign up</div>
+                COMING SOON!
                 <div className="footer">
                     already a member?
                     <span className="action" onClick={ () => this.setState({ mode: 'login' }) }>

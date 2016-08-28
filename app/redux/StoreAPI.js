@@ -118,8 +118,14 @@ class StoreAPI {
         return window.store.getState().runtime.objectTypes[type];
     }
 
+
+    // user actions
     static getCurrentUser() {
         return store.getState().currentUser;
+    }
+
+    static logOutCurrentUser() {
+
     }
 }
 
