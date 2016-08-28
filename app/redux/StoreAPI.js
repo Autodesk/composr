@@ -117,6 +117,10 @@ class StoreAPI {
     static getObjectClassesByType(type) {
         return window.store.getState().runtime.objectTypes[type];
     }
+
+    static getCurrentUser() {
+        return store.getState().currentUser;
+    }
 }
 
 export default StoreAPI;

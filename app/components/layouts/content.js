@@ -27,6 +27,8 @@ class Content extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.currentUser.toJS().uid && window.location.pathname != '/visualizer') {
             //this.props.pushState('/visualizer');
+        } else {
+            //this.props.pushState('/');
         }
     }
 

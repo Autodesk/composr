@@ -604,3 +604,11 @@ body {
     width: 30%;
 
 }
+
+#main-action-button {
+    width: 150px !important;
+    position: absolute !important;
+    left: calc(50% - 75px);
+    top: 80%;
+    outline: 2px solid white !important;
+}

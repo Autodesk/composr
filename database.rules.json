@@ -1,6 +1,27 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "waitlist": {
+      "$key" : {
+        ".write": "true",
+        "email": {
+          ".validate": "newData.isString() && newData.val().length < 100 && newData.val().length > 0"
+        },
+        "$other": {".validate": false}
+      }
+    },
+
+    "public": {
+      "$uid" : {
+        ".write": "$uid == auth.uid",
+        ".read": "true"
+      },
+    },
+
+    "private": {
+      "$uid" : {
+        ".write": "$uid === auth.uid",
+        ".read": "$uid === auth.uid",
+      }
+    }
   }
 }

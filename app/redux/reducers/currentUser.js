@@ -3,7 +3,7 @@ import { createReducer } from 'redux-immutablejs';
 import { GET_CURRENT_USER, CLEAR_CURRENT_USER } from 'constants/action-types';
 
 const initialState = Immutable.fromJS({
-    uuid: null,
+    uid: null,
     company: null,
     email: null,
     fullName: null,
@@ -16,7 +16,6 @@ const currentUserReducer = createReducer(initialState, {
 
     [GET_CURRENT_USER](state, action) {
         const { user } = action.payload;
-        console.log('get current user', action);
 
         return Immutable.fromJS({
             email: user.email,

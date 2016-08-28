@@ -16,6 +16,10 @@ class FirebaseAPI {
     }
     // REALTIME DATABASE
     // ************************************************
+    getDatabaseRef(path) {
+        return this.firebase.database().ref(path);
+    }
+
     set(path, payload, callback) {
         payload.clientId = clientId;
 
@@ -134,3 +138,5 @@ class FirebaseAPI {
 }
 const FirebaseAPIInstance = new FirebaseAPI();
 export default FirebaseAPIInstance;
+
+window.fb = FirebaseAPIInstance;
