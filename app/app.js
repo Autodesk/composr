@@ -25,6 +25,8 @@ import Index from 'pages/index';
 import Visualizer from 'pages/visualizer/visualizer';
 import Login from 'auth/login';
 
+import NotFound from 'common/notFound';
+
 
 render(
     <Provider store={ store }>
@@ -35,6 +37,8 @@ render(
                         <Route path="/login" component={ Login }/>
                         <Route path="/comp" component={ Visualizer }/>
                         <Route path="/:uid/comp/:compId" component={ Visualizer }/>
+
+                        <Route path="*" component={NotFound} />
                 </Route>
             </Route>
         </Router>
