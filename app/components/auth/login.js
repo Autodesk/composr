@@ -1,6 +1,5 @@
-import { connect } from 'react-redux';
 import cx from 'classnames';
-import { signUp, signIn } from 'actions/authActions';
+import Firebase from 'firebase/firebase';
 
 class Login extends React.Component {
     constructor(props) {
@@ -10,11 +9,6 @@ class Login extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.currentUser && nextProps.currentUser.uid) {
-            this.props.pushState('/home');
-        }
-    }
     //
     //_signup() {
     //    return (
@@ -49,7 +43,7 @@ class Login extends React.Component {
     }
 
     signUp() {
-        this.props.signUp(this.refs.signup_mail.value, this.refs.signup_pass.value);
+        Firebase.firebase.auth().createUserWithEmailAndPassword(this.refs.signup_mail.value, this.refs.signup_pass.value);
     }
 
     _signin() {
@@ -70,7 +64,7 @@ class Login extends React.Component {
     }
 
     signIn() {
-        this.props.signIn(this.refs.signin_mail.value, this.refs.signin_pass.value);
+        Firebase.firebase.auth().signInWithEmailAndPassword(this.refs.signin_mail.value, this.refs.signin_pass.value);
     }
 
     render() {
@@ -84,4 +78,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(null, {signIn, signUp})(Login);;
+export default Login;

@@ -28,7 +28,7 @@ class VisualizerTopMenu extends React.Component {
 
     static get propTypes() {
         return {
-            visName: React.PropTypes.string,
+            compData: React.PropTypes.object
         };
     }
 
@@ -83,8 +83,23 @@ class VisualizerTopMenu extends React.Component {
     }
 
     handleSaveRemote() {
-        StoreAPI.saveStateRemote(this.props.visName);
-        this.handleRequestClose();
+        if (Firebase.firebase.auth().currentUser) {
+            if (this.props.compData.compId) {
+                StoreAPI.saveStateRemote();
+            } else {
+                this.handleCreateRemotePath();
+            }
+
+            this.handleRequestClose();
+        }
+    }
+
+    handleCreateRemotePath() {
+        const comp = Firebase.createCompRef();
+        if (comp) {
+            StoreAPI.saveStateRemote();
+            StoreAPI.replacePath(comp.url)
+        }
     }
 
     renderDeformersMenu() {

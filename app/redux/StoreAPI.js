@@ -6,6 +6,7 @@ import store from 'store';
 import {updateData, registerObjectType} from 'actions/mainActions'
 import {resetScene, updatePlayback} from 'actions/sceneActions';
 import {remoteFetch, remoteSuccess} from 'actions/remoteActions';
+import { routerActions } from 'react-router-redux';
 import VisController from 'js/VisController';
 
 import SceneParser from 'Parsers/SceneParser';
@@ -76,30 +77,42 @@ class StoreAPI {
 
     static saveStateRemote(remotePath) {
         store.dispatch(remoteFetch());
-        Firebase.set(`/${remotePath}`, StoreAPI.exportToJson(), () => store.dispatch(remoteSuccess()))
+        Firebase.setCompData(StoreAPI.exportToJson()).then(
+            () => store.dispatch(remoteSuccess())
+        )
     }
 
-    static loadStateRemote(remotePath, callback) {
+    // load template from server
+    static loadStateRemote(callback) {
         store.dispatch(remoteFetch());
 
-        Firebase.getData(`/${remotePath}`, (data) => {
+        const dataRequest = Firebase.getCompData();
+
+        if (dataRequest) {
+            dataRequest.then(
+                (data) => {
+                    if (data.val() != null) {
+                        StoreAPI.loadState(data.val());
+                    } else {
+                        StoreAPI.replacePath('/404.html')
+                    }
+
+                    store.dispatch(remoteSuccess());
+
+                    if (callback) callback(data);
+                });
+        }
+    }
+
+    // listen to changes on the server for this template
+    static listenRemote(uid, compId) {
+        Firebase.onChange(`/private/${uid}/${compId}`, (data) => {
             if (data != null) {
                 StoreAPI.loadState(data);
             }
-
-            store.dispatch(remoteSuccess());
-
-            if (callback) callback(data);
         });
     }
 
-    static listenRemote(remotePath) {
-        Firebase.onChange( remotePath, (data) => {
-            if (data != null) {
-                StoreAPI.loadState(data);
-            }
-        });
-    }
 
     // data source actions
     static getCurrentData() {
@@ -121,6 +134,10 @@ class StoreAPI {
     // user actions
     static getCurrentUser() {
         return store.getState().currentUser;
+    }
+
+    static replacePath(newPath) {
+        store.dispatch(routerActions.replace(newPath));
     }
 
 }

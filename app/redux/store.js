@@ -5,7 +5,6 @@ import Immutable from 'immutable';
 import { routerMiddleware, routerReducer } from 'react-router-redux';
 
 import {updateFrame} from 'actions/mainActions'
-import FirebaseMiddlware from 'middleware/firebase';
 
 // reducers
 import rootReducer from 'reducers/root';
@@ -18,10 +17,8 @@ const persistStateConfig = {
 };
 
 const storeEnhancers = applyMiddleware(
-        FirebaseMiddlware,
         routerMiddleware(browserHistory)
     );
-
 
 const store = createStore(
     rootReducer,

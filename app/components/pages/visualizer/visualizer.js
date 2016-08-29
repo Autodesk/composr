@@ -1,43 +1,54 @@
 import cx from 'classnames';
 import StoreAPI from 'StoreAPI';
+import FirebaseAPI from 'firebase/firebase';
+
 import VisController from 'js/VisController';
 import ControlsDrawer from './controlsDrawer';
 import TopMenu from 'layouts/topMenu';
 import connector from 'js/connector';
 import {debounce} from 'lodash/function';
 
+
 const CANVAS_ID = "three-canvas";
 
 class Visualizer extends React.Component {
-
     componentWillMount() {
         new VisController();
+
+        if (this.props.params.compId) {
+            FirebaseAPI.setDatabaseCompRef(this.props.params.uid, this.props.params.compId);
+        }
     }
 
     componentDidMount() {
-        const element = this.refs[CANVAS_ID];
-
         document.body.classList.toggle('noScroll');
 
-        setTimeout( ()=> {
+        const element = this.refs[CANVAS_ID];
+
+        StoreAPI.loadStateRemote(() => {
             StoreAPI.initVisualizer(element);
-            StoreAPI.loadStateRemote(this.props.params.visName, () => {
-                StoreAPI.listenRemote(this.props.params.visName);
-            });
+            StoreAPI.listenRemote(this.props.params.visName);
+        });
 
-            const update = debounce(() => StoreAPI.saveStateRemote(this.props.params.visName), 200, { 'maxWait': 100 });
-
-            //new connector(
-            //    (state) => state.scene,
-            //    update);
-
-        }, 10);
+        //setTimeout( ()=> {
+        //
+        //
+        //
+        //    const update = debounce(() => StoreAPI.saveStateRemote(this.props.params.visName), 200, { 'maxWait': 100 });
+        //
+        //    //new connector(
+        //    //    (state) => state.scene,
+        //    //    update);
+        //
+        //}, 10);
     }
 
     render() {
+        const compData = {uid: this.props.params.uid, compId: this.props.params.compId};
+
         return (
             <div className="container-fluid visualizer-container">
-                <TopMenu visName={this.props.params.visName}/>
+                <TopMenu compData={ compData }/>
                 <div className="three" ref={CANVAS_ID}></div>
                 <ControlsDrawer/>
             </div>

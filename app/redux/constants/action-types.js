@@ -15,12 +15,6 @@ export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 // object types actions
 export const REGISTER_OBJECT_TYPE = 'REGISTER_OBJECT_TYPE';
 
-// auth actions
-export const SIGNUP = 'SIGNUP';
-export const SIGNIN = 'SIGNIN';
-export const GET_CURRENT_USER = 'GET_CURRENT_USER';
-export const CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER';
-
 // Remote Actions
 export const REMOTE_FETCH = 'REMOTE_FETCH';
 export const REMOTE_SUCCESS = 'REMOTE_SUCCESS';

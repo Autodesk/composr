@@ -3,8 +3,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { routerActions } from 'react-router-redux';
 import { connect } from 'react-redux';
-import { getCurrentUser, clearCurrentUser } from 'actions/authActions';
-import store from 'store';
 
 const ComposrPurple = '#563d7c';
 

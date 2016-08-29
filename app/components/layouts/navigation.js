@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import Firebase from 'firebase/firebase';
 import {Link} from 'react-router';
-import { clearCurrentUser } from 'actions/authActions';
 
 import {FlatButton, RaisedButton, FontIcon, Popover, MenuItem, Divider} from 'material-ui';
 
@@ -57,7 +56,7 @@ class Navigation extends React.Component {
         if (this.state.currentUser) {
             return (
                 <div style={{marginTop: '6px'}}>
-                    <Link to="/visualizer">
+                    <Link to="/comp">
                         <RaisedButton
                         primary={true}
                         label="New Composition"

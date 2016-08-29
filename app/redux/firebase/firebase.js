@@ -2,8 +2,18 @@ import Firebase from 'firebase';
 
 const clientId = THREE.Math.generateUUID();
 
+function makeid() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 6; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
 class FirebaseAPI {
-    constructor() {
+    constructor(options) {
         // Initialize Firebase
         const CONFIG = {
             apiKey: "AIzaSyB97YRcugOQrj5E2QVTb06Nl5d72Vd8mqU",
@@ -16,38 +26,47 @@ class FirebaseAPI {
     }
     // REALTIME DATABASE
     // ************************************************
-    getDatabaseRef(path) {
-        return this.firebase.database().ref(path);
+    getCompositionPath(uid, compId) {
+        return `/private/${uid}/${compId}`;
     }
 
-    set(path, payload, callback) {
-        payload.clientId = clientId;
-
-        this.firebase.database().ref(path).set(payload).then((e) => {
-            if (callback) callback();
-        });
-    }
-    push(path, payload, callback) {
-        this.firebase.database().ref(path).push(payload).then(function(e) {
-            console.log('success', e);
-        }, function(error) {
-            console.log(error);
-        });
-    }
-    update() {
+    getCompositionUrl(uid, compId) {
+        return `/${uid}/comp/${compId}`;
     }
 
-    transaction() {
+    setDatabaseCompRef(uid, compId) {
+        this.compRef = this.firebase.database().ref(this.getCompositionPath(uid, compId));
     }
 
-    remove() {
+    createCompRef() {
+        const currentUser = this.firebase.auth().currentUser;
+
+        if (currentUser) {
+            const compId = makeid();
+            this.setDatabaseCompRef(currentUser.uid, compId);
+
+            return {uid: currentUser.uid, compId, url: this.getCompositionUrl(currentUser.uid, compId)};
+        }
+
+        console.error('createCompRef: Permission denied, No Authenticated user.')
     }
 
-    getData(location, callback) {
-        this.firebase.database().ref(location).once('value').then((snapshot) => {
-            callback(snapshot.val());
-            console.log('getting...', snapshot.val());
-        });
+    getCompData() {
+        if (this.compRef) {
+            return this.compRef.once('value');
+        }
+
+        console.error('getCompData: No composition is set');
+    }
+
+    setCompData(payload) {
+        if (this.compRef) {
+            payload.clientId = clientId;
+
+            return this.compRef.set(payload);
+        }
+
+        console.error('setCompData: No composition is set');
     }
 
     onAdd(ref, callback) {
@@ -68,46 +87,6 @@ class FirebaseAPI {
         });
     }
 
-    // AUTHENTICATION
-    // ************************************************
-    getCurrentUser(onLogin, onLogout) {
-        //this.firebase.auth().onAuthStateChanged(function(user) {
-        //    if (user) {
-        //        // User is signed in.
-        //        console.log('signed in...', user);
-        //        onLogin(user);
-        //    } else {
-        //        // No user is signed in.
-        //        console.log('not signed in');
-        //        onLogout();
-        //    }
-        //});
-    }
-    createUser(email, password) {
-        this.firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-            console.log(error);
-        });
-    }
-    updateUser(data) {
-        const user = this.firebase.auth().currentUser;
-        user.updateProfile(data).then(() => {
-            // Update successful.
-        }, function(error) {
-            // An error happened.
-        });
-    }
-    signIn(email, password) {
-        this.firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-            console.log(error);
-        });
-    }
-    signOut() {
-        this.firebase.auth().signOut().then(function() {
-            console.log('signed out!');
-        }, function(error) {
-            console.log(error);
-        });
-    }
     // STORAGE
     // ************************************************
     upload(fileName, path, file) {

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { routerActions } from 'react-router-redux';
 import Firebase from 'firebase/firebase';
-import { getCurrentUser, clearCurrentUser } from 'actions/authActions';
 
 class Root extends React.Component {
     static get propTypes() {

@@ -14,7 +14,7 @@ const generateUUID = function() {
 export function getNewSignupRef() {
     const pathId = generateUUID();
 
-    return Firebase.getDatabaseRef(`waitlist/${pathId}`);
+    return Firebase.firebase.database().ref(`waitlist/${pathId}`);
 }
 
 export function getVisualizaionRef(vid, isPrivate = true ) {
