@@ -4,7 +4,7 @@
 import { connect } from 'react-redux';
 import ValueSlider from 'common/valueSlider';
 
-import {updateSettings} from 'actions/mainActions';
+import {updateDatasourceSettings} from 'actions/mainActions';
 
 import store from 'store';
 
@@ -17,7 +17,7 @@ class DataControls extends React.Component {
     //}
 
     handleMaxDataSize(e,v) {
-        store.dispatch(updateSettings({
+        store.dispatch(updateDatasourceSettings({
             maxDataSize: v
         }));
     }

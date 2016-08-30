@@ -31,7 +31,12 @@ class Login extends React.Component {
         return (
             <div>
                 <div className="title">sign up</div>
-                COMING SOON!
+                <div style={{textAlign: 'center'}}>
+                    Sign Up is currently limited to Alpha users. <br/> <br/> Please leave your email to get an invite!
+
+                    <input type="text" placeholder="email" ref="signup_mail" />
+                    <div className="button" onClick={ () => this.signUp() }>sign up</div>
+                </div>
                 <div className="footer">
                     already a member?
                     <span className="action" onClick={ () => this.setState({ mode: 'login' }) }>
@@ -43,7 +48,22 @@ class Login extends React.Component {
     }
 
     signUp() {
-        Firebase.firebase.auth().createUserWithEmailAndPassword(this.refs.signup_mail.value, this.refs.signup_pass.value);
+        //Firebase.firebase.auth().createUserWithEmailAndPassword(this.refs.signup_mail.value, this.refs.signup_pass.value);
+    }
+
+    handleSignUp(e,v) {
+        const val = this.refs.emailTextField.getValue();
+        const regex = /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/;
+        if (regex.test(val)) {
+            this.state.firebaseRef.set({email: val}).then(
+                ()=> { this.setState({emailSignedUp: 'success'}) },
+                ()=> { this.setState({emailSignedUp: 'error'}) }
+            );
+
+            setTimeout(this.handleRequestClose.bind(this), 2000);
+        } else {
+            this.setState({emailError: 'Invalid Email'});
+        }
     }
 
     _signin() {

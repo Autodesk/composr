@@ -2,12 +2,12 @@
  * @author Matan Zohar / matan.zohar@autodesk.com
  */
 
-import {updateSettings} from 'actions/mainActions';
+import {updateDatasourceSettings} from 'actions/mainActions';
 import store from 'store';
 
 class DataSourceParser {
     static fromJSON(json) {
-        store.dispatch(updateSettings(json));
+        store.dispatch(updateDatasourceSettings(json));
     }
 }
 

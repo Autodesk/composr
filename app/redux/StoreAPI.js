@@ -3,7 +3,7 @@
  */
 
 import store from 'store';
-import {updateData, registerObjectType} from 'actions/mainActions'
+import {updateData, updateMetadata, registerObjectType, upd} from 'actions/mainActions'
 import {resetScene, updatePlayback} from 'actions/sceneActions';
 import {remoteFetch, remoteSuccess} from 'actions/remoteActions';
 import { routerActions } from 'react-router-redux';
@@ -11,6 +11,7 @@ import VisController from 'js/VisController';
 
 import SceneParser from 'Parsers/SceneParser';
 import DataSourceParser from 'Parsers/DataSourceParser';
+import MetadataParser from 'Parsers/MetadataParser';
 import Firebase from 'firebase/firebase';
 
 class StoreAPI {
@@ -29,6 +30,14 @@ class StoreAPI {
 
     static getPlaybackState() {
         return store.getState().runtime.playback;
+    }
+
+    static getMetadata() {
+        return store.getState().metadata;
+    }
+
+    static updateMetadata(newData) {
+        store.dispatch(updateMetadata(newData));
     }
 
     // Scene Controls actions
@@ -56,12 +65,14 @@ class StoreAPI {
 
         localStorage.setItem('openComposer',  JSON.stringify({
             scene: state.scene.toJS(),
-            dataSource: state.dataSource.settings.toJS()
+            dataSource: state.dataSource.settings.toJS(),
+            metadata: state.metadata.toJS()
         }));
 
         return {
             scene: state.scene.toJS(),
-            dataSource: state.dataSource.settings.toJS()
+            dataSource: state.dataSource.settings.toJS(),
+            metadata: state.metadata.toJS()
         }
     }
 
@@ -69,6 +80,7 @@ class StoreAPI {
         store.dispatch(updatePlayback({ isPlaying: false }));
         SceneParser.fromJSON( state.scene );
         DataSourceParser.fromJSON(state.dataSource);
+        MetadataParser.fromJSON(state.metadata);
 
         setTimeout( () => {
             store.dispatch(updatePlayback({ isPlaying: true }));

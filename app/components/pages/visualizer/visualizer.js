@@ -24,11 +24,15 @@ class Visualizer extends React.Component {
         document.body.classList.toggle('noScroll');
 
         const element = this.refs[CANVAS_ID];
-
-        StoreAPI.loadStateRemote(() => {
+        if (this.props.params.compId) {
+            StoreAPI.loadStateRemote(() => {
+                console.log('loaded')
+                StoreAPI.initVisualizer(element);
+                StoreAPI.listenRemote(this.props.params.visName);
+            });
+        } else {
             StoreAPI.initVisualizer(element);
-            StoreAPI.listenRemote(this.props.params.visName);
-        });
+        }
 
         //setTimeout( ()=> {
         //

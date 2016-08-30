@@ -1,4 +1,4 @@
-import {UPDATE_DATA, REGISTER_OBJECT_TYPE, UPDATE_SETTINGS} from 'constants/action-types';
+import {UPDATE_DATA, REGISTER_OBJECT_TYPE, UPDATE_DATASOURCE_SETTINGS, UPDATE_METADATA} from 'constants/action-types';
 
 export function updateData(buffer) {
     return {
@@ -7,9 +7,16 @@ export function updateData(buffer) {
     }
 }
 
-export function updateSettings(settings) {
+export function updateMetadata(settings) {
     return {
-        type: UPDATE_SETTINGS,
+        type: UPDATE_METADATA,
+        payload: settings
+    }
+}
+
+export function updateDatasourceSettings(settings) {
+    return {
+        type: UPDATE_DATASOURCE_SETTINGS,
         payload: settings
     }
 }

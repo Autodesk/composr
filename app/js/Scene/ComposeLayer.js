@@ -66,9 +66,7 @@ class ComposeLayer extends ComposeObject {
     }
 
     onStateChange(changedKeys, prevState) {
-        if (changedKeys.indexOf('visible') > -1) {
-            this.setVisibiltyFromState();
-        }
+        this.setVisibiltyFromState();
     }
 
     renderUI() {

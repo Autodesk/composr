@@ -2,7 +2,7 @@
  * @author Matan Zohar / matan.zohar@autodesk.com
  */
 
-import {UPDATE_DATA, UPDATE_SETTINGS} from 'constants/action-types';
+import {UPDATE_DATA, UPDATE_DATASOURCE_SETTINGS} from 'constants/action-types';
 import Immutable from 'immutable';
 
 const INITIAL_STATE = {
@@ -23,7 +23,7 @@ const dataSourceReducer = function(state = INITIAL_STATE, action) {
 
             return Object.assign({}, state);
 
-        case UPDATE_SETTINGS:
+        case UPDATE_DATASOURCE_SETTINGS:
             state.settings = state.settings.merge(action.payload);
             return state;
 

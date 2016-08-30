@@ -18,7 +18,9 @@ class EditableLabel extends React.Component {
     static get propTypes() {
         return {
             onChange: React.PropTypes.func,
-            label: React.PropTypes.string
+            label: React.PropTypes.string,
+            className: React.PropTypes.string,
+            labelStyle: React.PropTypes.object,
         }
     }
 
@@ -35,7 +37,10 @@ class EditableLabel extends React.Component {
     }
 
     handleBlur() {
-        this.props.onChange(this.state.newVal);
+        if (this.props.onChange) {
+            this.props.onChange(this.state.newVal);
+        }
+
         this.setState({
             isEdited: false
         });
@@ -43,7 +48,9 @@ class EditableLabel extends React.Component {
 
 
     render() {
-        const style = { padding:'0 2px' };
+
+        const style = this.props.labelStyle || {};
+        style.padding = '0 2px';
 
         if (this.state.isEdited){
             return (
@@ -55,6 +62,7 @@ class EditableLabel extends React.Component {
                 onBlur={this.handleBlur.bind(this)}
                 onChange={this.handleKeyDown.bind(this)}
                 underlineShow={false}
+                    className = {this.props.className}
             />
             )
         } else {
@@ -63,6 +71,7 @@ class EditableLabel extends React.Component {
                     labelStyle={style}
                     label={this.props.label}
                     onClick={this.handleEditRequest.bind(this)}
+                    className = {this.props.className}
                 />
             )
         }

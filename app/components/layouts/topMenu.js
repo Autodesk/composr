@@ -3,17 +3,17 @@
  */
 import cx from 'classnames';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import {MenuItem, Snackbar, FlatButton, Popover, Menu, Divider} from 'material-ui';
+import {MenuItem, Snackbar, FlatButton, Popover, Menu, Divider, RefreshIndicator} from 'material-ui';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 
 import DataDisplay from 'common/dataDisplay'
-import RefreshIndicator from 'material-ui/RefreshIndicator';
 import { connect } from 'react-redux';
 
 import ComposeLayer from 'js/Scene/ComposeLayer';
 
 import StoreAPI from 'StoreAPI';
 import Firebase from 'firebase/firebase';
+import EditableLabel from 'common/editableLabel';
 
 window.load = StoreAPI.loadState;
 
@@ -86,6 +86,11 @@ class VisualizerTopMenu extends React.Component {
         if (Firebase.firebase.auth().currentUser) {
             if (this.props.compData.compId) {
                 StoreAPI.saveStateRemote();
+
+                this.setState({
+                    sanckbarOpen: true
+                });
+
             } else {
                 this.handleCreateRemotePath();
             }
@@ -100,6 +105,10 @@ class VisualizerTopMenu extends React.Component {
             StoreAPI.saveStateRemote();
             StoreAPI.replacePath(comp.url)
         }
+    }
+
+    handleNameChange(compName) {
+        StoreAPI.updateMetadata({compName})
     }
 
     renderDeformersMenu() {
@@ -150,11 +159,15 @@ class VisualizerTopMenu extends React.Component {
             <Toolbar style={{ height: '36px', backgroundColor: 'white' }}>
                 <ToolbarGroup firstChild={false}>
                     <RefreshIndicator left={0} top={5} size={26} status={loadStatus} />
-                    <FlatButton
+                    { (()=> { if (this.props.compData.compId )
+                        return (<EditableLabel
                         className="top-nav-button"
                         primary={true}
-                        label={ this.props.visName }
-                        labelStyle={labelStyle} />
+                        onChange={this.handleNameChange}
+                        label={ this.props.metadata.get('compName') }
+                        labelStyle={labelStyle} />)
+                    })()
+                    }
 
                     <FlatButton
                         className="top-nav-button"
@@ -183,7 +196,7 @@ class VisualizerTopMenu extends React.Component {
                     <FlatButton
                         className="top-nav-button"
                         onTouchTap={this.handleTouchTap.bind(this, 1)}
-                        label="Create"
+                        label="Add"
                         labelStyle={labelStyle} />
 
                     <Popover
@@ -227,7 +240,8 @@ function mapStateToProps(state, ownProp) {
     return {
         remoteState: state.runtime.remoteState,
         deformerTypes: StoreAPI.getObjectClassesByType('deformer'),
-        materialTypes: StoreAPI.getObjectClassesByType('material')
+        materialTypes: StoreAPI.getObjectClassesByType('material'),
+        metadata: StoreAPI.getMetadata()
     }
 }
 

@@ -9,7 +9,7 @@ export const RESET_SCENE = 'RESET_SCENE';
 
 // data source actions
 export const UPDATE_DATA_SETTINGS = 'UPDATE_DATA_SETTINGS';
-export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
+export const UPDATE_DATASOURCE_SETTINGS = 'UPDATE_DATASOURCE_SETTINGS';
 
 
 // object types actions
@@ -22,3 +22,6 @@ export const REMOTE_ERROR = 'REMOTE_ERROR';
 
 // playback Actions
 export const UPDATE_PLAYBACK = 'UPDATE_PLAYBACK';
+
+// metadata actions
+export const UPDATE_METADATA = 'UPDATE_METADATA';
