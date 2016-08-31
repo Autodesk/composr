@@ -3,8 +3,8 @@
  */
 
 import store from 'store';
-import {updateData, updateMetadata, registerObjectType, upd} from 'actions/mainActions'
-import {resetScene, updatePlayback} from 'actions/sceneActions';
+import {updateData, updateMetadata, registerObjectType} from 'actions/mainActions'
+import {resetScene, updatePlayback, updateDisplay} from 'actions/sceneActions';
 import {remoteFetch, remoteSuccess} from 'actions/remoteActions';
 import { routerActions } from 'react-router-redux';
 import VisController from 'js/VisController';
@@ -40,6 +40,10 @@ class StoreAPI {
         store.dispatch(updateMetadata(newData));
     }
 
+    static updateDisplaySettings(newData) {
+        store.dispatch(updateDisplay(newData));
+    }
+
     // Scene Controls actions
     static initVisualizer(element) {
         const controller = StoreAPI.getController();
@@ -48,8 +52,6 @@ class StoreAPI {
 
         element.innerHTML = "";
         element.appendChild(controller.renderer.domElement);
-
-        controller.render();
     }
 
     static reset() {
@@ -58,6 +60,8 @@ class StoreAPI {
 
         new VisController();
         StoreAPI.initVisualizer(element);
+
+        StoreAPI.getController().render();
     }
 
     static exportToJson() {

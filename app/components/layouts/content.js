@@ -27,22 +27,32 @@ class Content extends React.Component {
 
 
     render() {
+        const fullscreen = this.props.params.viewtype === 'full';
+
+        const contentClass = "content " + ( fullscreen ? 'content-fullscreen' : '');
+
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
-            <div>
-                <Navigation pushState={ this.props.pushState } />
+                <div>
+                    <Navigation pushState={ this.props.pushState } fullscreen={ fullscreen } />
 
-                <div className="content">
-                    { this.props.children && React.cloneElement(this.props.children, {})}
+                    <div className={contentClass}>
+                        { this.props.children && React.cloneElement(this.props.children, {})}
+                    </div>
                 </div>
-            </div>
-                </MuiThemeProvider>
+            </MuiThemeProvider>
         );
     }
 }
 
 
-export default connect(null, {
+function mapStateToProps(state) {
+    return {
+        fullscreen: state.runtime.display.get('fullscreen')
+    }
+}
+
+export default connect(mapStateToProps, {
     replaceState: routerActions.replace,
     pushState: routerActions.push
 })(Content);

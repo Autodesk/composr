@@ -10,18 +10,21 @@
       }
     },
 
-    "public": {
-      "$uid" : {
-        ".write": "$uid == auth.uid",
-        ".read": "true"
-      }
-    },
+    "compositions": {
+      "public": {
+        "$uid" : {
+          ".write": "$uid == auth.uid",
+          ".read": "true"
+        }
+      },
 
-    "private": {
-      "$uid" : {
-        ".write": "$uid === auth.uid",
-        ".read": "$uid === auth.uid"
+      "private": {
+        "$uid" : {
+          ".write": "$uid === auth.uid",
+          ".read": "$uid === auth.uid"
+        }
       }
     }
+
   }
 }

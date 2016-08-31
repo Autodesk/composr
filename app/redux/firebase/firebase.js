@@ -27,7 +27,11 @@ class FirebaseAPI {
     // REALTIME DATABASE
     // ************************************************
     getCompositionPath(uid, compId) {
-        return `/private/${uid}/${compId}`;
+        return `/compositions/private/${uid}/${compId}`;
+    }
+
+    makePublic() {
+
     }
 
     getCompositionUrl(uid, compId) {

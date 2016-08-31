@@ -136,10 +136,6 @@ class ComposeMesh extends ComposeObject {
     destroy() {
         super.destroy();
 
-        if (this.deformer) {
-            this.deformer.destroy();
-        }
-
         this.geometry.destroy();
     }
 

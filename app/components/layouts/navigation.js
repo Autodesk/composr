@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import Firebase from 'firebase/firebase';
 import {Link} from 'react-router';
+import StoreAPI from 'StoreAPI';
 
-import {FlatButton, RaisedButton, FontIcon, Popover, MenuItem, Divider} from 'material-ui';
+import {FlatButton, RaisedButton, FontIcon, Popover, MenuItem, Divider, IconButton} from 'material-ui';
 
 class Navigation extends React.Component {
     constructor(props) {
@@ -15,6 +16,13 @@ class Navigation extends React.Component {
             openUserPopover: false,
             openAppPopover: false
         }
+    }
+
+
+    static get propTypes() {
+        return {
+            fullscreen: React.PropTypes.bool,
+        };
     }
 
     toggleModal(state) {
@@ -87,6 +95,7 @@ class Navigation extends React.Component {
                         <Divider/>
                         <MenuItem primaryText="Log Out" onTouchTap={this.handleLogOut.bind(this)} />
                     </Popover>
+
                 </div>
             )
         } else {
@@ -101,13 +110,24 @@ class Navigation extends React.Component {
         });
     }
 
+    renderFullscreenUI() {
+        return (<div>
+            <Link to="/"><span style={{marginTop: '11px'}} className="logo logo-fullscreen"> </span></Link>
+        </div>)
+    }
+
     render() {
+        if (this.props.fullscreen) {
+            return this.renderFullscreenUI();
+
+        }
+
         return (
             <div className="top_navigation">
                 <AppBar
                     title={<Link to="/"><span style={{marginTop: '11px'}} className="logo"> </span></Link> }
                     iconElementRight={this.renderUserMenu()}
-                    onLeftIconButtonTouchTap={this.handleLeftIconButtonTouchTap.bind(this)}
+                    iconElementLeft = {<div style={{ width: '15px'}}></div>}
                 />
 
                 <Popover
@@ -125,5 +145,6 @@ class Navigation extends React.Component {
         );
     }
 }
+
 
 export default Navigation;

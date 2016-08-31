@@ -36,7 +36,7 @@ render(
                         <Route path="/" component={ Index }/>
                         <Route path="/login" component={ Login }/>
                         <Route path="/comp" component={ Visualizer }/>
-                        <Route path="/:uid/comp/:compId" component={ Visualizer }/>
+                        <Route path="/:uid/:viewtype/:compId" component={ Visualizer }/>
 
                         <Route path="*" component={NotFound} />
                 </Route>

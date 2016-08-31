@@ -22,6 +22,7 @@ export const REMOTE_ERROR = 'REMOTE_ERROR';
 
 // playback Actions
 export const UPDATE_PLAYBACK = 'UPDATE_PLAYBACK';
+export const UPDATE_DISPLAY = 'UPDATE_DISPLAY';
 
 // metadata actions
 export const UPDATE_METADATA = 'UPDATE_METADATA';

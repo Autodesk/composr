@@ -32,6 +32,11 @@ body {
     background: #5b5661;
 }
 
+.content-fullscreen {
+    top: 0;
+    z-index: -1;
+}
+
 .three {
     background: white;
     top: 0;
@@ -133,6 +138,16 @@ body {
     background: url('/images/composr_logo.png');
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+.logo-fullscreen {
+    top: 10px;
+    left: 20px;
+    width: 209px;
+    height: 63px;
+    background-position: 8px 8px;
+    background-size: 190px 48px;
+    background-color: rgba(0,0,0,0.2);
 }
 
 .profile_nav .user_img {

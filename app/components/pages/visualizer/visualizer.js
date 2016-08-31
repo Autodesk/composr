@@ -5,8 +5,9 @@ import FirebaseAPI from 'firebase/firebase';
 import VisController from 'js/VisController';
 import ControlsDrawer from './controlsDrawer';
 import TopMenu from 'layouts/topMenu';
-import connector from 'js/connector';
+//import connector from 'js/connector';
 import {debounce} from 'lodash/function';
+import { connect } from 'react-redux';
 
 
 const CANVAS_ID = "three-canvas";
@@ -26,13 +27,14 @@ class Visualizer extends React.Component {
         const element = this.refs[CANVAS_ID];
         if (this.props.params.compId) {
             StoreAPI.loadStateRemote(() => {
-                console.log('loaded')
                 StoreAPI.initVisualizer(element);
                 StoreAPI.listenRemote(this.props.params.visName);
             });
         } else {
             StoreAPI.initVisualizer(element);
         }
+
+        StoreAPI.getController().render();
 
         //setTimeout( ()=> {
         //
@@ -47,18 +49,29 @@ class Visualizer extends React.Component {
         //}, 10);
     }
 
+    componentDidUpdate() {
+        StoreAPI.initVisualizer(this.refs[CANVAS_ID]);
+    }
+
     render() {
+        const fullscreen = this.props.params.viewType === 'full';
+
         const compData = {uid: this.props.params.uid, compId: this.props.params.compId};
+
+        const three = <div className="three" ref={CANVAS_ID}></div>;
+
+        const ui = fullscreen ? three : [
+            <TopMenu compData={ compData }/>,
+            three,
+            <ControlsDrawer/>
+        ];
 
         return (
             <div className="container-fluid visualizer-container">
-                <TopMenu compData={ compData }/>
-                <div className="three" ref={CANVAS_ID}></div>
-                <ControlsDrawer/>
+                {ui}
             </div>
         );
     }
 }
-
 
 export default Visualizer;

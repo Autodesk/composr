@@ -4,7 +4,8 @@
 
 import {ADD_SCENE_COMPONENT, REMOVE_SCENE_COMPONENT,
     RESET_SCENE, REGISTER_OBJECT_TYPE,
-    REMOTE_FETCH, REMOTE_SUCCESS, UPDATE_PLAYBACK
+    REMOTE_FETCH, REMOTE_SUCCESS, UPDATE_PLAYBACK,
+    UPDATE_DISPLAY
 } from 'constants/action-types';
 import {remove} from 'lodash/array';
 import Immutable from 'immutable';
@@ -19,7 +20,11 @@ const INITIAL_STATE = () => ( {
 
     playback: Immutable.fromJS({
         isPlaying: true
-    })
+    }),
+
+    display: Immutable.fromJS({
+        fullScreen: false
+    }),
 });
 
 const runtimeReducer = function(state = INITIAL_STATE(), action) {
@@ -72,6 +77,10 @@ const runtimeReducer = function(state = INITIAL_STATE(), action) {
 
         case UPDATE_PLAYBACK:
             state.playback = state.playback.merge(action.payload);
+            return state;
+
+        case UPDATE_DISPLAY:
+            state.display = state.display.merge(action.payload);
             return state;
 
         default:
