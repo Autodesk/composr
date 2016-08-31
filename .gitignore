@@ -1,4 +1,5 @@
 dist/
+public/
 *.sublime-workspace
 .DS_Store
 .AppleDouble
