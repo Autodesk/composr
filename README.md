@@ -2,6 +2,7 @@
 
 Composr is a felxible platform for creating realtime sound reactive visualizations. Composr is meant to work completely on the broswer, rendering over WebGL using [THREE.js](http://threejs.org/).
 
+See it live at [https://www.composr.xyz/](https://www.composr.xyz/)
 
 ## Get started
 To run the dev local server, on the command line, run:
