@@ -24,6 +24,7 @@ import Content from 'layouts/content';
 import Index from 'pages/index';
 import Visualizer from 'pages/visualizer/visualizer';
 import Login from 'auth/login';
+import MyCompositions from 'pages/myCompositions';
 
 import NotFound from 'common/notFound';
 
@@ -33,12 +34,13 @@ render(
         <Router history={ browserHistory }>
             <Route component={ Root }>
                 <Route component={ Content }>
-                        <Route path="/" component={ Index }/>
-                        <Route path="/login" component={ Login }/>
-                        <Route path="/comp" component={ Visualizer }/>
-                        <Route path="/:uid/:viewtype/:compId" component={ Visualizer }/>
+                    <Route path="/" component={ Index }/>
+                    <Route path="/login" component={ Login }/>
+                    <Route path="/comp" component={ Visualizer }/>
+                    <Route path="/:uid/:viewtype/:compId" component={ Visualizer }/>
+                    <Route path="/mycompositions" component={ MyCompositions } />
 
-                        <Route path="*" component={NotFound} />
+                    <Route path="*" component={NotFound} />
                 </Route>
             </Route>
         </Router>
