@@ -3,9 +3,17 @@ import CompositionGallery from 'common/compositionsGallery';
 import {getNewSignupRef} from 'firebase/firebaseCommands';
 
 class MyCompositions extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            compositions: null
+        };
+    }
+
     componentDidMount() {
         this.offAuthStateChange = Firebase.firebase.auth().onAuthStateChanged (
-            (user) => this.setState({currentUser: user})
+            (user) => this.getUserCompositions(user)
         )
     }
 
@@ -13,10 +21,24 @@ class MyCompositions extends React.Component {
         this.offAuthStateChange();
     }
 
+    getUserCompositions(user) {
+        if (user) {
+            const ref = Firebase.firebase.database().ref(Firebase.getUserCompositionsPath(user.uid));
+            ref.once('value').then((res) => {
+                const compositions  = res.val();
+
+                if (compositions) {
+                    this.setState({compositions});
+                }
+            })
+
+        }
+    }
+
     render() {
         return (
             <div>
-                <CompositionGallery title="My Compositions" compositions={[1,2,3,4,5,6]} />
+                <CompositionGallery title="My Compositions" compositions={this.state.compositions} />
             </div>
         );
     }

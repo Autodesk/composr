@@ -1,9 +1,10 @@
 import cx from 'classnames';
-import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import Firebase from 'firebase/firebase';
 import {Link} from 'react-router';
 import StoreAPI from 'StoreAPI';
+import EditableLabel from 'common/editableLabel.js';
+import { connect } from 'react-redux';
 
 import {FlatButton, RaisedButton, FontIcon, Popover, MenuItem, Divider, IconButton} from 'material-ui';
 
@@ -53,6 +54,11 @@ class Navigation extends React.Component {
             openUserPopover: true,
             anchorEl: event.currentTarget
         });
+    }
+
+    handleTitleUpdate(compName) {
+        StoreAPI.updateMetadata({compName});
+        this.forceUpdate();
     }
 
     handleLogOut() {
@@ -116,6 +122,29 @@ class Navigation extends React.Component {
         </div>)
     }
 
+
+
+    renderCompositionsMetadata() {
+        const metadata = StoreAPI.getMetadata().toJS();
+
+        if (metadata.compName) {
+            return (<div>
+                    <Link to="/"><span style={{marginTop: '11px'}} className="logo-small"> </span></Link>
+                    <div className="composition-title">
+                        <EditableLabel label={ metadata.compName } displayEditIcon={true}
+                                       className="composition-title-label"
+                                       onChange={this.handleTitleUpdate.bind(this)}
+                        />
+
+                        <span>A composition by <strong>{metadata.owner}</strong></span></div>
+                </div>
+            );
+
+        } else {
+            return (<Link to="/"><span style={{marginTop: '11px'}} className="logo"> </span></Link>)
+        }
+    }
+
     render() {
         if (this.props.fullscreen) {
             return this.renderFullscreenUI();
@@ -124,11 +153,13 @@ class Navigation extends React.Component {
 
         return (
             <div className="top_navigation">
+
                 <AppBar
-                    title={<Link to="/"><span style={{marginTop: '11px'}} className="logo"> </span></Link> }
+                    title={this.renderCompositionsMetadata() }
                     iconElementRight={this.renderUserMenu()}
                     iconElementLeft = {<div style={{ width: '15px'}}></div>}
                 />
+
 
                 <Popover
                     open={this.state.openAppPopover}
@@ -146,5 +177,10 @@ class Navigation extends React.Component {
     }
 }
 
+function mapStateToProps(state, ownProp) {
+    return {
+        metadata: StoreAPI.getMetadata()
+    }
+}
 
-export default Navigation;
+export default connect(mapStateToProps)(Navigation);

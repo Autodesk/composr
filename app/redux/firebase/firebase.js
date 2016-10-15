@@ -30,6 +30,10 @@ class FirebaseAPI {
         return `/compositions/private/${uid}/${compId}`;
     }
 
+    getUserCompositionsPath(uid) {
+        return `/compositions/private/${uid}`
+    }
+
     makePublic() {
 
     }

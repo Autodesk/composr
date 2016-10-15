@@ -9,7 +9,7 @@ class CompositionGallery extends React.Component {
     static get propTypes() {
         return {
             title: React.PropTypes.string,
-            compositions: React.PropTypes.array
+            compositions: React.PropTypes.object
         };
     }
 
@@ -18,12 +18,20 @@ class CompositionGallery extends React.Component {
         const compositions = this.props.compositions;
 
         const tiles = [];
-        for (var i=0; i < compositions.length; i++) {
-            tiles.push(
-                <GridTile title={`composition ${i}`} subtitle={<span> by <b>Matan Zohar</b> </span>}>
-                    <img src={defaultImage} />
-                </GridTile>
-            )
+        if (compositions) {
+            Object.keys(compositions).forEach((c) => {
+                const metadata = compositions[c].metadata;
+                tiles.push(
+                    <a href={`/${metadata.ownerId}/comp/${metadata.compId}`}>
+                    <GridTile title={metadata.compName} subtitle={<span> by <b>{metadata.owner}</b> </span>}>
+                        <img src={defaultImage} />
+                    </GridTile>
+                        </a>
+                );
+            });
+
+        } else {
+            tiles.push(<GridTile title="Nothing to show yet..." ></GridTile>)
         }
 
         return (

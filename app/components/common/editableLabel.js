@@ -3,8 +3,8 @@
  */
 
 import cx from 'classnames';
-import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import {FlatButton, FontIcon} from 'material-ui';
 
 class EditableLabel extends React.Component {
     constructor(props) {
@@ -21,6 +21,7 @@ class EditableLabel extends React.Component {
             label: React.PropTypes.string,
             className: React.PropTypes.string,
             labelStyle: React.PropTypes.object,
+            displayEditIcon: React.PropTypes.bool
         }
     }
 
@@ -30,7 +31,13 @@ class EditableLabel extends React.Component {
         });
     }
 
-    handleKeyDown(event) {
+    handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            this.handleBlur();
+        }
+    }
+
+    handleChange(event) {
         this.setState({
             newVal: event.target.value
         });
@@ -46,6 +53,11 @@ class EditableLabel extends React.Component {
         });
     }
 
+    componentDidUpdate() {
+        if (this.refs.editable)
+            this.refs.editable.focus();
+    }
+
 
     render() {
 
@@ -56,23 +68,28 @@ class EditableLabel extends React.Component {
             return (
                 <TextField
                     ref="editable"
-                id="text-field-default"
-                defaultValue={this.props.label}
-                onChange={this.handleChange}
-                onBlur={this.handleBlur.bind(this)}
-                onChange={this.handleKeyDown.bind(this)}
-                underlineShow={false}
+                    id="text-field-default"
+                    defaultValue={this.props.label}
+                    onBlur={this.handleBlur.bind(this)}
+                    onChange={this.handleChange.bind(this)}
+                    onKeyUp={this.handleKeyDown.bind(this)}
+                    underlineShow={false}
                     className = {this.props.className}
             />
             )
         } else {
+            const fontIcon = this.props.displayEditIcon ? <FontIcon style={{fontSize: '12px', color: 'white'}} className="fa fa-pencil"/> : null;
+
             return (
                 <FlatButton
                     labelStyle={style}
                     label={this.props.label}
                     onClick={this.handleEditRequest.bind(this)}
                     className = {this.props.className}
+                    labelPosition="before"
+                    icon={fontIcon}
                 />
+
             )
         }
 

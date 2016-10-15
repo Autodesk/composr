@@ -5,9 +5,7 @@
 import Immutable from 'immutable';
 import {UPDATE_METADATA} from 'constants/action-types';
 
-const INITIAL_STATE = new Immutable.fromJS({
-    compName: 'Composition',
-});
+const INITIAL_STATE = new Immutable.fromJS({});
 
 const metadataReducer = function(state = INITIAL_STATE, action) {
     switch(action.type) {

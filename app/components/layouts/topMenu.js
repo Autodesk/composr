@@ -102,14 +102,15 @@ class VisualizerTopMenu extends React.Component {
     handleCreateRemotePath() {
         const comp = Firebase.createCompRef();
         if (comp) {
+            StoreAPI.updateMetadata({compId: comp.compId})
             StoreAPI.saveStateRemote();
             StoreAPI.replacePath(comp.url)
         }
     }
 
-    handleNameChange(compName) {
-        StoreAPI.updateMetadata({compName})
-    }
+    // handleNameChange(compName) {
+    //     StoreAPI.updateMetadata({compName})
+    // }
 
     renderDeformersMenu() {
         const menuItems = [];

@@ -85,6 +85,7 @@ class StoreAPI {
         SceneParser.fromJSON( state.scene );
         DataSourceParser.fromJSON(state.dataSource);
         MetadataParser.fromJSON(state.metadata);
+        console.log('loading state metadata ' + state.metadata);
 
         setTimeout( () => {
             store.dispatch(updatePlayback({ isPlaying: true }));

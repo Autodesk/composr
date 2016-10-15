@@ -5,6 +5,7 @@ import FirebaseAPI from 'firebase/firebase';
 import VisController from 'js/VisController';
 import ControlsDrawer from './controlsDrawer';
 import TopMenu from 'layouts/topMenu';
+import Firebase from 'firebase/firebase';
 //import connector from 'js/connector';
 import {debounce} from 'lodash/function';
 import { connect } from 'react-redux';
@@ -24,6 +25,8 @@ class Visualizer extends React.Component {
     componentDidMount() {
         document.body.classList.toggle('noScroll');
 
+        StoreAPI.updateMetadata({compName: 'Untitled'});
+
         const element = this.refs[CANVAS_ID];
         if (this.props.params.compId) {
             StoreAPI.loadStateRemote(() => {
@@ -31,6 +34,13 @@ class Visualizer extends React.Component {
                 StoreAPI.listenRemote(this.props.params.visName);
             });
         } else {
+            this.offAuthStateChange = Firebase.firebase.auth().onAuthStateChanged(
+                (user) => StoreAPI.updateMetadata({
+                    owner: user.email || user.displayName,
+                    ownerId: user.uid
+                })
+            );
+
             StoreAPI.initVisualizer(element);
         }
 
@@ -47,6 +57,10 @@ class Visualizer extends React.Component {
         //    //    update);
         //
         //}, 10);
+    }
+
+    componentWillUnmount() {
+        this.offAuthStateChange();
     }
 
     componentDidUpdate() {

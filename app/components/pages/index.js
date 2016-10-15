@@ -1,6 +1,7 @@
 //import cx from 'classnames';
 import {RaisedButton, Popover, TextField, FlatButton} from 'material-ui';
 import CompositionGallery from 'common/compositionsGallery';
+import MyCompositions from './myCompositions';
 import Firebase from 'firebase/firebase';
 
 import {getNewSignupRef} from 'firebase/firebaseCommands';
@@ -132,8 +133,8 @@ class Index extends React.Component {
             <div>
                 { this.renderWelcomeHero() }
 
-                <CompositionGallery title="Picked Compositions" compositions={[1,2,3,4,5,6]} />
-
+                <CompositionGallery title="Picked Compositions" compositions={{}} />
+                <MyCompositions/>
             </div>
         );
     }
