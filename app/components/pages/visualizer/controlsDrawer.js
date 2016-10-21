@@ -5,6 +5,7 @@ import Layers from './layers';
 import Deformers from './deformers';
 import Materials from './materials';
 import DataControls from './dataControls';
+import CameraControls from './cameraControls';
 
 class ControlsDrawer extends React.Component {
     static get propTypes() {
@@ -49,7 +50,8 @@ class ControlsDrawer extends React.Component {
 
                     <Tab icon={<FontIcon className="fa fa-camera-retro"/>} >
                         <div className="controlsDrawerInner" >
-                            Controls
+                            Camera Controls
+                            <CameraControls></CameraControls>
                         </div>
                     </Tab>
 

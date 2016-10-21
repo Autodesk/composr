@@ -4,6 +4,8 @@ import MicrophoneSource from './dataSources/MicrophoneSource';
 import connector from 'js/connector';
 import ComposeObject from 'js/ComposeObject';
 import StoreAPI from 'StoreAPI';
+import CameraPathControls from 'js/CameraPathControls';
+import ComposeOrbitControl from 'js/CameraControls/ComposeOrbitControl';
 
 class VisController extends ComposeObject {
     constructor(options = {}) {
@@ -25,19 +27,22 @@ class VisController extends ComposeObject {
         return this.dataSource.data;
     }
 
-    init(parentElement) {
-        this.parentElement = parentElement;
+    init() {
         this.initThreeRenderer();
-        this.initThreeScene();
 
-        // TODO: move controls to different init with options to set the controller
-        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.minDistance = 1;
-        this.controls.maxDistance = 1500;
+        new ComposeOrbitControl();
+        new CameraPathControls();
+
+        this.initThreeScene();
+    }
+
+    updateCamera() {
+        StoreAPI.getActiveComposeCamera().setCameraAspectRatio(this.renderer.getSize());
     }
 
     setRendererSize() {
-        this.renderer.setSize(this.parentElement.offsetWidth, this.parentElement.offsetHeight);
+        const parentElement = StoreAPI.getRenderElement();
+        this.renderer.setSize(parentElement.offsetWidth, parentElement.offsetHeight);
     }
 
     initThreeRenderer() {
@@ -52,12 +57,12 @@ class VisController extends ComposeObject {
 
     initThreeScene() {
         this.scene = new THREE.Scene();
-
-        this.initCamera();
         this.initLighting();
 
         const gridHelper = new THREE.GridHelper( 10, 10);
         this.scene.add( gridHelper );
+
+        setTimeout(()=>this.updateCamera(), 1);
     }
 
     initLighting() {
@@ -73,24 +78,10 @@ class VisController extends ComposeObject {
         lights.forEach((l) => this.scene.add(l));
     }
 
-    setCameraAspectRatio() {
-        const size = this.renderer.getSize();
-        this.camera.aspect = size.width / size.height;
-        this.camera.updateProjectionMatrix();
-    }
-
-    initCamera() {
-        const size = this.renderer.getSize();
-
-        this.camera = new THREE.PerspectiveCamera(
-            45, size.width / size.height, 0.1, 15000
-        );
-
-        this.camera.position.set(0, 10, 10);
-    }
-
     update() {
         const layers = StoreAPI.getObjectByType('layer');
+        const controls = StoreAPI.getObjectByType('controls');
+
         this.dataSource.update();
         const ctx = {
             data: StoreAPI.getCurrentData()
@@ -98,6 +89,10 @@ class VisController extends ComposeObject {
 
         if (layers) {
             layers.forEach((o) => o.update(ctx));
+        }
+
+        if (controls) {
+            controls.forEach((o) => o.update(ctx));
         }
     }
 
@@ -108,8 +103,8 @@ class VisController extends ComposeObject {
     }
 
     _handleResize() {
-        this.setRendererSize()
-        this.setCameraAspectRatio();
+        this.setRendererSize();
+        this.updateCamera();
     }
 
     render() {
@@ -121,10 +116,8 @@ class VisController extends ComposeObject {
             this.update();
         }
 
-        this.controls.update();
-
-        this.renderer.clear()
-        this.renderer.render(this.scene, this.camera);
+        this.renderer.clear();
+        this.renderer.render(this.scene, StoreAPI.getActiveCamera());
     }
 }
 

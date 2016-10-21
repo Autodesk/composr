@@ -7,7 +7,8 @@ import {
     UPDATE_SCENE_COMPONENT,
     RESET_SCENE,
     UPDATE_PLAYBACK,
-    UPDATE_DISPLAY
+    UPDATE_DISPLAY,
+    SET_RENDER_ELEMENT
 } from 'constants/action-types';
 
 import StoreAPI from 'StoreAPI';
@@ -61,3 +62,9 @@ export function updateDisplay(state) {
     }
 }
 
+export function setRenderElement(state) {
+    return {
+        type: SET_RENDER_ELEMENT,
+        payload: state
+    }
+}

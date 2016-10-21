@@ -5,7 +5,7 @@
 import {ADD_SCENE_COMPONENT, REMOVE_SCENE_COMPONENT,
     RESET_SCENE, REGISTER_OBJECT_TYPE,
     REMOTE_FETCH, REMOTE_SUCCESS, UPDATE_PLAYBACK,
-    UPDATE_DISPLAY
+    UPDATE_DISPLAY,SET_RENDER_ELEMENT
 } from 'constants/action-types';
 import {remove} from 'lodash/array';
 import Immutable from 'immutable';
@@ -13,6 +13,8 @@ import Immutable from 'immutable';
 const INITIAL_STATE = () => ( {
     instances: {},
     objectTypes: {},
+
+    visualizerElement: null,
 
     remoteState: Immutable.fromJS({
         isFetching: false
@@ -81,6 +83,10 @@ const runtimeReducer = function(state = INITIAL_STATE(), action) {
 
         case UPDATE_DISPLAY:
             state.display = state.display.merge(action.payload);
+            return state;
+
+        case SET_RENDER_ELEMENT:
+            state.visualizerElement = action.payload;
             return state;
 
         default:

@@ -4,7 +4,7 @@
 
 import store from 'store';
 import {updateData, updateMetadata, registerObjectType} from 'actions/mainActions'
-import {resetScene, updatePlayback, updateDisplay} from 'actions/sceneActions';
+import {resetScene, updatePlayback, updateDisplay, setRenderElement} from 'actions/sceneActions';
 import {remoteFetch, remoteSuccess} from 'actions/remoteActions';
 import { routerActions } from 'react-router-redux';
 import VisController from 'js/VisController';
@@ -44,12 +44,26 @@ class StoreAPI {
         store.dispatch(updateDisplay(newData));
     }
 
+    static getActiveCamera() {
+        return StoreAPI.getActiveComposeCamera().camera;
+    }
+
+    static getActiveComposeCamera() {
+        const cameras = store.getState().runtime['camera'];
+        return cameras[Object.keys(cameras)[0]];
+    }
+
+    static getRenderElement() {
+        return store.getState().runtime.visualizerElement;
+    }
+
     // Scene Controls actions
     static initVisualizer(element) {
+        store.dispatch(setRenderElement(element));
+
         const controller = StoreAPI.getController();
 
-        controller.init(element);
-
+        controller.init();
         element.innerHTML = "";
         element.appendChild(controller.renderer.domElement);
     }

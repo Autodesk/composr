@@ -42,7 +42,7 @@ class ComposeMesh extends ComposeObject {
 
         this.addReference('material');
         if (this.createReferenceById('material', this.get('material')) === undefined) {
-            this.material = new StandardMaterial()//new StandardMaterial();
+            this.material = new StandardMaterial();
         }
 
         this.addReference('geometry');
