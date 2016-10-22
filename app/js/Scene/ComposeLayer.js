@@ -8,8 +8,7 @@ import StoreAPI from 'StoreAPI';
 
 import ComposeElement from 'common/composeElement';
 import EditableLabel from 'common/editableLabel';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import {FontIcon, FlatButton} from 'material-ui';
+import {Card, CardActions, CardText} from 'material-ui/Card';
 import LayerActions from 'common/layerActions';
 
 class ComposeLayer extends ComposeObject {

@@ -4,12 +4,12 @@ import MicrophoneSource from './dataSources/MicrophoneSource';
 import connector from 'js/connector';
 import ComposeObject from 'js/ComposeObject';
 import StoreAPI from 'StoreAPI';
-import CameraPathControls from 'js/CameraPathControls';
+import CameraPathControls from 'js/CameraControls/CameraPathControls';
 import ComposeOrbitControl from 'js/CameraControls/ComposeOrbitControl';
+import Tween from 'tween.js';
 
 class VisController extends ComposeObject {
-    constructor(options = {}) {
-        super(options)
+    componenetWillMount() {
         this.dataSource = new MicrophoneSource();
 
         this._isMounted = true;
@@ -19,7 +19,7 @@ class VisController extends ComposeObject {
         window.addEventListener('resize', this.handleResize);
     }
 
-    get type() {
+    static type() {
         return 'controller';
     }
 
@@ -29,15 +29,33 @@ class VisController extends ComposeObject {
 
     init() {
         this.initThreeRenderer();
+    }
 
-        new ComposeOrbitControl();
-        new CameraPathControls();
+    componenetDidMount() {
+        this.addReference('orbitControls');
+        if (this.createReferenceById('orbitControls', this.get('orbitControls')) === undefined) {
+            this.orbitControls = new ComposeOrbitControl();
+        }
+
+        this.addReference('pathControls');
+        if (this.createReferenceById('pathControls', this.get('pathControls')) === undefined) {
+            this.pathControls = new CameraPathControls();
+        }
+
+        StoreAPI.setActiveCamera(this.orbitControls.camera);
 
         this.initThreeScene();
+
+        this.render();
     }
 
     updateCamera() {
-        StoreAPI.getActiveComposeCamera().setCameraAspectRatio(this.renderer.getSize());
+        const controls = StoreAPI.getObjectByType('controls');
+
+
+        if (controls) {
+            controls.forEach((o) => o.camera.setCameraAspectRatio(this.renderer.getSize()));
+        }
     }
 
     setRendererSize() {
@@ -107,18 +125,22 @@ class VisController extends ComposeObject {
         this.updateCamera();
     }
 
-    render() {
+    render(time) {
         if (!this.state.pause && this._isMounted) {
             requestAnimationFrame(() => this.render());
         }
 
         if (StoreAPI.getPlaybackState().get('isPlaying')) {
             this.update();
+            Tween.update(time);
         }
 
         this.renderer.clear();
+        // this.renderer.render(this.scene, StoreAPI.getActiveCamera());
         this.renderer.render(this.scene, StoreAPI.getActiveCamera());
     }
 }
+
+VisController.registerObject('VisController', VisController);
 
 export default VisController;

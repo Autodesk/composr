@@ -3,30 +3,26 @@
  */
 
 import { connect } from 'react-redux';
-import ValueSlider from 'common/valueSlider';
-
 import {updateDatasourceSettings} from 'actions/mainActions';
 
-import store from 'store';
+import StoreAPI from 'StoreAPI';
+
+import {FlatButton} from 'material-ui';
 
 class CameraControls extends React.Component {
-
-    //static get propTypes() {
-    //    //return {
-    //    //    maxDataSize: React.PropTypes.number,
-    //    //};
-    //}
-
-    handleMaxDataSize(e,v) {
-        store.dispatch(updateDatasourceSettings({
-            maxDataSize: v
-        }));
-    }
-
     render() {
+        if (this.props.controls === undefined) return null;
+
+        const controls = []
+        this.props.controls.forEach((v) => {
+            controls.push(<div>{
+                StoreAPI.getObjectById(v.toJS().uuid).renderUI()
+            }</div>);
+        })
+
         return (
             <div>
-                <ValueSlider name="Time Buffer Size" min={1} max={250} step={1} value={this.props.maxDataSize} onChange={this.handleMaxDataSize.bind(this)}/>
+                {controls}
             </div>
         )
     }
@@ -34,7 +30,7 @@ class CameraControls extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        maxDataSize: state.dataSource.settings.get('maxDataSize')
+        controls: state.scene.get('controls')
     }
 }
 

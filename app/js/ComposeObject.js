@@ -51,6 +51,7 @@ class ComposeObject {
         return defaults(options, this.defaults()) // inherited object defaults implementation
     }
 
+
     static type() {
         return 'object'
     }

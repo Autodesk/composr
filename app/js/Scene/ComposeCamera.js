@@ -8,13 +8,12 @@ class ComposeCamera extends ComposeObject {
             near: 0.1,
             far: 15000,
             position: [0, 10, 10],
-            aspectRatio: 16 / 9
         }
     }
 
     componenetWillMount() {
         this._camera = new THREE.PerspectiveCamera(
-            this.get('fov'), this.get('aspectRatio'), this.get('near'), this.get('far')
+            this.get('fov'), 16 / 9, this.get('near'), this.get('far')
         );
     }
 
@@ -67,5 +66,7 @@ class ComposeCamera extends ComposeObject {
         // </div>)
     }
 }
+
+ComposeCamera.registerObject('ComposeCamera', ComposeCamera);
 
 export default ComposeCamera;

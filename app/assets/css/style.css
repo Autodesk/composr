@@ -666,3 +666,7 @@ body {
     font-weight: 700;
     font-variant: initial;
 }
+
+.listItemPoint{
+    font-size: 11px !important;
+}

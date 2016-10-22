@@ -1,34 +1,9 @@
-import ComposeObject from 'js/ComposeObject';
-import ComposeCamera from 'js/Scene/ComposeCamera';
-import StoreAPI from 'StoreAPI';
+import ComposeControls from 'js/Scene/ComposeControls';
 
-class ComposeOrbitControl extends ComposeObject {
-    defaults() {
-        return {
-            minDistance: 1,
-            maxDistance: 1500
-        }
-    }
-
-    componenetDidMount() {
-        this.addReference('camera');
-        if (this.createReferenceById('camera', this.get('camera')) === undefined) {
-            this.camera = new ComposeCamera();
-        }
-
-        const element = StoreAPI.getRenderElement();
-
-        this.controls = new THREE.OrbitControls(this.camera.camera, element);
-        this.controls.minDistance = this.get('minDistance');
-        this.controls.maxDistance = this.get('maxDistance');
-    }
+class ComposeOrbitControl extends ComposeControls {
 
     update(ctx) {
         this.controls.update();
-    }
-
-    static type() {
-        return 'controls';
     }
 
     onStateChange(changedKeys, prevState) {
@@ -36,8 +11,10 @@ class ComposeOrbitControl extends ComposeObject {
     }
 
     renderUI() {
-        return null;
+        return <div>Compose Orbit Controls</div>;
     }
 }
+
+ComposeOrbitControl.registerObject('ComposeOrbitControl', ComposeOrbitControl);
 
 export default ComposeOrbitControl;

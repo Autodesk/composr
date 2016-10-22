@@ -21,7 +21,8 @@ const INITIAL_STATE = () => ( {
     }),
 
     playback: Immutable.fromJS({
-        isPlaying: true
+        isPlaying: true,
+        activeCamera: null
     }),
 
     display: Immutable.fromJS({

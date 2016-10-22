@@ -15,8 +15,6 @@ const CANVAS_ID = "three-canvas";
 
 class Visualizer extends React.Component {
     componentWillMount() {
-        new VisController();
-
         if (this.props.params.compId) {
             FirebaseAPI.setDatabaseCompRef(this.props.params.uid, this.props.params.compId);
         }
@@ -41,10 +39,9 @@ class Visualizer extends React.Component {
                 })
             );
 
+            new VisController();
             StoreAPI.initVisualizer(element);
         }
-
-        StoreAPI.getController().render();
 
         //setTimeout( ()=> {
         //

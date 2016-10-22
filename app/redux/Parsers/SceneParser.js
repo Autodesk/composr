@@ -2,8 +2,6 @@
  * @author Matan Zohar / matan.zohar@autodesk.com
  */
 
-import ComposeLayer from 'js/Scene/ComposeLayer';
-import ComposeMesh from 'js/Scene/ComposeMesh';
 import StoreAPI from 'StoreAPI';
 
 class SceneParser {
@@ -33,7 +31,8 @@ class SceneParser {
         // load controller settings
         // load data settings
 
-        const loadOrder = ['material', 'geometry', 'deformer', 'mesh', 'layer']
+        const loadOrder = ['camera', 'controls', 'controller',
+            'material', 'geometry', 'deformer', 'mesh', 'layer']
         for (let i of loadOrder) {
             if (json[i]) {
                 SceneParser.createInstancesFromType(i, json)

@@ -34,6 +34,7 @@
     "redux-localstorage": "*",
     "sass-loader": "^4.0.0",
     "three": "^0.79.0",
+    "tween.js": "^16.3.5",
     "whatwg-fetch": "^0.11.0"
   },
   "devDependencies": {

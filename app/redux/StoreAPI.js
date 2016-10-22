@@ -48,9 +48,12 @@ class StoreAPI {
         return StoreAPI.getActiveComposeCamera().camera;
     }
 
+    static setActiveCamera(composeCamera) {
+        store.dispatch(updatePlayback({ activeCamera: composeCamera.uuid }));
+    }
+
     static getActiveComposeCamera() {
-        const cameras = store.getState().runtime['camera'];
-        return cameras[Object.keys(cameras)[0]];
+        return  StoreAPI.getObjectById(store.getState().runtime.playback.get('activeCamera'));
     }
 
     static getRenderElement() {
