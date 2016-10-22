@@ -22,6 +22,25 @@ class CameraPathControls extends ComposeControls {
         }
     }
 
+    componenetDidMount() {
+        super.componenetDidMount();
+
+        this.updateSplines();
+    }
+
+    updateSplines() {
+        this.posSpline = new THREE.CatmullRomCurve3(
+            this.get('pathPoints').map( (v)=> new THREE.Vector3(v.get(0), v.get(1), v.get(2)) ).toJS()
+        );
+
+        this.targetSpline = new THREE.CatmullRomCurve3(
+            this.get('targetPathPoints').map( (v)=> new THREE.Vector3(v.get(0), v.get(1), v.get(2)) ).toJS()
+        );
+
+        this.posSpline.closed = true;
+        this.targetSpline.closed = true;
+    }
+
     addPoint() {
         const pathPoints = this.get('pathPoints').toArray();
         const targetPathPoints = this.get('targetPathPoints').toArray();
@@ -34,6 +53,8 @@ class CameraPathControls extends ComposeControls {
         pathPoints.push(cameraPosition);
         targetPathPoints.push(cameraQuaternion);
         this.setState({pathPoints, targetPathPoints});
+
+        this.updateSplines()
     }
 
     remPoint(i) {
@@ -41,6 +62,8 @@ class CameraPathControls extends ComposeControls {
         pathPoints.splice(i,1);
 
         this.setState({pathPoints});
+
+        this.updateSplines();
     }
 
     setPoint(i) {
@@ -58,27 +81,15 @@ class CameraPathControls extends ComposeControls {
     movePoint() {
         if (!this.get('isPlaying')) return;
 
-        const cp = this.get('currentPoint');
-        const np = (this.get('currentPoint') + 1) % this.get('pathPoints').size;
-        this.setPoint( np );
-        const toPos = new THREE.Vector3();
-        const toTarget = new THREE.Vector3();
+        this.posTween = new Tween.Tween( 0 )
+            .to(1, this.get('timeout') * this.get('pathPoints').size)
+            .onComplete(()=>this.movePoint() )
+            .onUpdate((x) => {
+                StoreAPI.getActiveComposeCamera().camera.position.copy(this.posSpline.getPoint(x));
+                StoreAPI.getActiveComposeCamera().controls.target.copy(this.targetSpline.getPoint(x));
 
-        toPos.fromArray(this.get('pathPoints').get(np).toArray())
-        toTarget.fromArray(this.get('targetPathPoints').get(np).toArray())
-
-        this.posTween = new Tween.Tween( StoreAPI.getActiveComposeCamera().camera.position )
-            .to(toPos, this.get('timeout'))
-            .onComplete(()=>this.movePoint())
-            .onUpdate(function() {
-                // console.log(this.x, this.y);
-            })
-            .start();
-
-        this.targetTween = new Tween.Tween( StoreAPI.getActiveComposeCamera().controls.target )
-            .to(toTarget, this.get('timeout'))
-            .onUpdate(function() {
-                // console.log(this.x, this.y);
+                if (this.get('currentPoint') != ~~ (x * this.get('pathPoints').size))
+                    this.setPoint(~~ (x * this.get('pathPoints').size))
             })
             .start();
     }
@@ -89,7 +100,6 @@ class CameraPathControls extends ComposeControls {
             this.movePoint();
         } else {
             if (this.posTween) this.posTween.stop();
-            if (this.targetTween) this.targetTween.stop();
         }
     }
 
