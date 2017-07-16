@@ -1,6 +1,8 @@
 # Contributing
 
-We are open to, and grateful for, any contributions made by the community. By contributing to Redux, you agree to abide by the code of conduct.
+*Adapted from the [Redux project contributing guidelines](https://github.com/reactjs/redux/blob/master/CONTRIBUTING.md).*
+
+We are open to, and grateful for, any contributions made by the community. By contributing to Composr, you agree to abide by the code of conduct.
 
 
 ## Reporting Issues and Asking Questions
@@ -9,7 +11,7 @@ Before opening an issue, please search the issue tracker to make sure your issue
 
 ### Bugs and Improvements
 
-We use the issue tracker to keep track of bugs and improvements to Redux itself, its examples, 
+We use the issue tracker to keep track of bugs and improvements to Composr itself, its examples, 
 and the documentation. We encourage you to open issues to discuss improvements, architecture, theory, 
 internal implementation, etc. If a topic has been discussed before, we will ask you to join the previous discussion.
 
